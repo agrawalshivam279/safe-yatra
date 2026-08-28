@@ -235,8 +235,8 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
 
 ### 3.5 - Implement External Data Services
 
-- [ ] weather_service.py: Call OpenWeatherMap API. Handle API errors -- fall back to last cached value.
-- [ ] terrain_service.py: Call OpenTopoData for elevation. Pre-cache terrain data in data/terrain_profiles.json.
+- [x] weather_service.py: Call OpenWeatherMap API with coordinate quantization, in-memory TTL caching (300s), and fallback defaults (100% line coverage).
+- [x] terrain_service.py: Precomputed offline terrain profiles in data/terrain_profiles.json with Haversine nearest-neighbor matching, OpenTopoData API integration, and fallback defaults (100% line coverage).
 - [ ] crowd_service.py: Use time-of-day + day-of-week heuristic for now. Mark for later enhancement.
 - [ ] incident_service.py: Query PostgreSQL Incident table via asyncpg.
 

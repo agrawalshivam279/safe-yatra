@@ -1,0 +1,52 @@
+[
+  {
+    "site_id": "lonavala_bhushi_dam",
+    "name": "Bhushi Dam Waterfall Basin",
+    "lat": 18.7546,
+    "lng": 73.4062,
+    "elevation_meters": 610.0,
+    "slope_degrees": 45.0,
+    "water_proximity_meters": 12.0,
+    "terrain_type": "waterfall_basin"
+  },
+  {
+    "site_id": "lonavala_tiger_point",
+    "name": "Tiger Point Cliff",
+    "lat": 18.7833,
+    "lng": 73.3833,
+    "elevation_meters": 650.0,
+    "slope_degrees": 60.0,
+    "water_proximity_meters": 500.0,
+    "terrain_type": "cliff_edge"
+  },
+  {
+    "site_id": "lonavala_karla_caves",
+    "name": "Karla Caves Rock Complex",
+    "lat": 18.783,
+    "lng": 73.475,
+    "elevation_meters": 620.0,
+    "slope_degrees": 30.0,
+    "water_proximity_meters": 800.0,
+    "terrain_type": "rock_cut_steps"
+  },
+  {
+    "site_id": "lonavala_rajmachi_fort",
+    "name": "Rajmachi Fort Trek Ridge",
+    "lat": 18.825,
+    "lng": 73.4,
+    "elevation_meters": 830.0,
+    "slope_degrees": 55.0,
+    "water_proximity_meters": 350.0,
+    "terrain_type": "mountain_ridge"
+  },
+  {
+    "site_id": "lonavala_khandala_ghat",
+    "name": "Khandala Ghat Valley",
+    "lat": 18.75,
+    "lng": 73.36,
+    "elevation_meters": 550.0,
+    "slope_degrees": 40.0,
+    "water_proximity_meters": 200.0,
+    "terrain_type": "valley_slope"
+  }
+]
