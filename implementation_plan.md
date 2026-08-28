@@ -349,15 +349,18 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] Mount /api/v1/users and /api/v1/volunteers in index.ts
 - [x] Author comprehensive integration test suite in tests/user-volunteer.routes.test.ts (9/9 tests passing)
 
-### 4.6 - Zones Module
+### 4.5a - Zones Service & PostGIS Polygon Management
 
-- [ ] zone.service.ts:
-      createZone(name, geoJSON_polygon) -- converts GeoJSON to PostGIS geometry
-      getAllZones() -- returns all zones with current dangerScore
-      getZoneById(id)
-      overrideScore(id, score) -- manual admin override, sets isManualOverride = true
-- [ ] zone.routes.ts: GET /zones, GET /zones/:id, POST /zones (admin), PATCH /zones/:id/override (admin)
-- [ ] TEST: Create a zone using GeoJSON from geojson.io. Fetch it back. Verify geometry stored correctly.
+- [x] zone.types.ts: GeoJSONPolygon, ZoneEntity, CreateZoneInput, UpdateZoneInput, OverrideScoreInput
+- [x] zone.service.ts: createZone (ST_GeomFromGeoJSON / ST_Buffer), getAllZones (ST_AsGeoJSON), getZoneById, overrideScore (DangerTier calculation), updateZone, deleteZone
+- [x] Author comprehensive unit test suite in tests/zone.service.test.ts (10/10 tests passing)
+
+### 4.5b - Zones Validation, Controller & REST Routes
+
+- [ ] zone.validation.ts: createZoneSchema, updateZoneSchema, overrideScoreSchema
+- [ ] zone.controller.ts & zone.routes.ts: GET /zones, GET /zones/:id, POST /zones (admin), PATCH /zones/:id, PATCH /zones/:id/override (admin), DELETE /zones/:id (admin)
+- [ ] Mount /api/v1/zones in index.ts
+- [ ] Author comprehensive integration test suite in tests/zone.routes.test.ts
 
 ### 4.7 - Danger Score Proxy Module
 
