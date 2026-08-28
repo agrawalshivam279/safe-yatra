@@ -14,6 +14,8 @@ import { ok, fail } from './utils/response';
 import { rateLimiter } from './middleware/rateLimiter';
 import { errorHandler } from './middleware/errorHandler';
 import authRoutes from './modules/auth/auth.routes';
+import userRoutes from './modules/user/user.routes';
+import volunteerRoutes from './modules/volunteer/volunteer.routes';
 
 const app = express();
 const httpServer = createServer(app);
@@ -49,10 +51,11 @@ app.get('/health', (_req, res) => {
 
 // Mount Feature Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/volunteers', volunteerRoutes);
 // app.use('/api/v1/danger', dangerRoutes);
 // app.use('/api/v1/sos', sosRoutes);
 // app.use('/api/v1/geofences', geofenceRoutes);
-// app.use('/api/v1/volunteers', volunteerRoutes);
 // app.use('/api/v1/admin', adminRoutes);
 // app.use('/api/v1/sim', simulationRoutes);
 

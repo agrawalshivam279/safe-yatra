@@ -344,10 +344,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.4b - User & Volunteer Routes & Proximity Controllers
 
-- [ ] user.controller.ts & user.routes.ts: GET /users/me, PATCH /users/profile, DELETE /users/account
-- [ ] volunteer.controller.ts & volunteer.routes.ts: POST /volunteers/register, PATCH /volunteers/duty, POST /volunteers/location, GET /volunteers/nearby
-- [ ] Mount /api/v1/users and /api/v1/volunteers in index.ts
-- [ ] Author comprehensive integration test suite in tests/user-volunteer.routes.test.ts
+- [x] user.controller.ts & user.routes.ts: GET /users/me, PATCH /users/profile, DELETE /users/account
+- [x] volunteer.controller.ts & volunteer.routes.ts: POST /volunteers/register, PATCH /volunteers/duty, POST /volunteers/location, GET /volunteers/nearby
+- [x] Mount /api/v1/users and /api/v1/volunteers in index.ts
+- [x] Author comprehensive integration test suite in tests/user-volunteer.routes.test.ts (9/9 tests passing)
 
 ### 4.6 - Zones Module
 

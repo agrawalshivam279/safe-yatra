@@ -102,6 +102,31 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.4b: User & Volunteer Routes & Proximity Controllers
+- **Module**: `backend-spatial` / `user` & `volunteer`
+- **Details**:
+  - Implemented `src/modules/user/user.validation.ts` with `updateProfileSchema` for user profile modification.
+  - Implemented `src/modules/user/user.controller.ts` with `getMe` (200 `ok()`), `updateProfile` (200 `ok()`), and `deleteAccount` (200 `ok()`).
+  - Implemented `src/modules/user/user.routes.ts` mounting user routes under `/api/v1/users`.
+  - Implemented `src/modules/volunteer/volunteer.validation.ts` with `registerVolunteerSchema`, `toggleDutySchema`, `locationPingSchema`, and `nearbyVolunteersQuerySchema` (with string-to-number coercion).
+  - Implemented `src/modules/volunteer/volunteer.controller.ts` with `register` (201 `ok()`), `toggleDuty` (200 `ok()`), `recordLocation` (201 `ok()`), and `getNearby` (200 `ok()`).
+  - Implemented `src/modules/volunteer/volunteer.routes.ts` mounting volunteer routes under `/api/v1/volunteers` (with `requireRole('YAATRI_MITRA', 'ADMIN')` for duty toggling).
+  - Mounted `/api/v1/users` and `/api/v1/volunteers` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/user-volunteer.routes.test.ts` (9/9 tests passing), bringing total passing test suite across `backend-spatial` to 87/87 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-4b-user-volunteer-routes.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/user/user.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/user/user.validation.ts)
+  - [`backend-spatial/src/modules/user/user.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/user/user.controller.ts)
+  - [`backend-spatial/src/modules/user/user.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/user/user.routes.ts)
+  - [`backend-spatial/src/modules/volunteer/volunteer.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/volunteer/volunteer.validation.ts)
+  - [`backend-spatial/src/modules/volunteer/volunteer.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/volunteer/volunteer.controller.ts)
+  - [`backend-spatial/src/modules/volunteer/volunteer.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/volunteer/volunteer.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/user-volunteer.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/user-volunteer.routes.test.ts)
+  - [`backend-spatial/docs/step-4-4b-user-volunteer-routes.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-4b-user-volunteer-routes.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.4a: User Profile Service & Volunteer Duty/Location Management
 - **Module**: `backend-spatial` / `user` & `volunteer`
 - **Details**:
