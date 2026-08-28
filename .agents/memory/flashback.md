@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.9c: SOS Validation, Controller & REST Routes
+- **Module**: `backend-spatial` / `sos`
+- **Details**:
+  - Implemented `src/modules/sos/sos.validation.ts` with `triggerSOSSchema` (validating GPS bounds $\in [-90, 90]$ and $[-180, 180]$, battery $\in [0, 100]$, optional audio URL), `resolveSOSSchema`, `cancelSOSSchema`, and `smsWebhookSchema`.
+  - Implemented `src/modules/sos/sos.controller.ts` with `triggerSOS` (201 `ok()`), `acceptSOS` (200 `ok()`), `arriveSOS` (200 `ok()`), `resolveSOS` (200 `ok()`), `cancelSOS` (200 `ok()`), `getActiveSOS` (200 `ok()`), `getSOSById` (200 `ok()`), and `handleSMSWebhook` (200 `ok()`).
+  - Implemented `src/modules/sos/sos.routes.ts` mounting 8 endpoints with `authenticate` and `requireRole(UserRole.YAATRI_MITRA, UserRole.ADMIN)`.
+  - Mounted `/api/v1/sos` in `src/index.ts`.
+  - Authored comprehensive integration test suite in `tests/sos.routes.test.ts` (19/19 tests passing), bringing total passing test suite across `backend-spatial` to 207/207 tests across 17 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-9c-sos-routes-controller.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/sos/sos.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.validation.ts)
+  - [`backend-spatial/src/modules/sos/sos.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.controller.ts)
+  - [`backend-spatial/src/modules/sos/sos.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/sos.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/sos.routes.test.ts)
+  - [`backend-spatial/docs/step-4-9c-sos-routes-controller.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-9c-sos-routes-controller.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.9b: SOS Emergency Service & State Transitions
 - **Module**: `backend-spatial` / `sos`
 - **Details**:

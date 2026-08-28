@@ -404,10 +404,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.9c - SOS Validation, Controller & REST Routes
 
-- [ ] sos.validation.ts: triggerSOSSchema, acceptSOSSchema, resolveSOSSchema, smsSOSPayloadSchema
-- [ ] sos.controller.ts & sos.routes.ts: POST /sos/trigger, PATCH /sos/:id/accept, PATCH /sos/:id/resolve, GET /sos/active, GET /sos/:id, POST /sos/sms-webhook
-- [ ] Mount /api/v1/sos in index.ts
-- [ ] Author comprehensive integration test suite in tests/sos.routes.test.ts
+- [x] sos.validation.ts: triggerSOSSchema, resolveSOSSchema, cancelSOSSchema, smsWebhookSchema
+- [x] sos.controller.ts & sos.routes.ts: POST /sos/trigger, PATCH /sos/:id/accept, PATCH /sos/:id/arrive, PATCH /sos/:id/resolve, PATCH /sos/:id/cancel, GET /sos/active, GET /sos/:id, POST /sos/sms-webhook
+- [x] Mount /api/v1/sos in index.ts
+- [x] Author comprehensive integration test suite in tests/sos.routes.test.ts (19/19 tests passing)
 
 ### 4.10 - WebSocket Server
 
