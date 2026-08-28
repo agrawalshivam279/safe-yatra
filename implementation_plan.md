@@ -190,7 +190,7 @@ The backend's danger module calls the ML engine via HTTP. You need the ML engine
 
 IMPORTANT: Define schemas BEFORE writing model logic. Schemas are your API contract.
 
-- [ ] Create app/schemas/request.py:
+- [x] Create app/schemas/request.py:
       class ScoreRequest(BaseModel):
           lat: float
           lng: float
@@ -205,8 +205,9 @@ IMPORTANT: Define schemas BEFORE writing model logic. Schemas are your API contr
           water_proximity_meters: Optional[float] = None
           crowd_count: Optional[int] = None
 
-- [ ] Create app/schemas/response.py with ScoreResponse matching GEMINI.md section 4:
+- [x] Create app/schemas/response.py with ScoreResponse matching GEMINI.md section 4:
       Fields: danger_score, tier, justification, factors (with weather/terrain/crowd/history breakdowns)
+- [x] Author unit tests in tests/test_schemas.py (14/14 tests passing).
 
 ### 3.3 - Implement the Four Sub-Models
 

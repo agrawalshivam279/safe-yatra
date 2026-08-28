@@ -13,7 +13,7 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 | Module | Stack | Responsibility | Status |
 | :--- | :--- | :--- | :--- |
-| **`ml-risk-engine`** | Python 3.11 / FastAPI / Scikit-learn | Dynamic danger score engine (0–100) based on weather, terrain, crowd, history | 🏗️ Scaffolding |
+| **`ml-risk-engine`** | Python 3.11 / FastAPI / Scikit-learn | Dynamic danger score engine (0–100) based on weather, terrain, crowd, history | 🟡 In Progress |
 | **`backend-spatial`** | Node.js 20 / Express / Prisma / Socket.IO | Central API gateway, PostGIS spatial queries, SOS dispatch & geofence engine | 🏗️ Scaffolding |
 | **`mobile-app`** | React Native / Expo (TypeScript) | Dual-interface for Tourists and Yaatri Mitra volunteers with offline SOS | 🏗️ Scaffolding |
 | **`admin-dashboard`** | Next.js 14 (App Router) / Mapbox / Recharts | Command center portal for real-time monitoring, heatmaps, and zone overrides | 🏗️ Scaffolding |
@@ -92,7 +92,7 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 | **Phase 0** | Developer Tooling & Monorepo Setup | Docker compose, module scaffolding, linting, git hooks | 🟢 Completed |
 | **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | 🟢 Completed |
 | **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | 🟡 In Progress |
-| **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | ⚪ Pending |
+| **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | 🟡 In Progress |
 | **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | ⚪ Pending |
 | **Phase 5** | Mobile App (Expo) | Dual-mode navigation, danger zone map overlays, one-touch SOS | ⚪ Pending |
 | **Phase 6** | Admin Dashboard (Next.js) | Command center, live SOS dispatch queue, danger heatmaps | ⚪ Pending |
@@ -101,6 +101,24 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 ---
 
 ## 4. Chronological Activity & Change Log
+
+### [2026-08-29] — Step 3.2: ML Risk Engine Pydantic Schemas & API Contract
+- **Module**: `ml-risk-engine` / `api`
+- **Details**:
+  - Defined Pydantic v2 request models in `app/schemas/request.py`: `Coordinates`, `SimulationOverrides` (precipitation, wind, visibility, slope, crowd, elevation, water proximity), `ScoreRequest`, `BatchScoreRequest`, and `ZoneScoreRequest`.
+  - Defined response models in `app/schemas/response.py`: `DangerTier` enum (`LOW`, `MODERATE`, `SEVERE`, `CRITICAL`), `FactorDetail`, `DangerFactors` ($0.35$ weather, $0.20$ terrain, $0.25$ crowd, $0.20$ history), `CoordinatesModel`, `ScoreResponse`, `BatchScoreResponse`, and `ExplanationResponse`.
+  - Enforced coordinate bounds validation ($[-90.0, 90.0]$ latitude, $[-180.0, 180.0]$ longitude), slope degrees ($\le 90^\circ$), non-negative parameters, and ISO 8601 UTC timestamps with 300s TTL envelope matching `GEMINI.md` Section 4.
+  - Re-exported all schemas in `app/schemas/__init__.py`.
+  - Authored comprehensive test suite in `tests/test_schemas.py` (14/14 unit tests passing).
+  - Authored technical specification in `ml-risk-engine/docs/step-3-2-pydantic-schemas.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/app/schemas/request.py`](file:///d:/SIH%202026/ml-risk-engine/app/schemas/request.py)
+  - [`ml-risk-engine/app/schemas/response.py`](file:///d:/SIH%202026/ml-risk-engine/app/schemas/response.py)
+  - [`ml-risk-engine/app/schemas/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/schemas/__init__.py)
+  - [`ml-risk-engine/tests/test_schemas.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_schemas.py)
+  - [`ml-risk-engine/docs/step-3-2-pydantic-schemas.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-2-pydantic-schemas.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
 
 ### [2026-08-29] — Audit Resolution: `test_writer` Skill Creation & Quality Pipeline Hardening
 - **Module**: `governance` / `qa` / `workspace`
