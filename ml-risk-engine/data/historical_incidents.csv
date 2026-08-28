@@ -1,0 +1,11 @@
+incident_id,zone_id,incident_type,severity,fatalities,injuries,lat,lng,occurred_at,description,source
+inc-001,zone-lonavala-bhushi-dam-01,drowning,FATAL,2,0,18.7352,73.4182,2024-07-15T14:30:00Z,"Two tourists swept away by sudden water surge on Bhushi Dam overflow steps.",GOVT_REPORT
+inc-002,zone-lonavala-tiger-point-02,fall,FATAL,1,0,18.7214,73.3853,2024-08-03T11:15:00Z,"Tourist slipped on wet mossy rocks near cliff edge while photographing.",NEWS
+inc-003,zone-lonavala-khandala-ghat-05,landslide,SEVERE,0,0,18.7562,73.3724,2023-09-12T08:00:00Z,"Minor rockfall and mudslide temporarily obstructed Khandala Ghat bypass road.",GOVT_REPORT
+inc-004,zone-lonavala-bhushi-dam-01,flood,SEVERE,0,12,18.7348,73.4178,2023-07-28T16:45:00Z,"Rapid water accumulation stranded 12 visitors on rock outcrop; rescued by local volunteers.",USER_REPORT
+inc-005,zone-lonavala-karla-caves-03,stampede,MODERATE,0,4,18.7822,73.4712,2024-01-01T17:00:00Z,"Holiday crowd surge on narrow rock staircase caused minor crush injuries.",GOVT_REPORT
+inc-006,zone-lonavala-rajmachi-trail-04,lost_trekker,MINOR,0,0,18.8253,73.3979,2022-08-19T19:30:00Z,"Solo trekker lost trail orientation in heavy fog near Kondhane caves junction.",USER_REPORT
+inc-007,zone-lonavala-bhushi-dam-01,drowning,FATAL,1,0,18.7355,73.4185,2023-06-25T13:20:00Z,"Undercurrent pulled swimmer into deep catchment basin near spillway pool.",NEWS
+inc-008,zone-lonavala-tiger-point-02,fall,MINOR,0,1,18.7212,73.3848,2024-06-30T10:10:00Z,"Trekker suffered ankle fracture after slipping on steep descent path.",USER_REPORT
+inc-009,zone-lonavala-khandala-ghat-05,landslide,SEVERE,0,2,18.7558,73.3718,2022-07-14T06:50:00Z,"Boulder detachment damaged vehicle windshield; occupants treated for minor cuts.",NEWS
+inc-010,zone-lonavala-rajmachi-trail-04,hypothermia,MINOR,0,1,18.8250,73.3980,2024-08-11T15:40:00Z,"Trekker experienced severe hypothermia during relentless monsoon downpour.",USER_REPORT
