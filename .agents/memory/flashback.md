@@ -102,6 +102,26 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.10a: WebSocket Server Bootstrap, JWT Auth & Room Management
+- **Module**: `backend-spatial` / `websocket`
+- **Details**:
+  - Implemented `src/websocket/rooms.ts` defining room formatters (`userRoom`, `roleRoom`, `zoneRoom`) and type-safe emitters (`emitToUser`, `emitToRole`, `emitToZone`, `emitToAll`).
+  - Implemented `src/websocket/socketServer.ts` with `initSocketServer` configuring Socket.IO with CORS, strict JWT handshake authentication (extracting token from `auth.token`, `headers.authorization`, or `query.token`), automatic room subscription on connect (`user:{userId}`, `role:{role}`), and dynamic zone listeners (`zone:join`, `zone:leave`).
+  - Implemented `getIO()` singleton accessor and `closeSocketServer()` test teardown helper.
+  - Replaced standalone Socket.IO constructor in `src/index.ts` with `initSocketServer(httpServer)`.
+  - Added `socket.io-client` devDependency.
+  - Authored comprehensive test suite in `tests/socket.server.test.ts` (9/9 tests passing), bringing total passing test suite across `backend-spatial` to 216/216 tests across 18 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-10a-ws-server-rooms.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/websocket/rooms.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/rooms.ts)
+  - [`backend-spatial/src/websocket/socketServer.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/socketServer.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/package.json`](file:///d:/SIH%202026/backend-spatial/package.json)
+  - [`backend-spatial/tests/socket.server.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/socket.server.test.ts)
+  - [`backend-spatial/docs/step-4-10a-ws-server-rooms.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-10a-ws-server-rooms.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.9c: SOS Validation, Controller & REST Routes
 - **Module**: `backend-spatial` / `sos`
 - **Details**:

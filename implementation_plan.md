@@ -409,14 +409,18 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] Mount /api/v1/sos in index.ts
 - [x] Author comprehensive integration test suite in tests/sos.routes.test.ts (19/19 tests passing)
 
-### 4.10 - WebSocket Server
+### 4.10a - WebSocket Server Bootstrap, JWT Auth & Room Management
 
-- [ ] src/websocket/socketServer.ts:
-      Socket.IO with JWT auth middleware (verify token on connection event)
-      On connect: join rooms user:{userId}, role:{role}, zone:{zoneId}
-- [ ] handlers/locationUpdate.ts: Handle location:update -> update UserLocation -> run geofence check -> emit geofence:alert if triggered
-- [ ] handlers/sosEvents.ts: Handle SOS lifecycle events
-- [ ] handlers/dangerAlerts.ts: Broadcast danger:score_update when score changes
+- [x] src/websocket/rooms.ts: Room formatters (userRoom, roleRoom, zoneRoom) and type-safe emitters (emitToUser, emitToRole, emitToZone, emitToAll)
+- [x] src/websocket/socketServer.ts: Socket.IO server with JWT handshake authentication, auto-joining user & role rooms, dynamic zone subscription listeners
+- [x] Author comprehensive unit and integration test suite in tests/socket.server.test.ts (9/9 tests passing)
+
+### 4.10b - WebSocket Event Handlers (Location, SOS & Danger Score Broadcasting)
+
+- [ ] handlers/locationUpdate.ts: Handle location:update -> update UserLocation -> run geofence check -> emit geofence:alert if inside geofence
+- [ ] handlers/sosEvents.ts: Handle SOS lifecycle events (broadcast to volunteers & command center)
+- [ ] handlers/dangerAlerts.ts: Broadcast danger:score_update when zone scores change
+- [ ] Author comprehensive test suite in tests/socket.handlers.test.ts
 
 ### 4.11 - Background Jobs
 
