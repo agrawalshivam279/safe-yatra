@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.6b: Danger Score Routes & Controller
+- **Module**: `backend-spatial` / `danger`
+- **Details**:
+  - Implemented `src/modules/danger/danger.validation.ts` with `dangerScoreQuerySchema` (with numeric coercion and boundary constraints for GPS coordinates) and `safetyBriefingParamSchema`.
+  - Implemented `src/modules/danger/danger.controller.ts` with `getScore` (200 `ok()`), `getZones` (200 `ok()`), and `getBriefing` (200 `ok()`).
+  - Implemented `src/modules/danger/danger.routes.ts` mounting endpoints under `/api/v1/danger`.
+  - Mounted `/api/v1/danger` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/danger.routes.test.ts` (6/6 tests passing), bringing total passing test suite across `backend-spatial` to 123/123 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-6b-danger-routes-controller.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/danger/danger.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.validation.ts)
+  - [`backend-spatial/src/modules/danger/danger.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.controller.ts)
+  - [`backend-spatial/src/modules/danger/danger.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/danger.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/danger.routes.test.ts)
+  - [`backend-spatial/docs/step-4-6b-danger-routes-controller.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-6b-danger-routes-controller.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.6a: Danger Score Proxy & Redis Cache Layer
 - **Module**: `backend-spatial` / `danger` & `cache`
 - **Details**:
