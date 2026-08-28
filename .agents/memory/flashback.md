@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.7a: Geofence Spatial Engine & Service
+- **Module**: `backend-spatial` / `geofence`
+- **Details**:
+  - Implemented `src/modules/geofence/geofence.types.ts` defining `GeofenceEntity`, `CreateGeofenceInput`, `UpdateGeofenceInput`, `ProximityGeofence`, `GeofenceCheckResult`, and `PointCheckInput`.
+  - Implemented `src/modules/geofence/geofence.engine.ts` with coordinate validation, `checkPointInGeofences` (PostGIS `ST_Contains` on SRID 4326), `findGeofencesNearPoint` (geodesic distance search using `ST_DWithin` & `ST_Distance` on `::geography` with active/expiry filtering and exclusion of already-contained geofences), and `evaluateLocation` composite evaluator.
+  - Implemented `src/modules/geofence/geofence.service.ts` with `createGeofence` (supporting both GeoJSON Polygon `ST_GeomFromGeoJSON` and circular buffer `ST_Buffer(::geography)`), `getAllGeofences` (with `includeInactive` toggle), `getGeofenceById`, `updateGeofence`, `deleteGeofence`, and `checkPoint` orchestrator.
+  - Authored comprehensive test suite in `tests/geofence.service.test.ts` (22/22 tests passing with 100% line coverage), bringing total passing test suite across `backend-spatial` to 145/145 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-7a-geofence-spatial-engine.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/geofence/geofence.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.types.ts)
+  - [`backend-spatial/src/modules/geofence/geofence.engine.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.engine.ts)
+  - [`backend-spatial/src/modules/geofence/geofence.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.service.ts)
+  - [`backend-spatial/tests/geofence.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/geofence.service.test.ts)
+  - [`backend-spatial/docs/step-4-7a-geofence-spatial-engine.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-7a-geofence-spatial-engine.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.6b: Danger Score Routes & Controller
 - **Module**: `backend-spatial` / `danger`
 - **Details**:
