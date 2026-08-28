@@ -357,10 +357,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.5b - Zones Validation, Controller & REST Routes
 
-- [ ] zone.validation.ts: createZoneSchema, updateZoneSchema, overrideScoreSchema
-- [ ] zone.controller.ts & zone.routes.ts: GET /zones, GET /zones/:id, POST /zones (admin), PATCH /zones/:id, PATCH /zones/:id/override (admin), DELETE /zones/:id (admin)
-- [ ] Mount /api/v1/zones in index.ts
-- [ ] Author comprehensive integration test suite in tests/zone.routes.test.ts
+- [x] zone.validation.ts: createZoneSchema, updateZoneSchema, overrideScoreSchema
+- [x] zone.controller.ts & zone.routes.ts: GET /zones, GET /zones/:id, POST /zones (admin), PATCH /zones/:id, PATCH /zones/:id/override (admin), DELETE /zones/:id (admin)
+- [x] Mount /api/v1/zones in index.ts
+- [x] Author comprehensive integration test suite in tests/zone.routes.test.ts (9/9 tests passing)
 
 ### 4.7 - Danger Score Proxy Module
 

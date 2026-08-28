@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.5b: Zones Validation, Controller & REST Routes
+- **Module**: `backend-spatial` / `zones`
+- **Details**:
+  - Implemented `src/modules/zones/zone.validation.ts` with `createZoneSchema` (validating GeoJSON polygon coordinates or center/radius metrics), `updateZoneSchema`, and `overrideScoreSchema` (requiring non-empty audit rationale).
+  - Implemented `src/modules/zones/zone.controller.ts` with `getAllZones` (200 `ok()`), `getZoneById` (200 `ok()`), `createZone` (201 `ok()`), `updateZone` (200 `ok()`), `overrideScore` (200 `ok()`), and `deleteZone` (200 `ok()`).
+  - Implemented `src/modules/zones/zone.routes.ts` mounting public and `ADMIN` role-guarded routes under `/api/v1/zones`.
+  - Mounted `/api/v1/zones` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/zone.routes.test.ts` (9/9 tests passing), bringing total passing test suite across `backend-spatial` to 106/106 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-5b-zones-controller-routes.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/zones/zone.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/zones/zone.validation.ts)
+  - [`backend-spatial/src/modules/zones/zone.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/zones/zone.controller.ts)
+  - [`backend-spatial/src/modules/zones/zone.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/zones/zone.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/zone.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/zone.routes.test.ts)
+  - [`backend-spatial/docs/step-4-5b-zones-controller-routes.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-5b-zones-controller-routes.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.5a: Zones Service & PostGIS Polygon Management
 - **Module**: `backend-spatial` / `zones`
 - **Details**:
