@@ -102,6 +102,24 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.3b: Crowd Density & Historical Incident Risk Sub-Models
+- **Module**: `ml-risk-engine` / `models`
+- **Details**:
+  - Implemented `app/models/crowd_model.py` with Fruin Level of Service (LoS) crowd density scoring `compute_crowd_risk(crowd_count, area_sqm, event_multiplier)` ($0–100$, weight: $0.25$).
+  - Implemented `app/models/historical_model.py` with multi-tier incident severity weighting, distance attenuation, and recency decay `compute_historical_risk(incident_count, fatal_count, severe_count, radius_km, recency_years)` ($0–100$, weight: $0.20$).
+  - Re-exported all four sub-models and weight constants in `app/models/__init__.py`, guaranteeing total composite weights sum to exactly $1.00$.
+  - Authored dynamic unit test suites in `tests/test_crowd_model.py` (7/7 tests) and `tests/test_historical_model.py` (7/7 tests), bringing total passing tests to 38/38.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-3b-crowd-historical-models.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/app/models/crowd_model.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/crowd_model.py)
+  - [`ml-risk-engine/app/models/historical_model.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/historical_model.py)
+  - [`ml-risk-engine/app/models/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/__init__.py)
+  - [`ml-risk-engine/tests/test_crowd_model.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_crowd_model.py)
+  - [`ml-risk-engine/tests/test_historical_model.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_historical_model.py)
+  - [`ml-risk-engine/docs/step-3-3b-crowd-historical-models.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-3b-crowd-historical-models.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.3a: Weather & Terrain Risk Sub-Models
 - **Module**: `ml-risk-engine` / `models`
 - **Details**:
