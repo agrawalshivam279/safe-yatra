@@ -320,21 +320,20 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] Create src/utils/response.ts with ok(), fail(), and AppError class
 - [x] Author comprehensive unit & integration test suite in tests/middleware.test.ts (11/11 tests passing)
 
-### 4.4 - Auth Module
+### 4.3a - Auth Validation Schemas & Authentication Service
 
-Build in this exact order: validation -> service -> controller -> routes
+- [x] auth.types.ts: AuthTokens, UserPublicProfile, AuthResponseData, JwtPayload
+- [x] auth.validation.ts: Zod schemas for RegisterInput, LoginInput, RefreshTokenInput
+- [x] auth.service.ts: hashPassword, comparePassword, generateTokens, verifyToken, register, login, refreshToken, getUserProfile
+- [x] Author comprehensive unit test suite in tests/auth.service.test.ts (18/18 tests passing)
 
-- [ ] auth.validation.ts: Zod schemas for RegisterInput and LoginInput.
-- [ ] auth.service.ts:
-      register(input) -- hash password with bcryptjs, create User, return JWT
-      login(input) -- verify password, return { accessToken, refreshToken }
-      refreshToken(token) -- verify refresh token, return new access token
-- [ ] auth.middleware.ts:
-      Extract Authorization: Bearer token header
-      Verify JWT, attach req.user = { id, role } to the request
-- [ ] roleGuard.ts: Middleware factory requireRole('ADMIN') -- returns 403 if role does not match.
-- [ ] auth.routes.ts: POST /register, POST /login, POST /refresh, GET /me
-- [ ] TEST: Register a tourist -> login -> use token to hit /me -> verify response.
+### 4.3b - Auth Controller, Middleware Guards & Routes
+
+- [ ] auth.middleware.ts: Extract Authorization: Bearer token header, verify JWT, attach req.user = { id, role } to the request
+- [ ] roleGuard.ts: Middleware factory requireRole('ADMIN', 'YAATRI_MITRA') -- returns 403 if role does not match
+- [ ] auth.controller.ts: register, login, refresh, getMe controller handlers with standard ok()/fail() response envelopes
+- [ ] auth.routes.ts: POST /register, POST /login, POST /refresh, GET /me mounted under /api/v1/auth
+- [ ] Author comprehensive integration test suite in tests/auth.routes.test.ts
 
 ### 4.5 - User and Volunteer Module
 

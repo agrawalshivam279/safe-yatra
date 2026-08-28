@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.3a: Auth Validation Schemas & Authentication Service
+- **Module**: `backend-spatial` / `auth`
+- **Details**:
+  - Implemented `src/modules/auth/auth.types.ts` defining `AuthTokens`, `UserPublicProfile`, `AuthResponseData`, and `JwtPayload` interfaces.
+  - Implemented `src/modules/auth/auth.validation.ts` with strict Zod validation schemas (`registerSchema`, `loginSchema`, `refreshTokenSchema`).
+  - Implemented `src/modules/auth/auth.service.ts` with bcrypt password hashing (salt rounds: 10), symmetric JWT access and refresh token issuance/verification, registration with automatic `VolunteerProfile` provisioning for `YAATRI_MITRA`, login with constant-time password comparison, token refresh, and profile sanitization.
+  - Authored comprehensive test suite in `tests/auth.service.test.ts` (18/18 tests passing), bringing total passing test suite across `backend-spatial` to 54/54 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-3a-auth-validation-service.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/auth/auth.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/auth/auth.types.ts)
+  - [`backend-spatial/src/modules/auth/auth.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/auth/auth.validation.ts)
+  - [`backend-spatial/src/modules/auth/auth.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/auth/auth.service.ts)
+  - [`backend-spatial/tests/auth.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/auth.service.test.ts)
+  - [`backend-spatial/docs/step-4-3a-auth-validation-service.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-3a-auth-validation-service.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.2: Global Middleware Stack & Standard Response Envelopes
 - **Module**: `backend-spatial` / `middleware` & `utils`
 - **Details**:
