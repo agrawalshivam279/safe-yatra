@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.5a: Weather & Terrain External Data Services
+- **Module**: `ml-risk-engine` / `services`
+- **Details**:
+  - Implemented `app/services/weather_service.py` with async OpenWeatherMap API ingestion, coordinate-quantized grid caching ($\sim 1.1\text{km}$ / 2 decimal places, TTL $300\text{s}$), metric unit normalization ($m/s \rightarrow km/h$, $K \rightarrow ^\circ C$), and resilient baseline fallback defaults.
+  - Implemented `app/services/terrain_service.py` with great-circle Haversine nearest-neighbor distance matching against offline pilot profiles ($<5.0\text{km}$ radius), OpenTopoData elevation API integration, and neutral baseline fallbacks.
+  - Created `data/terrain_profiles.json` precomputed topographical datasets for 5 pilot pilgrimage and trekking sites (Bhushi Dam, Tiger Point, Karla Caves, Rajmachi Fort, Khandala Ghat).
+  - Configured `OPENTOPO_API_URL` and `WEATHER_CACHE_TTL_SECONDS` in `app/config.py` with Pydantic v2 `SettingsConfigDict`.
+  - Re-exported data models and service instances in `app/services/__init__.py`.
+  - Authored dynamic unit test suites in `tests/test_weather_service.py` (6/6 tests) and `tests/test_terrain_service.py` (5/5 tests), bringing total passing tests to 55/55.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-5a-weather-terrain-services.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/data/terrain_profiles.json`](file:///d:/SIH%202026/ml-risk-engine/data/terrain_profiles.json)
+  - [`ml-risk-engine/app/services/weather_service.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/weather_service.py)
+  - [`ml-risk-engine/app/services/terrain_service.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/terrain_service.py)
+  - [`ml-risk-engine/app/services/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/__init__.py)
+  - [`ml-risk-engine/app/config.py`](file:///d:/SIH%202026/ml-risk-engine/app/config.py)
+  - [`ml-risk-engine/tests/test_weather_service.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_weather_service.py)
+  - [`ml-risk-engine/tests/test_terrain_service.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_terrain_service.py)
+  - [`ml-risk-engine/docs/step-3-5a-weather-terrain-services.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-5a-weather-terrain-services.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.4: Dynamic Danger Score Aggregator & Tier Classification Engine
 - **Module**: `ml-risk-engine` / `models`
 - **Details**:
