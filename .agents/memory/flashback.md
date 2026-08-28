@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.2: Global Middleware Stack & Standard Response Envelopes
+- **Module**: `backend-spatial` / `middleware` & `utils`
+- **Details**:
+  - Implemented `src/utils/response.ts` providing standardized `ok<T>()` and `fail()` response envelope helpers complying with `GEMINI.md` Section 9, alongside the `AppError` operational error class.
+  - Implemented `src/middleware/errorHandler.ts` intercepting operational `AppError`, `ZodError` validation issues (with formatted field mapping), body parser `SyntaxError` (400), and internal 500 server errors with production stack masking.
+  - Implemented `src/middleware/rateLimiter.ts` with `rateLimiter` (100 req / 15 min) and customizable `createRateLimiter` factory returning standard 429 `RATE_LIMIT_EXCEEDED` envelopes.
+  - Updated `src/index.ts` mounting global security headers (`helmet`), `cors`, `rateLimiter`, standard `GET /health` (`ok()`), 404 catch-all (`NOT_FOUND`), and `errorHandler`.
+  - Authored comprehensive test suite in `tests/middleware.test.ts` (11/11 tests passing), bringing total passing test suite across `backend-spatial` to 36/36 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-2-middleware-response-envelopes.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/utils/response.ts`](file:///d:/SIH%202026/backend-spatial/src/utils/response.ts)
+  - [`backend-spatial/src/middleware/errorHandler.ts`](file:///d:/SIH%202026/backend-spatial/src/middleware/errorHandler.ts)
+  - [`backend-spatial/src/middleware/rateLimiter.ts`](file:///d:/SIH%202026/backend-spatial/src/middleware/rateLimiter.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/middleware.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/middleware.test.ts)
+  - [`backend-spatial/docs/step-4-2-middleware-response-envelopes.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-2-middleware-response-envelopes.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.1: Backend Spatial Configuration & Client Singletons (Env, Database, Redis)
 - **Module**: `backend-spatial` / `config`
 - **Details**:
