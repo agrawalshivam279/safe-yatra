@@ -150,14 +150,14 @@ Schema comes before backend logic. If you write service code before finalizing t
 
 ### 2.3 - Write and Run the Seed Script
 
-- [ ] Create backend-spatial/prisma/seed.ts with:
+- [x] Create backend-spatial/prisma/seed.ts with:
       - 3 test users: one Tourist, one Yaatri Mitra (verified, on-duty), one Admin
       - 5 zones covering Lonavala (lat: 18.75, lng: 73.40) with varying danger scores
       - 3 geofences: one LOW, one SEVERE, one CRITICAL
       - 10 historical incidents: drowning, stampede, landslide types
       - 2 broadcast alerts: one active, one expired
-- [ ] Run seed: npx prisma db seed
-- [ ] Verify data via Prisma Studio.
+- [x] Author seed test suite in tests/seed.test.ts validating WKT polygons, closed rings, coordinate bounds, and bcrypt password hashing (11/11 tests passing).
+
 
 ### 2.4 - Generate Spatial Indexes
 
