@@ -3,13 +3,13 @@ name: ship_step
 description: >-
   Automated Memory Sync, Git PR & Transition Pipeline. Seamlessly chains flashback (milestone logging
   and plan checkbox updates) with update-github (conventional commit <100 chars, push, PR creation,
-  squash merge to main, local branch cleanup, remote branch retention), followed by next_step to preview
-  the upcoming atomic task. Use whenever code is verified and ready to ship, or calling /ship_step.
+  CI/status check verification, squash merge to main, local branch cleanup, remote branch retention),
+  followed by next_step to preview the upcoming atomic task. Use whenever code is verified and ready to ship, or calling /ship_step.
 ---
 
 # 🚀 Ship Step — Memory Sync, Git PR & Transition Pipeline
 
-`ship_step` is the automated release and synchronization engine for Safe Yatra. It takes verified, high-quality code, logs the achievement in the project's living memory ledger ([`flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)), checks off the roadmap milestone in [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md), executes the complete Git & GitHub PR squash-merge lifecycle, and pre-fetches the next atomic task.
+`ship_step` is the automated release and synchronization engine for Safe Yatra. It takes verified, high-quality code, logs the achievement in the project's living memory ledger ([`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)), checks off the roadmap milestone in [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md), executes the complete Git & GitHub PR squash-merge lifecycle, and pre-fetches the next atomic task.
 
 ---
 
@@ -21,14 +21,15 @@ flowchart TD
     B --> C["🔍 Inspect Git Changes & Generate Conventional Commit (<100 chars)"]
     C --> D["🌿 git push -u origin feat/<slug>"]
     D --> E["🐙 Create GitHub Pull Request via MCP / gh CLI"]
-    E --> F["🔀 Squash Merge PR to main"]
-    F --> G{"⚠️ PR / Merge Conflict?"}
+    E --> F["🔍 Verify CI Status Checks & Branch Protection"]
+    F --> G["🔀 Squash Merge PR to main"]
+    G --> H{"⚠️ PR / Merge Conflict?"}
     
-    G -- "Yes" --> H["🛑 HARD STOP: Report exact conflict & await human guidance"]
-    G -- "No" --> I["🌿 Switch to main && git pull origin main"]
-    I --> J["🗑️ Delete local branch (Retain origin/feat/<slug> on GitHub)"]
-    J --> K["🎯 Query next_step for upcoming atomic task"]
-    K --> L["⚡ Output Final Shipping Summary + Next Step Preview"]
+    H -- "Yes" --> I["🛑 HARD STOP: Report exact conflict & await human guidance"]
+    H -- "No" --> J["🌿 Switch to main && git pull origin main"]
+    J --> K["🗑️ Delete local branch (Retain origin/feat/<slug> on GitHub)"]
+    K --> L["🎯 Query next_step for upcoming atomic task"]
+    L --> M["⚡ Output Final Shipping Summary + Next Step Preview"]
 ```
 
 ---
@@ -50,7 +51,7 @@ flowchart TD
    - Summary of changes, new components, and tests added.
    - List of key files created/modified.
 2. Updates checkboxes `[x]` in [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) for completed tasks.
-3. If an architectural decision was established during the feature, records an ADR in `flashback.md`.
+3. If an architectural decision was established during the feature, records an ADR in `.agents/memory/flashback.md`.
 
 ---
 
@@ -69,10 +70,11 @@ flowchart TD
    ```bash
    git push -u origin CURRENT_BRANCH
    ```
-5. **Create & Squash Merge PR**:
+5. **Create & Verify PR**:
    - Creates Pull Request into `main` via GitHub MCP / `gh pr create`.
+   - Checks CI / branch protection status (via `get_pull_request_status` / `gh pr checks`).
    - Executes **Squash Merge** into `main` via GitHub MCP / `gh pr merge --squash`.
-   - **Hard Stop Gate**: If PR creation or merge fails (e.g. merge conflicts, branch protection violations), **HALT IMMEDIATELY** and notify user without touching local branches.
+   - **Hard Stop Gate**: If PR creation, CI status checks, or merge fails (e.g. merge conflicts, branch protection violations), **HALT IMMEDIATELY** and notify user without touching local branches.
 6. **Local Cleanup & Remote Retention**:
    - Switches to `main`: `git checkout main && git pull origin main`.
    - Deletes local branch: `git branch -D CURRENT_BRANCH`.

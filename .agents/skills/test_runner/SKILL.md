@@ -9,7 +9,7 @@ description: >-
 
 # 🧪 Test Runner — Two-Stage Test Authoring & Execution Pipeline
 
-`test_runner` is an automated testing workflow designed to guarantee behavioral correctness and prevent regressions across the Safe Yatra ecosystem. It enforces a strict **two-stage sequential pipeline** where test authoring is decoupled from test execution and diagnosis.
+`test_runner` is an automated testing workflow designed to guarantee behavioral correctness and prevent regressions across the Safe Yatra ecosystem. It enforces a strict **two-stage sequential pipeline** where test authoring ([`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md)) is decoupled from test execution and diagnosis (`test_runner`).
 
 ---
 
@@ -19,11 +19,11 @@ description: >-
 sequenceDiagram
     autonumber
     actor User/Agent as User / Master Agent
-    participant TW as ✍️ test_writer (Subagent)
-    participant TR as 🏃 test_runner (Subagent)
+    participant TW as ✍️ test_writer (Stage 1A)
+    participant TR as 🏃 test_runner (Stage 1B)
     
     User/Agent->>TW: 1. Launch with feature name, spec & source files
-    Note over TW: Writes spec-driven tests<br/>(Happy paths, edge cases, error fallbacks)
+    Note over TW: Writes spec-driven tests<br/>(Happy paths, edge cases, spatial invariants)
     TW-->>User/Agent: 2. Confirms test file created & provides run command
     
     User/Agent->>TR: 3. Launch with created test file & target command
@@ -41,14 +41,21 @@ sequenceDiagram
 
 ## 🔒 Strict Handoff & Safety Rules
 
-1. **Strict Sequential Execution**: `test_runner` must NEVER start until `test_writer` has fully completed writing the test file and verified its syntax.
+1. **Strict Sequential Execution**: `test_runner` must NEVER start until `test_writer` has fully completed writing the test file and verified its syntax and imports.
 2. **Targeted Execution**: Run ONLY the test file authored for the target feature. Do not run unrelated full test suites to conserve time and isolate failures.
 3. **Zero In-Flight Code Mutation**: Neither subagent is permitted to alter application source code during the testing pipeline. They report findings and provide an actionable fix prompt.
 4. **Spec-Driven Over Implementation-Driven**: `test_writer` writes tests based on what the specifications in [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) and [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) require, not merely copying existing implementation quirks.
 5. **Spatial Coordinate Invariant Testing Rule**: Always assert coordinate ordering explicitly:
    - **Mobile / REST / GPS UI**: `[latitude, longitude]` or `{ lat, lng }`
-   - **GeoJSON / PostGIS / Turf.js**: `[longitude, latitude]` (e.g., `ST_MakePoint(lng, lat)` / `ST_SetSRID(ST_Point(lng, lat), 4326)`)
+   - **GeoJSON / PostGIS / Turf.js / WKT**: `[longitude, latitude]` (e.g., `ST_MakePoint(lng, lat)` / `ST_SetSRID(ST_Point(lng, lat), 4326)`)
    - Tests MUST assert that spatial converters and adapters correctly transform between client `(lat, lng)` and GIS `(lng, lat)` without inverted-axis regressions.
+6. **Coverage Threshold Invariant**:
+   - Line coverage: $\ge 80\%$
+   - Branch coverage: $\ge 70\%$
+   - Public API endpoints: $100\%$ route coverage
+7. **Timeout & Execution Guardrails**:
+   - Stage 1A (`test_writer` authoring): Max 120s wall-clock time limit.
+   - Stage 1B (`test_runner` execution): Max 60s per test file execution limit.
 
 ---
 
@@ -95,9 +102,19 @@ To guarantee reliable, hermetic test execution across all four decoupled modules
 
 ---
 
+## 🌐 Cross-Module Integration Test Guidance
+
+For features crossing module boundaries:
+1. **Backend ↔ ML Risk Engine**: Verify Express HTTP calls to FastAPI `/api/v1/score` using `nock` or mock HTTP responses, validating error degradation when ML Engine is unreachable.
+2. **Real-time SOS Lifecycle Chains**: Test complete state progression:
+   - `SOS_TRIGGERED` ➔ Volunter Proximity Match (`ST_DWithin`) ➔ Socket.IO Room Broadcast ➔ `SOS_ACCEPTED` ➔ Status Lock.
+3. **Spatial Geofence Checks**: Test point-in-polygon evaluations using both internal and external points against PostGIS SRID 4326 boundaries.
+
+---
+
 ## 📋 Execution Procedure
 
-### Step 1 — Authoring Tests (`test_writer`)
+### Step 1 — Authoring Tests ([`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md))
 Invoke `test_writer` with:
 - **Feature / Target**: e.g., `ml-risk-engine/danger_score` or `backend-spatial/auth`
 - **Spec References**: [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) section and [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) task ID.
@@ -122,12 +139,21 @@ Invoke `test_runner` with:
 
 ---
 
+## 🚨 Error Recovery Protocol
+
+If `test_writer` produces tests with import errors or invalid mock configurations:
+1. Diagnose the import/fixture error from compiler output.
+2. Re-author the targeted test harness before handing off to `test_runner`.
+3. Never attempt to run non-compiling test files.
+
+---
+
 ## 📤 Standard Report Output Format
 
 ```markdown
 # 🧪 Testing Pipeline Report — [Feature Name]
 
-### ✍️ Step 1 — Tests Authored
+### ✍️ Step 1 — Tests Authored (test_writer)
 - **Target File**: `[tests/test_feature.py](file:///d:/SIH%202026/tests/test_feature.py)`
 - **Key Test Cases Covered**:
   - `test_standard_flow`: Validates successful calculation under normal conditions.
@@ -137,9 +163,10 @@ Invoke `test_runner` with:
 
 ---
 
-### 🏃 Step 2 — Execution Results
+### 🏃 Step 2 — Execution Results (test_runner)
 - **Command Executed**: `pytest tests/test_feature.py -v`
 - **Results**: `5 passed, 1 failed` (or `6 passed, 0 failed`)
+- **Coverage**: `Line: 86%, Branch: 78%, Routes: 100%`
 
 ---
 
