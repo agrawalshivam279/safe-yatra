@@ -1,0 +1,233 @@
+// ==============================================================================
+// SAFE YATRA — BACKEND SPATIAL PRISMA POSTGIS SCHEMA
+// Master Schema Reference: GEMINI.md Section 8
+// ==============================================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis]
+}
+
+// ─── USER MANAGEMENT ────────────────────────────
+
+enum UserRole {
+  TOURIST
+  YAATRI_MITRA
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  phone           String            @unique
+  passwordHash    String
+  role            UserRole
+  profileImageUrl String?
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  sosTriggered     SOSEvent[]        @relation("SOSTrigger")
+  sosResponded     SOSResponse[]
+  volunteerProfile VolunteerProfile?
+  locationHistory  UserLocation[]
+}
+
+model VolunteerProfile {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aadharNumber       String?            // ID verification
+  verificationStatus VerificationStatus @default(PENDING)
+  isOnDuty           Boolean            @default(false)
+  totalResponses     Int                @default(0)
+  avgResponseTime    Int?               // seconds
+  rating             Float?             @default(5.0)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+// ─── SPATIAL: USER LOCATION ─────────────────────
+
+model UserLocation {
+  id          String                                @id @default(uuid())
+  userId      String
+  user        User                                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // PostGIS POINT geometry stored as: SRID=4326;POINT(lng lat)
+  coordinates Unsupported("geometry(Point, 4326)")
+  altitude    Float?
+  accuracy    Float?
+  battery     Int?                                  // percentage
+  timestamp   DateTime                              @default(now())
+
+  @@index([coordinates], type: Gist)
+  @@index([userId, timestamp])
+}
+
+// ─── ZONES & GEOFENCES ──────────────────────────
+
+enum DangerTier {
+  LOW           // 0-25
+  MODERATE      // 26-50
+  SEVERE        // 51-75
+  CRITICAL      // 76-100
+}
+
+model Zone {
+  id               String                                  @id @default(uuid())
+  name             String
+  description      String?
+  // PostGIS POLYGON geometry
+  boundary         Unsupported("geometry(Polygon, 4326)")
+  dangerScore      Int                                     @default(0)   // 0-100
+  dangerTier       DangerTier                              @default(LOW)
+  justification    String?
+  isManualOverride Boolean                                 @default(false)
+  lastScoreUpdate  DateTime?
+  createdAt        DateTime                                @default(now())
+  updatedAt        DateTime                                @updatedAt
+
+  // Relations
+  incidents        Incident[]
+  geofences        Geofence[]
+
+  @@index([boundary], type: Gist)
+}
+
+model Geofence {
+  id        String                                  @id @default(uuid())
+  zoneId    String?
+  zone      Zone?                                   @relation(fields: [zoneId], references: [id], onDelete: SetNull)
+  name      String
+  type      String                                  // "AUTO_DANGER" | "MANUAL_NOENTRY" | "ADMIN_OVERRIDE"
+  // PostGIS POLYGON geometry
+  boundary  Unsupported("geometry(Polygon, 4326)")
+  isActive  Boolean                                 @default(true)
+  severity  DangerTier
+  message   String?                                 // Custom alert message
+  createdBy String?                                 // Admin user ID
+  createdAt DateTime                                @default(now())
+  expiresAt DateTime?
+
+  @@index([boundary], type: Gist)
+}
+
+// ─── SOS EVENTS ─────────────────────────────────
+
+enum SOSStatus {
+  TRIGGERED
+  MATCHING
+  VOLUNTEER_ALERTED
+  VOLUNTEER_ACCEPTED
+  VOLUNTEER_EN_ROUTE
+  VOLUNTEER_ARRIVED
+  RESOLVED
+  CANCELLED
+  EXPIRED
+}
+
+model SOSEvent {
+  id          String                                @id @default(uuid())
+  triggeredBy String
+  user        User                                  @relation("SOSTrigger", fields: [triggeredBy], references: [id], onDelete: Cascade)
+  // PostGIS POINT
+  coordinates Unsupported("geometry(Point, 4326)")
+  altitude    Float?
+  battery     Int?
+  audioUrl    String?
+  status      SOSStatus                             @default(TRIGGERED)
+  dangerScore Int?                                  // Score at time of SOS
+  resolvedAt  DateTime?
+  cancelledAt DateTime?
+  createdAt   DateTime                              @default(now())
+  updatedAt   DateTime                              @updatedAt
+
+  // Relations
+  responses   SOSResponse[]
+  timeline    SOSTimeline[]
+
+  @@index([coordinates], type: Gist)
+  @@index([status])
+}
+
+model SOSResponse {
+  id          String    @id @default(uuid())
+  sosEventId  String
+  sosEvent    SOSEvent  @relation(fields: [sosEventId], references: [id], onDelete: Cascade)
+  volunteerId String
+  volunteer   User      @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  status      String    // "ALERTED" | "ACCEPTED" | "EN_ROUTE" | "ARRIVED" | "DECLINED"
+  acceptedAt  DateTime?
+  arrivedAt   DateTime?
+  // Real-time location during response
+  currentLat  Float?
+  currentLng  Float?
+  etaSeconds  Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([sosEventId])
+  @@index([volunteerId])
+}
+
+model SOSTimeline {
+  id         String   @id @default(uuid())
+  sosEventId String
+  sosEvent   SOSEvent @relation(fields: [sosEventId], references: [id], onDelete: Cascade)
+  event      String   // e.g., "TRIGGERED", "VOLUNTEER_MATCHED", "VOLUNTEER_ACCEPTED"
+  details    String?
+  timestamp  DateTime @default(now())
+
+  @@index([sosEventId])
+}
+
+// ─── HISTORICAL INCIDENTS ───────────────────────
+
+model Incident {
+  id          String                                @id @default(uuid())
+  zoneId      String?
+  zone        Zone?                                 @relation(fields: [zoneId], references: [id], onDelete: SetNull)
+  type        String                                // "DROWNING" | "STAMPEDE" | "LANDSLIDE" | "FLOOD" | "FALL" | "OTHER"
+  description String
+  // PostGIS POINT
+  coordinates Unsupported("geometry(Point, 4326)")
+  severity    String                                // "MINOR" | "MAJOR" | "FATAL"
+  casualties  Int                                   @default(0)
+  occurredAt  DateTime
+  source      String?                               // "NEWS" | "GOVT_REPORT" | "USER_REPORT"
+  createdAt   DateTime                              @default(now())
+
+  @@index([coordinates], type: Gist)
+  @@index([occurredAt])
+}
+
+// ─── BROADCAST ALERTS ───────────────────────────
+
+model BroadcastAlert {
+  id         String                                  @id @default(uuid())
+  title      String
+  message    String
+  severity   DangerTier
+  // PostGIS POLYGON — target area
+  targetArea Unsupported("geometry(Polygon, 4326)")
+  createdBy  String
+  isActive   Boolean                                 @default(true)
+  createdAt  DateTime                                @default(now())
+  expiresAt  DateTime?
+
+  @@index([targetArea], type: Gist)
+}

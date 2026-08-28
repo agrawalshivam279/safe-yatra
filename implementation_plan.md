@@ -132,18 +132,17 @@ Schema comes before backend logic. If you write service code before finalizing t
 
 ### 2.1 - Install Backend Dependencies
 
-  cd backend-spatial
-  npm install
+- [x] Install backend dependencies in backend-spatial (Prisma, Express, TypeScript, Turf, Zod, Jest, ts-jest).
 
 ### 2.2 - Finalize and Migrate the Prisma Schema
 
-- [ ] Open backend-spatial/prisma/schema.prisma
-- [ ] Verify it contains ALL models from GEMINI.md section 8:
+- [x] Open backend-spatial/prisma/schema.prisma
+- [x] Verify it contains ALL models from GEMINI.md section 8:
       User, VolunteerProfile, UserLocation
       Zone, Geofence, BroadcastAlert
       SOSEvent, SOSResponse, SOSTimeline
       Incident
-- [ ] Confirm PostGIS geometry fields use Unsupported("geometry(Point, 4326)") syntax.
+- [x] Confirm PostGIS geometry fields use Unsupported("geometry(Point, 4326)") syntax and GiST indexes.
 - [ ] Run the first migration:
       npx prisma migrate dev --name "init_schema"
 - [ ] Verify tables exist:
