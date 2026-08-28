@@ -3,14 +3,15 @@ name: create_specs
 description: >-
   Creates a dedicated Git feature branch and authors a self-contained, production-grade technical
   specification markdown file for the next Safe Yatra step or feature. Evaluates algorithmic and spatial
-  complexity for Sequential Thinking MCP recommendations, checks git status cleanliness, switches to main,
-  pulls latest, branches off, and aligns specs with GEMINI.md, implementation_plan.md, and flashback.md.
+  complexity for Sequential Thinking MCP recommendations, enforces DB migration safety checklists,
+  checks git status cleanliness, switches to main, pulls latest, branches off, and aligns specs with
+  GEMINI.md, implementation_plan.md, and flashback.md.
   Use whenever generating a feature spec, running /create_specs, or triggered from /next_step.
 ---
 
 # 📝 Create Specs — Technical Specification & Git Branch Provisioner
 
-`create_specs` is the technical authoring and branch preparation engine for Safe Yatra. It takes a proposed atomic step (from `/next_step` or user input), verifies workspace cleanliness, creates a dedicated Git feature branch off the latest `main`, evaluates algorithmic and spatial complexity for Sequential Thinking MCP acceleration, and generates a rigorous, production-grade technical specification markdown file saved to the optimal location in the repository.
+`create_specs` is the technical authoring and branch preparation engine for Safe Yatra. It takes a proposed atomic step (from `/next_step` or user input), verifies workspace cleanliness, creates a dedicated Git feature branch off the latest `main`, evaluates algorithmic and spatial complexity for Sequential Thinking MCP acceleration, embeds Database & Migration Safety rules when schema changes are detected, and generates a rigorous, production-grade technical specification markdown file saved to the optimal location in the repository.
 
 ---
 
@@ -31,14 +32,15 @@ sequenceDiagram
         CS-->>User/NextStep: 🛑 HALT: Commit or stash uncommitted changes first
     else Working tree is clean
         CS->>Git: 3. `git checkout main && git pull origin main`
-        CS->>Git: 4. Check branch name & `git checkout -b feat/<slug>`
-        CS->>CS: 5. Consult GEMINI.md, implementation_plan.md, flashback.md
+        CS->>Git: 4. Check branch name conflicts (loop -01 to -05) & `git checkout -b feat/<slug>`
+        CS->>CS: 5. Consult GEMINI.md, implementation_plan.md, .agents/memory/flashback.md
         CS->>CS: 6. Evaluate Sequential Thinking Heuristics (Spatial/Math/State complexity)
+        CS->>CS: 7. Evaluate DB Migration Safety Triggers (Prisma/PostGIS schema changes)
         opt High Algorithmic / Spatial Complexity
             CS->>ST: Formulate reasoning hypotheses & edge case strategy
         end
-        CS->>FS: 7. Write production-grade spec markdown file
-        CS-->>User/NextStep: 8. Output Summary, Active Branch, Spec Link, MCP Recommendation & Execution Prompt
+        CS->>FS: 8. Write production-grade spec markdown file
+        CS-->>User/NextStep: 9. Output Summary, Active Branch, Spec Link, MCP Recommendation & Execution Prompt
     end
 ```
 
@@ -68,12 +70,15 @@ Extract the following metadata from the `/next_step` handoff or user prompt:
 
 ---
 
-### Step 3 — Check Branch Name is Available
+### Step 3 — Check Branch Name Availability & Conflict Resolution
 Run:
 ```bash
-git branch
+git branch --list "<branch_name>*"
 ```
-- If `branch_name` already exists, append a sequence suffix: `<branch_name>-01`, `<branch_name>-02`, etc.
+- **Conflict Resolution Loop**:
+  - If `<branch_name>` does not exist: use `<branch_name>`.
+  - If `<branch_name>` exists: iterate suffixes `-01`, `-02`, `-03`, `-04`, `-05` until an unused branch name is found.
+  - Set `RESOLVED_BRANCH` to the unique candidate name.
 
 ---
 
@@ -89,7 +94,7 @@ git pull origin main
 ### Step 5 — Create and Switch to Feature Branch
 Run:
 ```bash
-git checkout -b <branch_name>
+git checkout -b <RESOLVED_BRANCH>
 ```
 
 ---
@@ -98,7 +103,7 @@ git checkout -b <branch_name>
 Mandatorily read and verify against:
 - 📖 [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) — Exact schemas, API contracts, PostGIS geometry types, and WebSocket event names.
 - 🗺️ [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) — Check if the step is already completed `[x]`. If marked complete, warn the user and stop.
-- 🕰️ [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) — Relevant ADRs and technical constraints.
+- 🕰️ [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) — Living memory ledger, active phase, ADRs, and technical constraints.
 - 📁 Existing module files to inspect current imports, types, and dependencies.
 
 ---
@@ -108,7 +113,7 @@ Evaluate the complexity of the feature against the following criteria to determi
 
 #### Complexity Triggers:
 1. **Dynamic Risk & ML Scoring**:
-   - 4-factor math in `ml-risk-engine` ($0.35 \times \text{crime} + 0.30 \times \text{time} + 0.20 \times \text{lighting} + 0.15 \times \text{density}$).
+   - 4-factor math in `ml-risk-engine` ($0.35 \times \text{weather} + 0.25 \times \text{crowd} + 0.20 \times \text{terrain} + 0.20 \times \text{history}$).
    - Confidence scoring, exponential decay weighting, time-decay functions, and anomaly thresholds.
 2. **PostGIS & Spatial Geometry**:
    - `ST_DWithin` spatial sphere queries, spatial volunteer/police matching in `backend-spatial`.
@@ -129,7 +134,25 @@ Evaluate the complexity of the feature against the following criteria to determi
 
 ---
 
-### Step 8 — Destination Path Determination
+### Step 8 — Database & Migration Safety Evaluator (`db_migration_safety`)
+Evaluate whether the feature modifies `prisma/schema.prisma`, creates database tables, alters columns, or touches PostGIS spatial indexes:
+
+#### Migration Triggers:
+- Feature touches `backend-spatial/prisma/schema.prisma` or `prisma/migrations/`.
+- Modifies entity models (`User`, `VolunteerProfile`, `UserLocation`, `Zone`, `Geofence`, `SOSEvent`, etc.).
+- Adds or modifies PostGIS geometry columns (`Point`, `Polygon`, SRID 4326).
+
+#### Action on Match:
+- Embed a mandatory `## 🗄️ Database & Migration Safety Checklist` section into the generated specification covering:
+  1. **GiST Spatial Indexing**: Explicitly declare `@@index([geom], type: Gist)` for any geometry column.
+  2. **Coordinate Standard**: Explicitly declare SRID 4326 with `[lng, lat]` storage ordering.
+  3. **Zero-Downtime Migration Safety**: Ensure new columns are nullable (`?`) or provide default values (`@default(...)`) to prevent locking issues or runtime errors on existing rows.
+  4. **Data Preservation**: Verify no existing columns with live or seed data are dropped without a data migration script.
+  5. **Rollback Feasibility**: Document the revert steps if the migration must be rolled back.
+
+---
+
+### Step 9 — Destination Path Determination
 Save the specification file to the appropriate directory based on module scope:
 
 | Scope | Destination Path |
@@ -142,7 +165,7 @@ Save the specification file to the appropriate directory based on module scope:
 
 ---
 
-### Step 9 — Write the Specification File
+### Step 10 — Write the Specification File
 
 The generated markdown spec file MUST follow this exact structure:
 
@@ -178,16 +201,24 @@ The generated markdown spec file MUST follow this exact structure:
 
 ---
 
-## 4. Data Contracts & Schema Specifications
+## 4. 🗄️ Database & Migration Safety Checklist *(Included if touching schema/DB)*
+- [ ] **GiST Spatial Index**: Geometry columns have `@@index([...], type: Gist)`.
+- [ ] **Coordinate SRID 4326**: Stored strictly as `[lng, lat]`.
+- [ ] **Zero-Downtime Safe**: New columns are nullable or have default values.
+- [ ] **Rollback Feasibility**: Documented rollback plan (`npx prisma migrate resolve` or down SQL).
 
-### 4.1 Data Models & Types
+---
+
+## 5. Data Contracts & Schema Specifications
+
+### 5.1 Data Models & Types
 [Provide exact TypeScript interfaces, Zod schemas, Pydantic models, or Prisma schema diffs.]
 
 ```typescript
 // Concrete interface or schema definition
 ```
 
-### 4.2 API Endpoints / WebSocket Events (if applicable)
+### 5.2 API Endpoints / WebSocket Events (if applicable)
 | Protocol | Method / Event | Path / Room | Auth Required | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | REST | `POST` | `/api/v1/...` | `Bearer JWT` | [Description] |
@@ -209,7 +240,7 @@ The generated markdown spec file MUST follow this exact structure:
 
 ---
 
-## 5. Step-by-Step Implementation Sequence
+## 6. Step-by-Step Implementation Sequence
 
 1. **Phase A: Types & Validation**
    - [ ] [Task 1: Define types in `types.ts` / `schemas/request.py`]
@@ -222,14 +253,14 @@ The generated markdown spec file MUST follow this exact structure:
 
 ---
 
-## 6. Edge Cases & Failure Recovery
+## 7. Edge Cases & Failure Recovery
 - **Network / Service Timeout**: [Handling external API timeouts with Redis cache or defaults]
 - **Validation Errors**: [Return standard `fail(res, 'INVALID_INPUT', ...)` envelope]
 - **Offline Fallback**: [SMS trigger or local cache behavior if offline]
 
 ---
 
-## 7. Verification & Acceptance Criteria
+## 8. Verification & Acceptance Criteria
 
 ### Automated Tests
 ```bash
@@ -262,6 +293,12 @@ When `create_specs` completes, output the following concise summary:
 ### 🧠 Sequential Thinking MCP Recommendation
 *(Include if task meets high complexity heuristics)*
 > 🧠 **Recommendation**: Use Sequential Thinking MCP for multi-stage reasoning on **[Complex Area, e.g. Dynamic Danger Score 4-factor math / PostGIS ST_DWithin matching / SOS state machine]** (`Approve` / `Skip`).
+
+---
+
+### 🗄️ Database & Migration Safety
+*(Include if task touches DB schema)*
+> 🗄️ **Migration Safety Checked**: GiST spatial index required, SRID 4326 compliance enforced, zero-downtime nullability verified.
 
 ---
 

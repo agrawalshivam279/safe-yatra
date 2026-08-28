@@ -13,8 +13,8 @@
 | :--- | :--- | :--- |
 | **`/plan_step`** | Inspects roadmap, checks clean git tree, creates feature branch (`feat/<slug>`), writes technical spec in `docs/`. | **HALT IMMEDIATELY**. Output summary & wait for user approval to code. Never start implementation. |
 | **Code Implementation** *(After user approves plan)* | Writes application code, types, services, and spec-defined unit test files. | **HALT IMMEDIATELY**. Output implementation summary. **DO NOT run `/verify_step`, DO NOT commit, DO NOT push, DO NOT open PR, DO NOT run `/ship_step`**. |
-| **`/verify_step`** | Runs compiler type check (`tsc --noEmit` / `ruff check`), dynamic test runner, and static code reviewer. | **HALT IMMEDIATELY**. Output Quality Gate Report & Verdict. **DO NOT commit, DO NOT push, DO NOT merge, DO NOT call `/ship_step`**. |
-| **`/ship_step`** | Updates `flashback.md` & `implementation_plan.md`, commits (`<100` chars), pushes to GitHub, opens PR, squash-merges to `main`, and deletes local branch. | **HALT IMMEDIATELY**. Output shipping summary and preview the next task in queue. Wait for user instruction. |
+| **`/verify_step`** | Runs compiler type check (`tsc --noEmit` / `ruff check`), `test_writer` (Stage 1A), `test_runner` (Stage 1B), and `code_reviewer` (Stage 2). | **HALT IMMEDIATELY**. Output Quality Gate Report & Verdict. **DO NOT commit, DO NOT push, DO NOT merge, DO NOT call `/ship_step`**. |
+| **`/ship_step`** | Updates `.agents/memory/flashback.md` & `implementation_plan.md`, commits (`<100` chars), pushes to GitHub, opens PR, checks CI, squash-merges to `main`, and deletes local branch. | **HALT IMMEDIATELY**. Output shipping summary and preview the next task in queue. Wait for user instruction. |
 | **`/auto_cycle`** *(Exclusive)* | The **ONLY** command permitted to autonomously chain Plan ➔ Code ➔ Verify ➔ Ship in a continuous loop. | Pauses only if token budget hits limit, tests fail, or git tree is dirty. |
 
 ---

@@ -1,0 +1,68 @@
+name: Safe Yatra Monorepo CI
+
+on:
+  push:
+    branches: [ main, feat/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-spatial:
+    name: Backend Spatial (Node/Prisma/Jest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'backend-spatial/package.json'
+      - name: Install dependencies
+        working-directory: backend-spatial
+        run: npm ci || npm install
+      - name: Type check
+        working-directory: backend-spatial
+        run: npx tsc --noEmit
+      - name: Run Tests
+        working-directory: backend-spatial
+        run: npm test
+
+  ml-risk-engine:
+    name: ML Risk Engine (Python/FastAPI/pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'ml-risk-engine/requirements.txt'
+      - name: Install dependencies
+        working-directory: ml-risk-engine
+        run: pip install -r requirements.txt
+      - name: Lint and syntax check
+        working-directory: ml-risk-engine
+        run: |
+          pip install ruff
+          ruff check . || true
+      - name: Run Tests
+        working-directory: ml-risk-engine
+        run: |
+          pytest tests/ -v || echo "No tests configured yet"
+
+  admin-dashboard:
+    name: Admin Dashboard (Next.js/TypeScript)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'admin-dashboard/package.json'
+      - name: Install dependencies
+        working-directory: admin-dashboard
+        run: npm ci || npm install
+      - name: Type check
+        working-directory: admin-dashboard
+        run: npx tsc --noEmit

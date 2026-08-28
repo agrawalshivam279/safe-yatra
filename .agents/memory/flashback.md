@@ -102,6 +102,34 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Audit Resolution: `test_writer` Skill Creation & Quality Pipeline Hardening
+- **Module**: `governance` / `qa` / `workspace`
+- **Details**:
+  - Addressed Project-Wide & Critical Skills Audit findings:
+    1. Resolved `flashback.md` path ambiguity by creating root pointer `flashback.md` and standardizing canonical path `.agents/memory/flashback.md` across all skills and `AGENTS.md`.
+    2. Created dedicated [`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md) skill (Stage 1A) with spec-driven authoring rules, spatial coordinate invariants (`[lat, lng]` client vs `[lng, lat]` PostGIS), API envelope assertions, multi-framework mocking catalog, and coverage thresholds ($\ge 80\%$ line, $\ge 70\%$ branch, $100\%$ route).
+    3. Upgraded [`test_runner`](file:///d:/SIH%202026/.agents/skills/test_runner/SKILL.md) (Stage 1B) with strict sequential handoff from `test_writer`, execution timeouts (60s), and cross-module integration test guidelines.
+    4. Integrated **`api_contract_validator`** into [`verify_step`](file:///d:/SIH%202026/.agents/skills/verify_step/SKILL.md) as Stage 0.5 (conditional validation on REST routes/schemas for Zod/Pydantic validation and `ok()`/`fail()` response envelopes).
+    5. Integrated **`db_migration_safety`** checklist into [`create_specs`](file:///d:/SIH%202026/.agents/skills/create_specs/SKILL.md) and [`code_reviewer`](file:///d:/SIH%202026/.agents/skills/code_reviewer/SKILL.md) (GiST spatial indexes, SRID 4326 compliance, zero-downtime nullable fields, rollback plan).
+    6. Enhanced [`code_reviewer`](file:///d:/SIH%202026/.agents/skills/code_reviewer/SKILL.md) with deep domain security audit (PostGIS SQLi parameterization, JWT validation, SOS endpoint rate limiting, broadcast XSS prevention, audio upload validation) and performance checks (Prisma N+1, spatial bounding limits).
+    7. Enhanced [`auto_cycle`](file:///d:/SIH%202026/.agents/skills/auto_cycle/SKILL.md) with stage timeout circuit breakers (30s/15s/120s/60s/90s) and full `test_writer` $\rightarrow$ `test_runner` lifecycle support.
+    8. Enhanced `Makefile` with `audit` (`npm audit` & `pip check`) and `check-deploy` (`docker compose` healthchecks).
+    9. Provisioned missing module subdirectories per `GEMINI.md` Section 15 and established `.github/workflows/ci.yml`.
+- **Key Files Created / Updated**:
+  - [`.agents/skills/test_writer/SKILL.md`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md)
+  - [`.agents/skills/test_runner/SKILL.md`](file:///d:/SIH%202026/.agents/skills/test_runner/SKILL.md)
+  - [`.agents/skills/verify_step/SKILL.md`](file:///d:/SIH%202026/.agents/skills/verify_step/SKILL.md)
+  - [`.agents/skills/code_reviewer/SKILL.md`](file:///d:/SIH%202026/.agents/skills/code_reviewer/SKILL.md)
+  - [`.agents/skills/create_specs/SKILL.md`](file:///d:/SIH%202026/.agents/skills/create_specs/SKILL.md)
+  - [`.agents/skills/ship_step/SKILL.md`](file:///d:/SIH%202026/.agents/skills/ship_step/SKILL.md)
+  - [`.agents/skills/auto_cycle/SKILL.md`](file:///d:/SIH%202026/.agents/skills/auto_cycle/SKILL.md)
+  - [`AGENTS.md`](file:///d:/SIH%202026/AGENTS.md)
+  - [`flashback.md`](file:///d:/SIH%202026/flashback.md)
+  - [`Makefile`](file:///d:/SIH%202026/Makefile)
+  - [`.github/workflows/ci.yml`](file:///d:/SIH%202026/.github/workflows/ci.yml)
+  - [`README.md`](file:///d:/SIH%202026/README.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-28] — Step 2.3: Database Seed Data Script & PostGIS Spatial Fixtures
 - **Module**: `backend-spatial` / `data`
 - **Details**:
@@ -228,6 +256,13 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 ---
 
 ## 6. Deferred Actions & End-of-Project Checklist
+
+- [ ] **Mobile Accessibility Audit (Phase 5 — Mobile App)**:
+  - Verify `accessible={true}`, accessibility labels on the big red panic button (`SOSButton.tsx`), high-contrast danger zone colors (accessible to colorblind users), and screen reader announcements for emergency geofence breach modals during Phase 5 implementation.
+
+- [ ] **Pre-Demo Dependency & Deployment Audit (Phase 7 — Step 7.6)**:
+  - Run `make audit` (`npm audit --audit-level=high` & `pip check`) across all 4 module packages.
+  - Run `make check-deploy` to confirm fresh-machine Docker Compose bootstrap (`pg_isready`, Redis `ping`, and database migrations).
 
 - [ ] **Competitive Landscape & Competitor Benchmark Docs (Phase 7 / Final Wrap-up)**:
   - Add explicit competitive analysis matrix to `GEMINI.md` and `implementation_plan.md` comparing Safe Yatra against:

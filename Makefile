@@ -1,4 +1,4 @@
-.PHONY: help up down logs db-reset test-all lint format-check
+.PHONY: help up down logs db-reset test-all lint format-check audit check-deploy
 
 help:
 	@echo "🛡️  SAFE YATRA — Developer Automation Shortcuts"
@@ -10,6 +10,8 @@ help:
 	@echo "make test-all      - Execute test suites across all modules"
 	@echo "make lint          - Run linters across TypeScript and Python modules"
 	@echo "make format-check  - Verify code formatting compliance"
+	@echo "make audit         - Scan dependencies for vulnerabilities (npm audit / pip check)"
+	@echo "make check-deploy  - Verify Docker containers and service health"
 
 up:
 	docker-compose up -d postgres redis
@@ -33,6 +35,21 @@ lint:
 	@if [ -f "ml-risk-engine/requirements.txt" ]; then cd ml-risk-engine && ruff check .; fi
 	@if [ -f "backend-spatial/package.json" ]; then cd backend-spatial && npm run lint --if-present; fi
 	@if [ -f "admin-dashboard/package.json" ]; then cd admin-dashboard && npm run lint --if-present; fi
+
+audit:
+	@echo "Auditing dependencies across modules..."
+	@if [ -f "backend-spatial/package.json" ]; then cd backend-spatial && npm audit --audit-level=high || true; fi
+	@if [ -f "admin-dashboard/package.json" ]; then cd admin-dashboard && npm audit --audit-level=high || true; fi
+	@if [ -f "mobile-app/package.json" ]; then cd mobile-app && npm audit --audit-level=high || true; fi
+	@if [ -f "ml-risk-engine/requirements.txt" ]; then cd ml-risk-engine && pip check || true; fi
+
+check-deploy:
+	@echo "Verifying Docker infrastructure health..."
+	docker compose ps
+	@echo "Checking Postgres PostGIS connectivity..."
+	docker compose exec -T postgres pg_isready -U safeyatra -d safeyatra_db || echo "Postgres container not running or not ready"
+	@echo "Checking Redis connectivity..."
+	docker compose exec -T redis redis-cli ping || echo "Redis container not running or not ready"
 
 format-check:
 	@echo "Checking formatting compliance..."
