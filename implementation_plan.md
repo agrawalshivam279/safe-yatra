@@ -371,19 +371,24 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.6b - Danger Score Routes & Controller
 
-- [ ] danger.validation.ts: dangerScoreQuerySchema, safetyBriefingParamSchema
-- [ ] danger.controller.ts & danger.routes.ts: GET /score?lat=&lng=, GET /zones, GET /briefing/:destination
-- [ ] Mount /api/v1/danger in index.ts
-- [ ] Author comprehensive integration test suite in tests/danger.routes.test.ts
+- [x] danger.validation.ts: dangerScoreQuerySchema, safetyBriefingParamSchema
+- [x] danger.controller.ts & danger.routes.ts: GET /score?lat=&lng=, GET /zones, GET /briefing/:destination
+- [x] Mount /api/v1/danger in index.ts
+- [x] Author comprehensive integration test suite in tests/danger.routes.test.ts (6/6 tests passing)
 
-### 4.8 - Geofence Module
+### 4.7a - Geofence Spatial Engine & Service
 
-- [ ] geofence.engine.ts:
-      checkPointInGeofences(lat, lng) -- ST_Contains query, returns all matching geofences
-      findGeofencesNearPoint(lat, lng, bufferMeters) -- ST_DWithin with 500m buffer for approaching alerts
-- [ ] geofence.service.ts: CRUD for geofences + wrap engine functions
-- [ ] geofence.routes.ts: Standard REST + POST /geofences/check
-- [ ] TEST: Create a CRITICAL geofence polygon. Insert a point 300m outside -- verify approaching alert fires.
+- [ ] geofence.types.ts: GeofenceEntity, CreateGeofenceInput, UpdateGeofenceInput, GeofenceCheckResult
+- [ ] geofence.engine.ts: checkPointInGeofences (ST_Contains query, returns all matching geofences), findGeofencesNearPoint (ST_DWithin with 500m buffer for approaching alerts)
+- [ ] geofence.service.ts: CRUD for geofences + wrap spatial engine functions
+- [ ] Author comprehensive unit test suite in tests/geofence.service.test.ts
+
+### 4.7b - Geofence Validation, Controller & REST Routes
+
+- [ ] geofence.validation.ts: createGeofenceSchema, updateGeofenceSchema, checkPointSchema
+- [ ] geofence.controller.ts & geofence.routes.ts: GET /geofences, GET /geofences/:id, POST /geofences (admin), PATCH /geofences/:id (admin), DELETE /geofences/:id (admin), POST /geofences/check
+- [ ] Mount /api/v1/geofences in index.ts
+- [ ] Author comprehensive integration test suite in tests/geofence.routes.test.ts
 
 ### 4.9 - SOS Module (Most Critical)
 
