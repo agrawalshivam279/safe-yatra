@@ -1,0 +1,34 @@
+# Dependencies & package managers
+node_modules/
+.pnp
+.pnp.js
+
+# Build artifacts & output
+dist/
+build/
+.next/
+out/
+.expo/
+*.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+.ruff_cache/
+
+# Databases & logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.prisma/
+
+# Git & OS metadata
+.git/
+.DS_Store
+Thumbs.db

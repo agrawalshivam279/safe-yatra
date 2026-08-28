@@ -89,8 +89,8 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 | Phase | Description | Target / Milestone | Status |
 | :--- | :--- | :--- | :--- |
-| **Phase 0** | Developer Tooling & Monorepo Setup | Docker compose, module scaffolding, linting, git hooks | 🟡 In Progress |
-| **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | ⚪ Pending |
+| **Phase 0** | Developer Tooling & Monorepo Setup | Docker compose, module scaffolding, linting, git hooks | 🟢 Completed |
+| **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | 🟡 Next Up |
 | **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | ⚪ Pending |
 | **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | ⚪ Pending |
 | **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | ⚪ Pending |
@@ -101,6 +101,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 ---
 
 ## 4. Chronological Activity & Change Log
+
+### [2026-08-28] — Step 0.3: Monorepo Code Quality & Workspace Tooling
+- **Module**: `infra` / `workspace`
+- **Details**:
+  - Authored `.editorconfig` with cross-editor formatting rules (2-space TS/JS/JSON, 4-space Python, LF endings, trimmed trailing whitespace).
+  - Configured `prettier.config.js` and `.prettierignore` for monorepo code consistency.
+  - Implemented root `Makefile` with developer shortcuts (`up`, `down`, `logs`, `db-reset`, `test-all`, `lint`, `format-check`, `help`).
+  - Authored technical specification in `docs/specs/step-0-3-code-quality-tooling.md`.
+  - Phase 0 (Developer Environment and Tooling Setup) complete.
+- **Key Files Created / Updated**:
+  - [`.editorconfig`](file:///d:/SIH%202026/.editorconfig)
+  - [`prettier.config.js`](file:///d:/SIH%202026/prettier.config.js)
+  - [`.prettierignore`](file:///d:/SIH%202026/.prettierignore)
+  - [`Makefile`](file:///d:/SIH%202026/Makefile)
+  - [`docs/specs/step-0-3-code-quality-tooling.md`](file:///d:/SIH%202026/docs/specs/step-0-3-code-quality-tooling.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
 
 ### [2026-08-28] — GitHub Repository Initialization & PR #1 Merge
 - **Module**: `infra` / `workspace`
