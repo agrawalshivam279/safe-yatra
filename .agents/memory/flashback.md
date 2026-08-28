@@ -102,6 +102,24 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.4: Dynamic Danger Score Aggregator & Tier Classification Engine
+- **Module**: `ml-risk-engine` / `models`
+- **Details**:
+  - Implemented `app/models/danger_score.py` computing composite danger scores ($0–100$) via linear convex combination ($\text{score} = 0.35 \cdot \text{weather} + 0.20 \cdot \text{terrain} + 0.25 \cdot \text{crowd} + 0.20 \cdot \text{history}$).
+  - Implemented `score_to_tier` mapping integer scores to categorical `DangerTier` enum (`LOW` $\le 25$, `MODERATE` $26–50$, `SEVERE` $51–75$, `CRITICAL` $76–100$).
+  - Implemented `build_justification` plain-English briefing generator adhering to `GEMINI.md` Section 4 format.
+  - Implemented `generate_recommendations` context-aware safety advisory generator for active hazard vectors ($\ge 40$).
+  - Re-exported aggregator functions in `app/models/__init__.py`.
+  - Authored dynamic unit test suites in `tests/test_danger_score.py` (6/6 tests), bringing total passing tests to 44/44.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-4-danger-score-aggregator.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/app/models/danger_score.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/danger_score.py)
+  - [`ml-risk-engine/app/models/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/__init__.py)
+  - [`ml-risk-engine/tests/test_danger_score.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_danger_score.py)
+  - [`ml-risk-engine/docs/step-3-4-danger-score-aggregator.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-4-danger-score-aggregator.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.3b: Crowd Density & Historical Incident Risk Sub-Models
 - **Module**: `ml-risk-engine` / `models`
 - **Details**:

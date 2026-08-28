@@ -223,19 +223,15 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
 
 ### 3.4 - Implement the Aggregator in danger_score.py
 
-  WEIGHTS = {"weather": 0.35, "terrain": 0.20, "crowd": 0.25, "history": 0.20}
-
-  def compute_danger_score(weather, terrain, crowd, history):
-      score = sum(WEIGHTS[k] * v for k, v in {"weather": weather, "terrain": terrain, "crowd": crowd, "history": history}.items())
-      tier = score_to_tier(score)
-      justification = build_justification(score, tier)
-      return DangerResult(score=round(score), tier=tier, justification=justification)
-
-  Tier mapping:
+- [x] Implement linear convex combination: `DANGER_SCORE = 0.35*weather + 0.20*terrain + 0.25*crowd + 0.20*history`.
+- [x] Implement `score_to_tier(score)` mapping:
       0-25:   LOW
       26-50:  MODERATE
       51-75:  SEVERE
       76-100: CRITICAL
+- [x] Implement `build_justification(danger_score, tier, factors, custom_summary)` generating plain-English briefings.
+- [x] Implement `generate_recommendations(tier, factors)` generating context-aware safety advisory items.
+- [x] Author comprehensive test suite in `tests/test_danger_score.py` (6/6 tests passing).
 
 ### 3.5 - Implement External Data Services
 
