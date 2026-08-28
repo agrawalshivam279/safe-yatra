@@ -385,10 +385,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.7b - Geofence Validation, Controller & REST Routes
 
-- [ ] geofence.validation.ts: createGeofenceSchema, updateGeofenceSchema, checkPointSchema
-- [ ] geofence.controller.ts & geofence.routes.ts: GET /geofences, GET /geofences/:id, POST /geofences (admin), PATCH /geofences/:id (admin), DELETE /geofences/:id (admin), POST /geofences/check
-- [ ] Mount /api/v1/geofences in index.ts
-- [ ] Author comprehensive integration test suite in tests/geofence.routes.test.ts
+- [x] geofence.validation.ts: createGeofenceSchema, updateGeofenceSchema, checkPointSchema, geofenceQuerySchema
+- [x] geofence.controller.ts & geofence.routes.ts: GET /geofences, GET /geofences/:id, POST /geofences (admin), PATCH /geofences/:id (admin), DELETE /geofences/:id (admin), POST /geofences/check
+- [x] Mount /api/v1/geofences in index.ts
+- [x] Author comprehensive integration test suite in tests/geofence.routes.test.ts (15/15 tests passing)
 
 ### 4.9 - SOS Module (Most Critical)
 

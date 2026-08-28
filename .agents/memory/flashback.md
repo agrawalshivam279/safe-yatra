@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.7b: Geofence Validation, Controller & REST Routes
+- **Module**: `backend-spatial` / `geofence`
+- **Details**:
+  - Implemented `src/modules/geofence/geofence.validation.ts` with `createGeofenceSchema` (validating GeoJSON polygon coordinates, center/radius alternatives, and timestamp transformations), `updateGeofenceSchema`, `checkPointSchema` (validating latitude $\in [-90, 90]$ and longitude $\in [-180, 180]$), and `geofenceQuerySchema`.
+  - Implemented `src/modules/geofence/geofence.controller.ts` with `getAllGeofences` (200 `ok()`), `getGeofenceById` (200 `ok()`), `checkPoint` (200 `ok()`), `createGeofence` (201 `ok()`), `updateGeofence` (200 `ok()`), and `deleteGeofence` (200 `ok()`).
+  - Implemented `src/modules/geofence/geofence.routes.ts` mounting public endpoints (`GET /`, `GET /:id`, `POST /check`) and `ADMIN` role-guarded mutation endpoints (`POST /`, `PATCH /:id`, `DELETE /:id`).
+  - Mounted `/api/v1/geofences` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/geofence.routes.test.ts` (15/15 tests passing), bringing total passing test suite across `backend-spatial` to 160/160 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-7b-geofence-routes-controller.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/geofence/geofence.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.validation.ts)
+  - [`backend-spatial/src/modules/geofence/geofence.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.controller.ts)
+  - [`backend-spatial/src/modules/geofence/geofence.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/geofence/geofence.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/geofence.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/geofence.routes.test.ts)
+  - [`backend-spatial/docs/step-4-7b-geofence-routes-controller.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-7b-geofence-routes-controller.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.7a: Geofence Spatial Engine & Service
 - **Module**: `backend-spatial` / `geofence`
 - **Details**:
