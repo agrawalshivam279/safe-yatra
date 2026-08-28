@@ -4,7 +4,6 @@ Unit tests for IncidentService, CSV dataset parsing, Haversine filtering, and re
 
 import asyncio
 from datetime import datetime, timezone
-import pytest
 
 from app.services.incident_service import IncidentService, IncidentSummary
 

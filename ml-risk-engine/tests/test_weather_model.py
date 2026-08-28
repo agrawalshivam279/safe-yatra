@@ -3,7 +3,6 @@ Unit tests for Weather Risk Sub-Model (app/models/weather_model.py).
 Tests meteorological scoring calculations, clamping, and telemetry explanations.
 """
 
-import pytest
 from app.models.weather_model import WEATHER_WEIGHT, compute_weather_risk
 
 

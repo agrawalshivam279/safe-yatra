@@ -3,7 +3,6 @@ Unit tests for Terrain Risk Sub-Model (app/models/terrain_model.py).
 Tests topographical scoring calculations, distance decay curves, and slope saturation.
 """
 
-import pytest
 from app.models.terrain_model import TERRAIN_WEIGHT, compute_terrain_risk
 
 

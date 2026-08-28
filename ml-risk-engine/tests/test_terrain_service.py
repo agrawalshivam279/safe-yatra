@@ -3,6 +3,7 @@ Unit tests for TerrainService, precomputed profiles, Haversine distance, and Ope
 """
 
 import asyncio
+
 import httpx
 import pytest
 

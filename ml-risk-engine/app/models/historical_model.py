@@ -68,7 +68,6 @@ def compute_historical_risk(
     normalized_score = round(min(100.0, max(0.0, raw_score)), 1)
 
     # Generate human-readable telemetry justification
-    details_parts = []
     if total_incidents == 0:
         details_str = f"No historical incidents recorded within {rad:.1f}km radius"
     else:
