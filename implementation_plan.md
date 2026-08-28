@@ -335,15 +335,19 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] auth.routes.ts: POST /register, POST /login, POST /refresh, GET /me mounted under /api/v1/auth
 - [x] Author comprehensive integration test suite in tests/auth.routes.test.ts (12/12 tests passing)
 
-### 4.5 - User and Volunteer Module
+### 4.4a - User Profile Service & Volunteer Duty/Location Management
 
-- [ ] user.service.ts: getUserById, updateProfile, deleteAccount
-- [ ] volunteer.service.ts:
-      registerAsVolunteer -- creates VolunteerProfile
-      toggleDutyStatus(userId) -- flips isOnDuty
-      updateLocation(userId, lat, lng) -- upserts UserLocation with PostGIS Point
-      findNearbyVolunteers(lat, lng, radiusMeters) -- raw SQL with ST_DWithin (CRITICAL SOS dependency)
-- [ ] TEST: Insert a verified, on-duty volunteer 2km away. Run findNearbyVolunteers. Verify they appear.
+- [x] volunteer.types.ts: LocationPingInput, NearbyVolunteerResult, UpdateProfileInput
+- [x] user.service.ts: getUserById, updateProfile, deleteAccount
+- [x] volunteer.service.ts: registerVolunteer, toggleDutyStatus, recordLocation (ST_SetSRID Point), findNearbyVolunteers (ST_DWithin with ::geography cast)
+- [x] Author comprehensive unit test suite in tests/user-volunteer.service.test.ts (12/12 tests passing)
+
+### 4.4b - User & Volunteer Routes & Proximity Controllers
+
+- [ ] user.controller.ts & user.routes.ts: GET /users/me, PATCH /users/profile, DELETE /users/account
+- [ ] volunteer.controller.ts & volunteer.routes.ts: POST /volunteers/register, PATCH /volunteers/duty, POST /volunteers/location, GET /volunteers/nearby
+- [ ] Mount /api/v1/users and /api/v1/volunteers in index.ts
+- [ ] Author comprehensive integration test suite in tests/user-volunteer.routes.test.ts
 
 ### 4.6 - Zones Module
 

@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.4a: User Profile Service & Volunteer Duty/Location Management
+- **Module**: `backend-spatial` / `user` & `volunteer`
+- **Details**:
+  - Implemented `src/modules/volunteer/volunteer.types.ts` with `LocationPingInput`, `NearbyVolunteerResult` (with distance in meters and response ETA calculation), and `UpdateProfileInput`.
+  - Implemented `src/modules/user/user.service.ts` with `getUserById` (with volunteerProfile inclusion), `updateProfile` (with phone conflict check), and `deleteAccount` (account deactivation via `isActive = false`).
+  - Implemented `src/modules/volunteer/volunteer.service.ts` with `registerVolunteer`, `toggleDutyStatus`, `recordLocation` (inserting PostGIS Point geometry with `ST_SetSRID(ST_MakePoint(lng, lat), 4326)`), and `findNearbyVolunteers` (parameterized PostGIS query using `ST_DWithin(::geography)` metric proximity search, deduplicating latest locations and ranking by distance).
+  - Authored comprehensive test suite in `tests/user-volunteer.service.test.ts` (12/12 tests passing), bringing total passing test suite across `backend-spatial` to 78/78 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-4a-user-volunteer-service.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/volunteer/volunteer.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/volunteer/volunteer.types.ts)
+  - [`backend-spatial/src/modules/user/user.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/user/user.service.ts)
+  - [`backend-spatial/src/modules/volunteer/volunteer.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/volunteer/volunteer.service.ts)
+  - [`backend-spatial/tests/user-volunteer.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/user-volunteer.service.test.ts)
+  - [`backend-spatial/docs/step-4-4a-user-volunteer-service.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-4a-user-volunteer-service.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.3b: Auth Controller, Middleware Guards & Routes
 - **Module**: `backend-spatial` / `auth` & `middleware`
 - **Details**:
