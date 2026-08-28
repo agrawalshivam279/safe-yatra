@@ -217,9 +217,9 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
       Formula: score = min(100, (precip/200)*60 + (wind/150)*25 + (1 - visibility/10000)*15)
 - [x] terrain_model.py -- Input: slope_degrees, water_proximity_m, altitude_m. Output: score 0-100.
       Logic: Higher slope + closer to water = higher score.
-- [ ] crowd_model.py -- Input: crowd_count, area_sqm. Output: score 0-100.
+- [x] crowd_model.py -- Input: crowd_count, area_sqm. Output: score 0-100.
       Logic: Derive density figure, map to score tiers.
-- [ ] historical_model.py -- Input: lat, lng, radius. Query DB for Incident records, weigh by recency and severity.
+- [x] historical_model.py -- Input: lat, lng, radius. Query DB for Incident records, weigh by recency and severity.
 
 ### 3.4 - Implement the Aggregator in danger_score.py
 
