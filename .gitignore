@@ -13,8 +13,9 @@ env/
 
 # Environment files
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+!**/.env.example
 mcp_config.json
 .agents/mcp_config.json
 
