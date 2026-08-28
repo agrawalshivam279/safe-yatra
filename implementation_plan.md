@@ -362,17 +362,19 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] Mount /api/v1/zones in index.ts
 - [x] Author comprehensive integration test suite in tests/zone.routes.test.ts (9/9 tests passing)
 
-### 4.7 - Danger Score Proxy Module
+### 4.6a - Danger Score Proxy & Redis Cache Layer
 
-- [ ] danger.cache.ts: Redis wrapper with key danger:score:{zone_id}, TTL 300 seconds (5 min).
-- [ ] danger.service.ts -- getScoreForCoords(lat, lng):
-      Step 1: Find nearest zone using ST_DWithin
-      Step 2: Check Redis cache for danger:score:{zone_id}
-      Step 3: Cache miss -> HTTP call to ML engine POST /api/v1/score
-      Step 4: Store result in Redis with TTL
-      Step 5: Return score
-- [ ] danger.routes.ts: GET /danger/score?lat=&lng=, GET /danger/zones, GET /danger/briefing/:destination
-- [ ] TEST: Call twice within 5 min. Verify second call hits Redis, NOT the ML engine.
+- [x] danger.types.ts: FactorScore, DangerFactors, DangerScoreResult, PreTripBriefing
+- [x] danger.cache.ts: Redis wrapper with keys danger:score:{zone_id} & danger:coords:{lat}:{lng}, TTL 300 seconds (5 min)
+- [x] danger.service.ts: getScoreForCoordinates (PostGIS spatial lookup, Redis cache-first, Python ML Risk Engine proxy POST /api/v1/score, resilient heuristic fallback), getAllZoneScores, getSafetyBriefing
+- [x] Author comprehensive unit test suite in tests/danger.service.test.ts (11/11 tests passing)
+
+### 4.6b - Danger Score Routes & Controller
+
+- [ ] danger.validation.ts: dangerScoreQuerySchema, safetyBriefingParamSchema
+- [ ] danger.controller.ts & danger.routes.ts: GET /score?lat=&lng=, GET /zones, GET /briefing/:destination
+- [ ] Mount /api/v1/danger in index.ts
+- [ ] Author comprehensive integration test suite in tests/danger.routes.test.ts
 
 ### 4.8 - Geofence Module
 
