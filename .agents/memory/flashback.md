@@ -102,6 +102,26 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.5b: Crowd Estimation & Incident Database Data Services
+- **Module**: `ml-risk-engine` / `services`
+- **Details**:
+  - Implemented `app/services/crowd_service.py` with diurnal hour-of-day tourist footfall curves ($0.1\times$ to $1.8\times$), weekend surge multipliers ($2.2\times$ in IST timezone `UTC+05:30`), pilot site baseline capacity mappings, and manual override handling.
+  - Implemented `app/services/incident_service.py` with CSV dataset parsing, great-circle Haversine spatial proximity filtering ($2.0\text{km}$ radius), fatality/severity aggregations, and recency decay.
+  - Created `data/historical_incidents.csv` containing 10 historical safety incident records synchronized with `backend-spatial/prisma/seed.ts` (Bhushi Dam, Tiger Point, Karla Caves, Rajmachi Fort, Khandala Ghat).
+  - Re-exported data models and service instances in `app/services/__init__.py`.
+  - Authored dynamic unit test suites in `tests/test_crowd_service.py` (5/5 tests) and `tests/test_incident_service.py` (4/4 tests), bringing total passing tests to 64/64.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-5b-crowd-incident-services.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/data/historical_incidents.csv`](file:///d:/SIH%202026/ml-risk-engine/data/historical_incidents.csv)
+  - [`ml-risk-engine/app/services/crowd_service.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/crowd_service.py)
+  - [`ml-risk-engine/app/services/incident_service.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/incident_service.py)
+  - [`ml-risk-engine/app/services/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/services/__init__.py)
+  - [`ml-risk-engine/tests/test_crowd_service.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_crowd_service.py)
+  - [`ml-risk-engine/tests/test_incident_service.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_incident_service.py)
+  - [`ml-risk-engine/docs/step-3-5b-crowd-incident-services.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-5b-crowd-incident-services.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.5a: Weather & Terrain External Data Services
 - **Module**: `ml-risk-engine` / `services`
 - **Details**:

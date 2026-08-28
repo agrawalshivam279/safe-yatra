@@ -2,6 +2,18 @@
 Services package for external data ingestion and simulations.
 """
 
+from app.services.crowd_service import (
+    CrowdData,
+    CrowdService,
+    crowd_service,
+    get_day_of_week_multiplier,
+    get_time_of_day_multiplier,
+)
+from app.services.incident_service import (
+    IncidentService,
+    IncidentSummary,
+    incident_service,
+)
 from app.services.terrain_service import (
     EARTH_RADIUS_KM,
     TerrainData,
@@ -24,4 +36,12 @@ __all__ = [
     "terrain_service",
     "haversine_distance_km",
     "EARTH_RADIUS_KM",
+    "CrowdData",
+    "CrowdService",
+    "crowd_service",
+    "get_time_of_day_multiplier",
+    "get_day_of_week_multiplier",
+    "IncidentSummary",
+    "IncidentService",
+    "incident_service",
 ]

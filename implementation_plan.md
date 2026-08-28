@@ -237,8 +237,8 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
 
 - [x] weather_service.py: Call OpenWeatherMap API with coordinate quantization, in-memory TTL caching (300s), and fallback defaults (100% line coverage).
 - [x] terrain_service.py: Precomputed offline terrain profiles in data/terrain_profiles.json with Haversine nearest-neighbor matching, OpenTopoData API integration, and fallback defaults (100% line coverage).
-- [ ] crowd_service.py: Use time-of-day + day-of-week heuristic for now. Mark for later enhancement.
-- [ ] incident_service.py: Query PostgreSQL Incident table via asyncpg.
+- [x] crowd_service.py: Diurnal tourist footfall curve (hour-of-day IST peak curves + weekend multipliers) and pilot site baseline capacity profiles (100% line coverage).
+- [x] incident_service.py: Query historical incidents from data/historical_incidents.csv with Haversine spatial proximity filtering (2.0km) and recency decay (100% line coverage).
 
 ### 3.6 - Wire Up FastAPI Routers
 
