@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.9a: SOS Proximity Matcher & SMS Gateway
+- **Module**: `backend-spatial` / `sos`
+- **Details**:
+  - Implemented `src/modules/sos/sos.types.ts` defining `SOSEntity`, `TriggerSOSInput`, `SOSMatchResult`, `ParsedSMSPayload`, and `SMSDispatchResult`.
+  - Implemented `src/modules/sos/sos.matcher.ts` with `matchVolunteers` coordinating with `volunteerService.findNearbyVolunteers` to identify nearest verified on-duty responders within 5km, computing estimated response ETAs ($\text{round}(\text{dist}/4\text{ m/s}) + 60\text{s}$), and gracefully handling empty sectors without errors.
+  - Implemented `src/modules/sos/sos.sms.ts` with `encodeSOSPayload` (producing compact $<60$-char telemetry string `SOS|LAT:...|LNG:...|BAT:...|UID:...`), `parseSOSPayload` (with case-insensitive parsing, whitespace normalization, and coordinate/battery boundary checks), and `sendSOSviaSMS` (multi-mode support for simulation and live Twilio).
+  - Authored comprehensive test suite in `tests/sos.matcher-sms.test.ts` (15/15 tests passing), bringing total passing test suite across `backend-spatial` to 175/175 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-9a-sos-matcher-sms.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/sos/sos.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.types.ts)
+  - [`backend-spatial/src/modules/sos/sos.matcher.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.matcher.ts)
+  - [`backend-spatial/src/modules/sos/sos.sms.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.sms.ts)
+  - [`backend-spatial/tests/sos.matcher-sms.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/sos.matcher-sms.test.ts)
+  - [`backend-spatial/docs/step-4-9a-sos-matcher-sms.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-9a-sos-matcher-sms.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.7b: Geofence Validation, Controller & REST Routes
 - **Module**: `backend-spatial` / `geofence`
 - **Details**:
