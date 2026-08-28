@@ -93,13 +93,13 @@ Every single module depends on PostgreSQL and Redis. Setting these up first with
 
 ### 1.2 - Configure Environment Files
 
-- [ ] Copy all .env.example files to .env in each module:
+- [x] Copy all .env.example files to .env in each module:
       cp ml-risk-engine/.env.example ml-risk-engine/.env
       cp backend-spatial/.env.example backend-spatial/.env
       cp mobile-app/.env.example mobile-app/.env
       cp admin-dashboard/.env.example admin-dashboard/.env
-- [ ] Verify all four .env files are in .gitignore.
-- [ ] Add a root .env.example documenting every required secret across all modules.
+- [x] Verify all four .env files are in .gitignore.
+- [x] Add a root .env.example documenting every required secret across all modules.
 
 ### 1.3 - Set Up External Accounts (Free Tiers)
 

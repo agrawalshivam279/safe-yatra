@@ -102,6 +102,24 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-28] — Step 1.1: Infrastructure Layer & Environment Configuration
+- **Module**: `infra` / `cross-module`
+- **Details**:
+  - Authored master `.env.example` catalog at root defining all DB, Redis, JWT, ML engine, Mapbox, and messaging keys.
+  - Provisioned module-specific `.env.example` templates for `backend-spatial`, `ml-risk-engine`, `admin-dashboard`, and `mobile-app`.
+  - Updated `.gitignore` with strict `.env*` exclusion patterns while preserving all `.env.example` templates.
+  - Authored technical specification in `docs/specs/step-1-1-infra-env-setup.md`.
+- **Key Files Created / Updated**:
+  - [`.env.example`](file:///d:/SIH%202026/.env.example)
+  - [`backend-spatial/.env.example`](file:///d:/SIH%202026/backend-spatial/.env.example)
+  - [`ml-risk-engine/.env.example`](file:///d:/SIH%202026/ml-risk-engine/.env.example)
+  - [`admin-dashboard/.env.example`](file:///d:/SIH%202026/admin-dashboard/.env.example)
+  - [`mobile-app/.env.example`](file:///d:/SIH%202026/mobile-app/.env.example)
+  - [`.gitignore`](file:///d:/SIH%202026/.gitignore)
+  - [`docs/specs/step-1-1-infra-env-setup.md`](file:///d:/SIH%202026/docs/specs/step-1-1-infra-env-setup.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-28] — Step 0.3: Monorepo Code Quality & Workspace Tooling
 - **Module**: `infra` / `workspace`
 - **Details**:
