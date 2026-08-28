@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.6a: Core FastAPI Scoring Routers & Orchestration
+- **Module**: `ml-risk-engine` / `api` & `routes`
+- **Details**:
+  - Implemented `app/routes/score.py` scoring router with `_evaluate_point_danger` orchestrator integrating `weather_service`, `terrain_service`, `crowd_service`, and `incident_service` with composite aggregator.
+  - Implemented `POST /api/v1/score` for single coordinate danger scoring and factor breakdowns.
+  - Implemented `POST /api/v1/score/batch` for concurrent batch processing of up to 100 points with hierarchical simulation override inheritance.
+  - Implemented `POST /api/v1/score/zone/{zone_id}` resolving precomputed pilot zone profiles from `data/terrain_profiles.json` with 404 error handling for unknown zones.
+  - Implemented `GET /api/v1/score/explain/{zone_id}` generating plain-English safety telemetry briefings and context-aware safety advisory recommendations.
+  - Mounted `score_router` in `app/main.py` under the `/api/v1` prefix.
+  - Configured `pyproject.toml` with Ruff linter settings and Pytest configuration.
+  - Authored dynamic unit and integration test suite in `tests/test_score_router.py` (9/9 tests passing), bringing total passing test suite across ML Risk Engine to 73/73 tests.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-6a-fastapi-scoring-routes.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/app/routes/score.py`](file:///d:/SIH%202026/ml-risk-engine/app/routes/score.py)
+  - [`ml-risk-engine/app/routes/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/routes/__init__.py)
+  - [`ml-risk-engine/app/main.py`](file:///d:/SIH%202026/ml-risk-engine/app/main.py)
+  - [`ml-risk-engine/pyproject.toml`](file:///d:/SIH%202026/ml-risk-engine/pyproject.toml)
+  - [`ml-risk-engine/tests/test_score_router.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_score_router.py)
+  - [`ml-risk-engine/docs/step-3-6a-fastapi-scoring-routes.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-6a-fastapi-scoring-routes.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.5b: Crowd Estimation & Incident Database Data Services
 - **Module**: `ml-risk-engine` / `services`
 - **Details**:

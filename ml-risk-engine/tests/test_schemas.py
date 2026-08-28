@@ -3,7 +3,8 @@ Unit tests for ML Risk Engine Pydantic Schemas.
 Tests request validation, simulation overrides, response envelopes, and boundary conditions.
 """
 
-from datetime import datetime, timezone
+from datetime import datetime
+
 import pytest
 from pydantic import ValidationError
 

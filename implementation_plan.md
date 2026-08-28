@@ -240,16 +240,23 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
 - [x] crowd_service.py: Diurnal tourist footfall curve (hour-of-day IST peak curves + weekend multipliers) and pilot site baseline capacity profiles (100% line coverage).
 - [x] incident_service.py: Query historical incidents from data/historical_incidents.csv with Haversine spatial proximity filtering (2.0km) and recency decay (100% line coverage).
 
-### 3.6 - Wire Up FastAPI Routers
+### 3.6a - Wire Up Core FastAPI Scoring Routers
 
-- [ ] Create app/routes/score.py:
+- [x] Create app/routes/score.py:
       POST /api/v1/score -- calls all services, aggregator, returns ScoreResponse
-      POST /api/v1/score/batch -- loops over list of coordinates
-      GET  /api/v1/score/explain/{zone_id} -- returns detailed breakdown
+      POST /api/v1/score/batch -- loops over list of coordinates concurrently
+      POST /api/v1/score/zone/{zone_id} -- resolves precomputed zone and computes score
+      GET  /api/v1/score/explain/{zone_id} -- returns detailed breakdown & recommendations
+- [x] Mount score_router in app/main.py under /api/v1 prefix.
+- [x] Author comprehensive unit & integration tests in tests/test_score_router.py (9/9 tests passing).
+
+### 3.6b - Implement Simulation & Scenario Execution Routers
+
 - [ ] Create app/routes/simulation.py:
       POST /api/v1/simulate/override -- accepts SimulationOverrides, bypasses real API calls
-      POST /api/v1/simulate/run/{scenario} -- loads JSON from data/scenarios/
-- [ ] Mount both routers in app/main.py.
+      GET  /api/v1/simulate/scenarios -- lists available test scenarios
+      POST /api/v1/simulate/run/{scenario} -- loads JSON from data/scenarios/ and returns simulated scores
+- [ ] Mount simulation_router in app/main.py under /api/v1 prefix.
 
 ### 3.7 - Write Scenario Test Files
 

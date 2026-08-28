@@ -4,7 +4,6 @@ Unit tests for CrowdService, diurnal footfall curves, weekend surges, and manual
 
 import asyncio
 from datetime import datetime, timezone
-import pytest
 
 from app.services.crowd_service import (
     CrowdData,

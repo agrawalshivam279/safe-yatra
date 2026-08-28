@@ -4,7 +4,6 @@ Validates incident severity weighting, distance attenuation, recency time-decay,
 saturation limits, and FactorDetail schema compliance.
 """
 
-import pytest
 from app.models.historical_model import HISTORICAL_WEIGHT, compute_historical_risk
 from app.schemas.response import FactorDetail
 

@@ -4,9 +4,8 @@ Validates Fruin Level of Service (LoS) calculations, stampede threshold triggers
 event surge multipliers, and FactorDetail schema compliance.
 """
 
-import pytest
+from app.models import HISTORICAL_WEIGHT, TERRAIN_WEIGHT, WEATHER_WEIGHT
 from app.models.crowd_model import CROWD_WEIGHT, compute_crowd_risk
-from app.models import WEATHER_WEIGHT, TERRAIN_WEIGHT, HISTORICAL_WEIGHT
 from app.schemas.response import FactorDetail
 
 

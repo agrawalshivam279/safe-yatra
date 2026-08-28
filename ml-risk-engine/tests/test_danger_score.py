@@ -4,7 +4,6 @@ Validates linear convex combination, exact tier boundary transitions,
 justification formatting, and context-aware recommendation synthesis.
 """
 
-import pytest
 from app.models.danger_score import (
     build_justification,
     compute_danger_score,

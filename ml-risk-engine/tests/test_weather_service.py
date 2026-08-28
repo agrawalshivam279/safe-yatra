@@ -4,8 +4,8 @@ Unit tests for WeatherService, OpenWeatherMap payload parsing, caching, and fall
 
 import asyncio
 import time
+
 import httpx
-import pytest
 
 from app.services.weather_service import WeatherData, WeatherService
 
