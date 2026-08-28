@@ -45,6 +45,10 @@ sequenceDiagram
 2. **Targeted Execution**: Run ONLY the test file authored for the target feature. Do not run unrelated full test suites to conserve time and isolate failures.
 3. **Zero In-Flight Code Mutation**: Neither subagent is permitted to alter application source code during the testing pipeline. They report findings and provide an actionable fix prompt.
 4. **Spec-Driven Over Implementation-Driven**: `test_writer` writes tests based on what the specifications in [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) and [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) require, not merely copying existing implementation quirks.
+5. **Spatial Coordinate Invariant Testing Rule**: Always assert coordinate ordering explicitly:
+   - **Mobile / REST / GPS UI**: `[latitude, longitude]` or `{ lat, lng }`
+   - **GeoJSON / PostGIS / Turf.js**: `[longitude, latitude]` (e.g., `ST_MakePoint(lng, lat)` / `ST_SetSRID(ST_Point(lng, lat), 4326)`)
+   - Tests MUST assert that spatial converters and adapters correctly transform between client `(lat, lng)` and GIS `(lng, lat)` without inverted-axis regressions.
 
 ---
 
@@ -59,6 +63,38 @@ sequenceDiagram
 
 ---
 
+## 🧰 Multi-Framework Testing & Mocking Catalog
+
+To guarantee reliable, hermetic test execution across all four decoupled modules, `test_writer` and `test_runner` must adopt the standardized testing and mocking fixtures:
+
+### 1. Python / FastAPI (`ml-risk-engine`)
+- **Async Test Harness**: Use `pytest-asyncio` with `@pytest.mark.asyncio`.
+- **In-Memory ASGI Client**: Use `httpx.AsyncClient(transport=ASGITransport(app=app), base_url="http://test")` for zero-port HTTP integration tests.
+- **External API Mocking**: Use `respx` to intercept and mock third-party meteorological and topographical calls:
+  - Mock OpenWeatherMap (`https://api.openweathermap.org/data/2.5/weather`) for rainfall, wind, and forecast conditions.
+  - Mock OpenTopoData / SRTM endpoints for elevation and slope queries.
+  - Assert graceful fallback behavior when `respx` simulates HTTP 500 or timeout exceptions (`httpx.TimeoutException`).
+
+### 2. Node.js / Express / PostGIS (`backend-spatial`)
+- **HTTP Endpoint Assertions**: Use `supertest` for REST API route and middleware validation (JWT auth, role guards, Zod error envelopes).
+- **Redis Mocking**: Use `ioredis-mock` to mock Redis caching, token blacklists, and Pub/Sub channels without requiring a running Redis daemon.
+- **WebSocket Event Testing**: Use `socket.io-client` test client connected to the HTTP server instance to test real-time room joining and broadcast events (`zone:{id}`, `sos:{id}`, `admin`).
+- **PostGIS Spatial Mock Fixtures**: Provide deterministic geo-fixtures for spatial queries (`ST_DWithin`, `ST_Contains`, `ST_Centroid`) and verify distance calculations with spherical meters.
+
+### 3. React Native / Expo (`mobile-app`)
+- **Native Module Mocking**: Configure Jest with comprehensive mocks to prevent native TurboModule crashes in headless Node environments:
+  - `expo-location`: Mock `requestForegroundPermissionsAsync`, `requestBackgroundPermissionsAsync`, `getCurrentPositionAsync`, and `watchPositionAsync` with mock GPS coordinate streams.
+  - `expo-av`: Mock `Audio.Recording` lifecycle (`prepareToRecordAsync`, `startAsync`, `stopAndUnloadAsync`, `getURI`).
+  - `expo-sms`: Mock `SMS.isAvailableAsync` and `SMS.sendSMSAsync` for offline SOS fallback verification.
+  - `expo-notifications`: Mock `scheduleNotificationAsync` and push token retrieval.
+  - `react-native-maps`: Mock `MapView`, `Polygon`, `Marker`, and `Circle` components to render testable tree representations without native map tiles.
+
+### 4. Next.js 14 / App Router (`admin-dashboard`)
+- **Map & Canvas Mocks**: Mock Mapbox GL JS (`mapboxgl.Map`) and Leaflet (`L.map`) canvas/WebGL contexts to prevent headless JSDOM rendering errors.
+- **TanStack Query Wrapper**: Wrap test components in a test `QueryClientProvider` instantiated with `{ defaultOptions: { queries: { retry: false, gcTime: 0 } } }` to eliminate unhandled asynchronous state polling.
+
+---
+
 ## 📋 Execution Procedure
 
 ### Step 1 — Authoring Tests (`test_writer`)
@@ -70,6 +106,7 @@ Invoke `test_writer` with:
   - Valid standard inputs (Happy paths)
   - Edge cases (Extreme coordinates, zero values, boundary limits)
   - Validation failures (Missing fields, invalid data types)
+  - Spatial coordinate format invariants (`[lat, lng]` client vs `[lng, lat]` GIS)
   - External API error handling (Weather API timeout fallback)
   - Authentication/Authorization guards (401/403 responses)
 
@@ -95,6 +132,7 @@ Invoke `test_runner` with:
 - **Key Test Cases Covered**:
   - `test_standard_flow`: Validates successful calculation under normal conditions.
   - `test_boundary_conditions`: Asserts behavior when inputs hit upper/lower bounds.
+  - `test_spatial_coordinate_order`: Asserts client (lat, lng) correctly maps to PostGIS (lng, lat).
   - `test_service_fallback`: Verifies fallback to cache when external API returns 500.
 
 ---
@@ -124,7 +162,7 @@ Invoke `test_runner` with:
 > ```text
 > Fix the failing tests in [Feature Name]:
 > 1. In [weather_service.py:L48], wrap the httpx GET call in a try/except block for httpx.TimeoutException and return cached_weather_score.
-> 2. Re-run `pytest tests/test_weather_service.py` to confirm all 6 assertions pass.
+> 2. Re-run `pytest tests/test_weather_service.py` to confirm all assertions pass.
 > ```
 ```
 
