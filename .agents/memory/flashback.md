@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.3a: Weather & Terrain Risk Sub-Models
+- **Module**: `ml-risk-engine` / `models`
+- **Details**:
+  - Implemented `app/models/weather_model.py` with meteorological normalization function `compute_weather_risk(precipitation_mm, wind_speed_kmh, visibility_meters)` ($0–100$, weight: $0.35$).
+  - Implemented `app/models/terrain_model.py` with topographical hazard normalization function `compute_terrain_risk(slope_degrees, water_proximity_meters, elevation_meters)` ($0–100$, weight: $0.20$).
+  - Built automatic human-readable telemetry justification generators for torrential rain, gale winds, low visibility fog, cliff inclines, water edge proximity, and high altitude terrain.
+  - Re-exported functions and weight constants in `app/models/__init__.py`.
+  - Authored dynamic unit test suites in `tests/test_weather_model.py` (5/5 tests) and `tests/test_terrain_model.py` (5/5 tests), bringing total passing tests to 24/24.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-3a-weather-terrain-models.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/app/models/weather_model.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/weather_model.py)
+  - [`ml-risk-engine/app/models/terrain_model.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/terrain_model.py)
+  - [`ml-risk-engine/app/models/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/models/__init__.py)
+  - [`ml-risk-engine/tests/test_weather_model.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_weather_model.py)
+  - [`ml-risk-engine/tests/test_terrain_model.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_terrain_model.py)
+  - [`ml-risk-engine/docs/step-3-3a-weather-terrain-models.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-3a-weather-terrain-models.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.2: ML Risk Engine Pydantic Schemas & API Contract
 - **Module**: `ml-risk-engine` / `api`
 - **Details**:
