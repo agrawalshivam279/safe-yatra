@@ -29,6 +29,43 @@ export interface SOSEntity {
   updatedAt: Date;
 }
 
+export interface SOSTimelineEntity {
+  id: string;
+  sosEventId: string;
+  event: string;
+  details?: string | null;
+  timestamp: Date;
+}
+
+export interface SOSResponseEntity {
+  id: string;
+  sosEventId: string;
+  volunteerId: string;
+  status: string;
+  acceptedAt?: Date | null;
+  arrivedAt?: Date | null;
+  currentLat?: number | null;
+  currentLng?: number | null;
+  etaSeconds?: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  volunteer?: {
+    id: string;
+    name: string;
+    phone: string;
+  };
+}
+
+export interface SOSDetailEntity extends SOSEntity {
+  user?: {
+    id: string;
+    name: string;
+    phone: string;
+  };
+  responses: SOSResponseEntity[];
+  timeline: SOSTimelineEntity[];
+}
+
 export interface TriggerSOSInput {
   userId: string;
   lat: number;
@@ -38,11 +75,33 @@ export interface TriggerSOSInput {
   audioUrl?: string;
 }
 
+export interface TriggerSOSResult {
+  sosEvent: SOSEntity;
+  matchResult: SOSMatchResult;
+}
+
 export interface SOSMatchResult {
   volunteerCount: number;
   volunteers: NearbyVolunteerResult[];
   nearestVolunteer?: NearbyVolunteerResult;
   nearestEtaSeconds?: number;
+}
+
+export interface AcceptSOSInput {
+  sosId: string;
+  volunteerId: string;
+}
+
+export interface ResolveSOSInput {
+  sosId: string;
+  resolvedByUserId?: string;
+  resolutionNotes?: string;
+}
+
+export interface CancelSOSInput {
+  sosId: string;
+  userId: string;
+  reason?: string;
 }
 
 export interface ParsedSMSPayload {

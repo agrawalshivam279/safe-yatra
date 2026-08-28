@@ -102,6 +102,22 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.9b: SOS Emergency Service & State Transitions
+- **Module**: `backend-spatial` / `sos`
+- **Details**:
+  - Enriched `src/modules/sos/sos.types.ts` with `SOSDetailEntity`, `SOSResponseEntity`, `SOSTimelineEntity`, `TriggerSOSResult`, `AcceptSOSInput`, and `ResolveSOSInput`.
+  - Implemented `src/modules/sos/sos.service.ts` with `triggerSOS` (inserting PostGIS Point, capturing danger score snapshot, logging `TRIGGERED` in `SOSTimeline`, invoking `sosMatcher.matchVolunteers`, escalating to `VOLUNTEER_ALERTED`, and creating initial `SOSResponse` records).
+  - Implemented `acceptSOS` (guarding against double-acceptance with 409 conflict, transitioning event to `VOLUNTEER_ACCEPTED`, and incrementing volunteer stats), `arriveSOS` (transitioning to `VOLUNTEER_ARRIVED`), `resolveSOS` (setting `resolvedAt` timestamp and `RESOLVED` state), `cancelSOS` (setting `cancelledAt` timestamp and `CANCELLED` state), `getSOSById`, and `getActiveSOSEvents`.
+  - Authored comprehensive test suite in `tests/sos.service.test.ts` (13/13 tests passing), bringing total passing test suite across `backend-spatial` to 188/188 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-9b-sos-service-transitions.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/sos/sos.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.types.ts)
+  - [`backend-spatial/src/modules/sos/sos.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/sos/sos.service.ts)
+  - [`backend-spatial/tests/sos.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/sos.service.test.ts)
+  - [`backend-spatial/docs/step-4-9b-sos-service-transitions.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-9b-sos-service-transitions.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.9a: SOS Proximity Matcher & SMS Gateway
 - **Module**: `backend-spatial` / `sos`
 - **Details**:

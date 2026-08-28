@@ -399,8 +399,8 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.9b - SOS Emergency Service & State Transitions
 
-- [ ] sos.service.ts: triggerSOS (creates SOSEvent, logs TRIGGERED, matches volunteers, alerts responders), acceptSOS (updates SOSResponse to ACCEPTED, logs VOLUNTEER_ACCEPTED), arriveSOS, resolveSOS (marks RESOLVED, updates timestamps), cancelSOS
-- [ ] Author comprehensive unit test suite in tests/sos.service.test.ts
+- [x] sos.service.ts: triggerSOS (creates SOSEvent, logs TRIGGERED, matches volunteers, alerts responders), acceptSOS (updates SOSResponse to ACCEPTED, logs VOLUNTEER_ACCEPTED), arriveSOS, resolveSOS (marks RESOLVED, updates timestamps), cancelSOS, getSOSById, getActiveSOSEvents
+- [x] Author comprehensive unit test suite in tests/sos.service.test.ts (13/13 tests passing)
 
 ### 4.9c - SOS Validation, Controller & REST Routes
 
