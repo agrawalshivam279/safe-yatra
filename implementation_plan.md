@@ -307,25 +307,18 @@ Build backend before frontend. Every mobile screen and dashboard component maps 
 - [x] Create src/config/redis.ts -- ioredis client singleton.
 - [x] Author comprehensive unit test suite in tests/config.test.ts (9/9 tests passing).
 
-### 4.2 - Global Middleware Stack
+### 4.2 - Global Middleware Stack & Response Envelopes
 
 Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
-- [ ] helmet() -- security headers
-- [ ] cors() -- restrict origins in production
-- [ ] morgan('dev') -- request logging
-- [ ] express.json() -- body parsing
-- [ ] rateLimiter.ts -- express-rate-limit, 100 req/15min default
-- [ ] errorHandler.ts -- catches all thrown errors, returns standard error envelope
-
-### 4.3 - Standard Response Helper (Do This FIRST)
-
-- [ ] Create src/utils/response.ts:
-      export const ok = (res, data, meta?) => res.json({ success: true, data, error: null, meta });
-      export const fail = (res, code, message, status = 400) =>
-        res.status(status).json({ success: false, data: null, error: { code, message } });
-- [ ] Use this in EVERY controller. Never call res.json() directly.
-      This is your API contract envelope -- every frontend call depends on this shape.
+- [x] helmet() -- security headers
+- [x] cors() -- restrict origins in production
+- [x] morgan('dev') -- request logging
+- [x] express.json() -- body parsing
+- [x] rateLimiter.ts -- express-rate-limit, 100 req/15min default
+- [x] errorHandler.ts -- catches all thrown errors, returns standard error envelope
+- [x] Create src/utils/response.ts with ok(), fail(), and AppError class
+- [x] Author comprehensive unit & integration test suite in tests/middleware.test.ts (11/11 tests passing)
 
 ### 4.4 - Auth Module
 

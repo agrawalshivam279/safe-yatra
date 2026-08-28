@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Express.js application entry point.
+ * Express.js application entry point & HTTP pipeline configuration.
  */
 
 import express from 'express';
@@ -9,9 +9,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { env } from './config/env';
+import { ok, fail } from './utils/response';
+import { rateLimiter } from './middleware/rateLimiter';
+import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 const httpServer = createServer(app);
@@ -24,25 +25,28 @@ const io = new SocketIOServer(httpServer, {
   },
 });
 
-// Middleware
+// Global Security & Logging Middleware
 app.use(helmet());
 app.use(cors());
-app.use(morgan('dev'));
+if (env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(rateLimiter);
 
-// Health check
+// Health check endpoint (Complies with standard ok() envelope)
 app.get('/health', (_req, res) => {
-  res.json({
+  return ok(res, {
     status: 'healthy',
     service: 'backend-spatial',
     version: '1.0.0',
-    simulation_mode: process.env.SIMULATION_MODE === 'true',
+    simulation_mode: env.SIMULATION_MODE,
     timestamp: new Date().toISOString(),
   });
 });
 
-// TODO: Import and mount route modules
+// TODO: Import and mount feature route modules
 // app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1/danger', dangerRoutes);
 // app.use('/api/v1/sos', sosRoutes);
@@ -51,12 +55,24 @@ app.get('/health', (_req, res) => {
 // app.use('/api/v1/admin', adminRoutes);
 // app.use('/api/v1/sim', simulationRoutes);
 
+// Catch-all 404 handler for undefined routes
+app.use((_req, res) => {
+  return fail(res, 'NOT_FOUND', 'The requested resource was not found', 404);
+});
+
+// Global Error Handling Middleware
+app.use(errorHandler);
+
 // WebSocket connection handler
 io.on('connection', (socket) => {
-  console.log(`[WS] Client connected: ${socket.id}`);
+  if (env.NODE_ENV !== 'test') {
+    console.log(`[WS] Client connected: ${socket.id}`);
+  }
 
   socket.on('disconnect', () => {
-    console.log(`[WS] Client disconnected: ${socket.id}`);
+    if (env.NODE_ENV !== 'test') {
+      console.log(`[WS] Client disconnected: ${socket.id}`);
+    }
   });
 
   // TODO: Register event handlers
@@ -65,12 +81,14 @@ io.on('connection', (socket) => {
   // registerDangerHandlers(io, socket);
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
-httpServer.listen(PORT, () => {
-  console.log(`🚀 Safe Yatra Backend running on port ${PORT}`);
-  console.log(`📡 WebSocket server ready`);
-  console.log(`📋 Simulation mode: ${process.env.SIMULATION_MODE === 'true' ? 'ON' : 'OFF'}`);
-});
+// Start HTTP server only if not running under automated tests
+if (env.NODE_ENV !== 'test') {
+  const PORT = env.PORT;
+  httpServer.listen(PORT, () => {
+    console.log(`🚀 Safe Yatra Backend running on port ${PORT}`);
+    console.log(`📡 WebSocket server ready`);
+    console.log(`📋 Simulation mode: ${env.SIMULATION_MODE ? 'ON' : 'OFF'}`);
+  });
+}
 
-export { app, io };
+export { app, httpServer, io };
