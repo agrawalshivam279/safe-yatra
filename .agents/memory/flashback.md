@@ -102,6 +102,21 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.5a: Zones Service & PostGIS Polygon Management
+- **Module**: `backend-spatial` / `zones`
+- **Details**:
+  - Implemented `src/modules/zones/zone.types.ts` with `GeoJSONPolygon`, `ZoneEntity`, `CreateZoneInput`, `UpdateZoneInput`, and `OverrideScoreInput`.
+  - Implemented `src/modules/zones/zone.service.ts` with `scoreToDangerTier` (0-25: `LOW`, 26-50: `MODERATE`, 51-75: `SEVERE`, 76-100: `CRITICAL`), `createZone` (with explicit GeoJSON Polygon `ST_GeomFromGeoJSON` and circular buffering `ST_Buffer(::geography)`), `getAllZones` (deserializing GeoJSON with `ST_AsGeoJSON` and computing centroids with `ST_Centroid`), `getZoneById`, `overrideScore` (manual admin override with audit justification), `updateZone`, and `deleteZone`.
+  - Authored comprehensive test suite in `tests/zone.service.test.ts` (10/10 tests passing), bringing total passing test suite across `backend-spatial` to 97/97 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-5a-zones-service.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/zones/zone.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/zones/zone.types.ts)
+  - [`backend-spatial/src/modules/zones/zone.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/zones/zone.service.ts)
+  - [`backend-spatial/tests/zone.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/zone.service.test.ts)
+  - [`backend-spatial/docs/step-4-5a-zones-service.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-5a-zones-service.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.4b: User & Volunteer Routes & Proximity Controllers
 - **Module**: `backend-spatial` / `user` & `volunteer`
 - **Details**:
