@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 3.6b: Simulation & Scenario Execution Routers
+- **Module**: `ml-risk-engine` / `simulation` & `routes`
+- **Details**:
+  - Implemented `app/routes/simulation.py` with `POST /api/v1/simulate/override`, `GET /api/v1/simulate/scenarios`, and `POST /api/v1/simulate/run/{scenario}` endpoints.
+  - Created 4 precomputed disaster scenario fixtures in `data/scenarios/`: `flash_flood.json` (Bhushi Dam, `CRITICAL`), `stampede_risk.json` (Karla Caves, `SEVERE`), `landslide.json` (Rajmachi Fort, `SEVERE`), and `all_clear.json` (Khandala Ghat, `LOW`).
+  - Supported dynamic scenario file discovery via `glob("*.json")` and runtime override parameter merging.
+  - Re-exported `simulation_router` in `app/routes/__init__.py` and mounted it under `/api/v1/simulate` in `app/main.py`.
+  - Authored dynamic unit and integration test suite in `tests/test_simulation_router.py` (8/8 tests passing), bringing total passing test suite across ML Risk Engine to 81/81 tests.
+  - Authored technical specification in `ml-risk-engine/docs/step-3-6b-simulation-router.md`.
+- **Key Files Created / Updated**:
+  - [`ml-risk-engine/data/scenarios/flash_flood.json`](file:///d:/SIH%202026/ml-risk-engine/data/scenarios/flash_flood.json)
+  - [`ml-risk-engine/data/scenarios/stampede_risk.json`](file:///d:/SIH%202026/ml-risk-engine/data/scenarios/stampede_risk.json)
+  - [`ml-risk-engine/data/scenarios/landslide.json`](file:///d:/SIH%202026/ml-risk-engine/data/scenarios/landslide.json)
+  - [`ml-risk-engine/data/scenarios/all_clear.json`](file:///d:/SIH%202026/ml-risk-engine/data/scenarios/all_clear.json)
+  - [`ml-risk-engine/app/routes/simulation.py`](file:///d:/SIH%202026/ml-risk-engine/app/routes/simulation.py)
+  - [`ml-risk-engine/app/routes/__init__.py`](file:///d:/SIH%202026/ml-risk-engine/app/routes/__init__.py)
+  - [`ml-risk-engine/app/main.py`](file:///d:/SIH%202026/ml-risk-engine/app/main.py)
+  - [`ml-risk-engine/tests/test_simulation_router.py`](file:///d:/SIH%202026/ml-risk-engine/tests/test_simulation_router.py)
+  - [`ml-risk-engine/docs/step-3-6b-simulation-router.md`](file:///d:/SIH%202026/ml-risk-engine/docs/step-3-6b-simulation-router.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 3.6a: Core FastAPI Scoring Routers & Orchestration
 - **Module**: `ml-risk-engine` / `api` & `routes`
 - **Details**:

@@ -1,0 +1,20 @@
+{
+  "slug": "landslide",
+  "name": "Steep Mountain Ridge Landslide Hazard",
+  "category": "TERRAIN",
+  "description": "Prolonged downpour on steep 75° mountain trail ridge causing soil saturation, rockfall danger, and trekking path collapse",
+  "site_id": "lonavala_rajmachi_fort",
+  "lat": 18.825,
+  "lng": 73.4,
+  "expected_tier": "SEVERE",
+  "simulation_overrides": {
+    "precipitation_mm": 220.0,
+    "wind_speed_kmh": 70.0,
+    "visibility_meters": 300.0,
+    "slope_degrees": 75.0,
+    "elevation_meters": 830.0,
+    "water_proximity_meters": 300.0,
+    "crowd_count": 2000,
+    "historical_incident_count": 5
+  }
+}

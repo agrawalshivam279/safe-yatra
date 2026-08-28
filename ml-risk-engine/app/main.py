@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routes.score import score_router
+from app.routes.simulation import simulation_router
 
 app = FastAPI(
     title="Safe Yatra ML Risk Engine",
@@ -39,3 +40,4 @@ async def health_check():
 
 # Include Routers
 app.include_router(score_router, prefix="/api/v1")
+app.include_router(simulation_router, prefix="/api/v1/simulate")

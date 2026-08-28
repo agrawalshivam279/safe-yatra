@@ -252,17 +252,19 @@ Build each as a pure Python function in app/models/ (no external HTTP calls yet)
 
 ### 3.6b - Implement Simulation & Scenario Execution Routers
 
-- [ ] Create app/routes/simulation.py:
+- [x] Create app/routes/simulation.py:
       POST /api/v1/simulate/override -- accepts SimulationOverrides, bypasses real API calls
       GET  /api/v1/simulate/scenarios -- lists available test scenarios
       POST /api/v1/simulate/run/{scenario} -- loads JSON from data/scenarios/ and returns simulated scores
-- [ ] Mount simulation_router in app/main.py under /api/v1 prefix.
+- [x] Mount simulation_router in app/main.py under /api/v1/simulate prefix.
+- [x] Author comprehensive unit & integration tests in tests/test_simulation_router.py (8/8 tests passing).
 
 ### 3.7 - Write Scenario Test Files
 
-- [ ] data/scenarios/flash_flood.json: precipitation_mm=250, water_proximity_meters=5 -- expect CRITICAL
-- [ ] data/scenarios/stampede_risk.json: crowd_count=8000, low weather -- expect SEVERE
-- [ ] data/scenarios/all_clear.json: all low values -- expect LOW
+- [x] data/scenarios/flash_flood.json: precipitation_mm=250, water_proximity_meters=5 -- CRITICAL tier
+- [x] data/scenarios/stampede_risk.json: crowd_count=12000, slope=45° -- SEVERE/CRITICAL tier
+- [x] data/scenarios/landslide.json: precipitation_mm=220, slope=75° -- SEVERE/CRITICAL tier
+- [x] data/scenarios/all_clear.json: all low baseline values -- LOW tier
 
 ### 3.8 - Test the ML Engine
 
