@@ -390,27 +390,24 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] Mount /api/v1/geofences in index.ts
 - [x] Author comprehensive integration test suite in tests/geofence.routes.test.ts (15/15 tests passing)
 
-### 4.9 - SOS Module (Most Critical)
+### 4.9a - SOS Proximity Matcher & SMS Gateway
 
-Build and test each layer individually before connecting them.
+- [x] sos.types.ts: SOSEntity, TriggerSOSInput, SOSMatchResult, ParsedSMSPayload, SMSDispatchResult
+- [x] sos.matcher.ts: matchVolunteers(sosLat, sosLng, radiusMeters, limit) calling findNearbyVolunteers() with 5km radius and ETA calculations
+- [x] sos.sms.ts: encodeSOSPayload, parseSOSPayload, sendSOSviaSMS (supporting simulated and Twilio dispatch)
+- [x] Author comprehensive unit test suite in tests/sos.matcher-sms.test.ts (15/15 tests passing)
 
-- [ ] sos.matcher.ts -- matchVolunteers(sosLat, sosLng):
-      Calls findNearbyVolunteers() with 5km radius
-      Returns sorted list with distance + ETA estimate
-- [ ] sos.sms.ts -- sendSOSviaSMS(phone, sosId, lat, lng):
-      Uses Twilio SMS. Toggle via env var for dev.
-- [ ] sos.service.ts -- triggerSOS(userId, lat, lng, battery, audioUrl):
-      1. Create SOSEvent record in DB
-      2. Log SOSTimeline entry: TRIGGERED
-      3. Call matchVolunteers -> get nearest volunteers
-      4. Emit WebSocket event sos:triggered to each volunteer
-      5. Send FCM push to each volunteer
-      6. Log SOSTimeline entry: VOLUNTEERS_ALERTED
-      7. Return { sosId, volunteersAlerted, nearestETA }
-- [ ] acceptSOS(sosId, volunteerId) -- update SOSResponse, emit sos:accepted to tourist
-- [ ] resolveSOS(sosId) -- mark resolved, emit sos:resolved to all parties
-- [ ] sos.routes.ts: POST /sos/trigger, PATCH /sos/:id/accept, PATCH /sos/:id/resolve, GET /sos/active, GET /sos/:id
-- [ ] TEST: Call POST /sos/trigger. Verify DB record created, volunteer matched, WS event emitted.
+### 4.9b - SOS Emergency Service & State Transitions
+
+- [ ] sos.service.ts: triggerSOS (creates SOSEvent, logs TRIGGERED, matches volunteers, alerts responders), acceptSOS (updates SOSResponse to ACCEPTED, logs VOLUNTEER_ACCEPTED), arriveSOS, resolveSOS (marks RESOLVED, updates timestamps), cancelSOS
+- [ ] Author comprehensive unit test suite in tests/sos.service.test.ts
+
+### 4.9c - SOS Validation, Controller & REST Routes
+
+- [ ] sos.validation.ts: triggerSOSSchema, acceptSOSSchema, resolveSOSSchema, smsSOSPayloadSchema
+- [ ] sos.controller.ts & sos.routes.ts: POST /sos/trigger, PATCH /sos/:id/accept, PATCH /sos/:id/resolve, GET /sos/active, GET /sos/:id, POST /sos/sms-webhook
+- [ ] Mount /api/v1/sos in index.ts
+- [ ] Author comprehensive integration test suite in tests/sos.routes.test.ts
 
 ### 4.10 - WebSocket Server
 
