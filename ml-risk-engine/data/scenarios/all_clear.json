@@ -1,0 +1,20 @@
+{
+  "slug": "all_clear",
+  "name": "Ideal Clear Weather & Safe Travel Conditions",
+  "category": "BASELINE",
+  "description": "Clear skies, mild temperature, gentle slope, and sparse tourist footfall",
+  "site_id": "lonavala_khandala_ghat",
+  "lat": 18.75,
+  "lng": 73.36,
+  "expected_tier": "LOW",
+  "simulation_overrides": {
+    "precipitation_mm": 0.0,
+    "wind_speed_kmh": 12.0,
+    "visibility_meters": 10000.0,
+    "slope_degrees": 10.0,
+    "elevation_meters": 550.0,
+    "water_proximity_meters": 200.0,
+    "crowd_count": 40,
+    "historical_incident_count": 0
+  }
+}

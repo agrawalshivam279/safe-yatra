@@ -1,0 +1,20 @@
+{
+  "slug": "flash_flood",
+  "name": "Flash Flood & Waterfall Basin Surge",
+  "category": "FLOOD",
+  "description": "Torrential monsoon downpour causing rapid water level rise, active spillway overflow, and high risk of drowning at waterfall basin",
+  "site_id": "lonavala_bhushi_dam",
+  "lat": 18.7546,
+  "lng": 73.4062,
+  "expected_tier": "CRITICAL",
+  "simulation_overrides": {
+    "precipitation_mm": 250.0,
+    "wind_speed_kmh": 80.0,
+    "visibility_meters": 200.0,
+    "slope_degrees": 60.0,
+    "water_proximity_meters": 5.0,
+    "elevation_meters": 610.0,
+    "crowd_count": 5500,
+    "historical_incident_count": 5
+  }
+}
