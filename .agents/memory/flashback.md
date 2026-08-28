@@ -102,6 +102,26 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.3b: Auth Controller, Middleware Guards & Routes
+- **Module**: `backend-spatial` / `auth` & `middleware`
+- **Details**:
+  - Implemented `src/middleware/auth.ts` with `authenticate` (validating Bearer JWT access tokens and enriching `req.user = { id, email, role }`) and `optionalAuthenticate`.
+  - Implemented `src/middleware/roleGuard.ts` with `requireRole(...roles)` higher-order RBAC middleware returning 403 `FORBIDDEN` on role mismatches.
+  - Implemented `src/modules/auth/auth.controller.ts` with `register` (201 `ok()`), `login` (200 `ok()`), `refresh` (200 `ok()`), and `getMe` (200 `ok()`).
+  - Implemented `src/modules/auth/auth.routes.ts` mounting public and protected auth endpoints under `/api/v1/auth` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/auth.routes.test.ts` (12/12 tests passing), bringing total passing test suite across `backend-spatial` to 66/66 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-3b-auth-controller-routes.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/middleware/auth.ts`](file:///d:/SIH%202026/backend-spatial/src/middleware/auth.ts)
+  - [`backend-spatial/src/middleware/roleGuard.ts`](file:///d:/SIH%202026/backend-spatial/src/middleware/roleGuard.ts)
+  - [`backend-spatial/src/modules/auth/auth.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/auth/auth.controller.ts)
+  - [`backend-spatial/src/modules/auth/auth.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/auth/auth.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/auth.routes.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/auth.routes.test.ts)
+  - [`backend-spatial/docs/step-4-3b-auth-controller-routes.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-3b-auth-controller-routes.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.3a: Auth Validation Schemas & Authentication Service
 - **Module**: `backend-spatial` / `auth`
 - **Details**:

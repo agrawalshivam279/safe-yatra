@@ -13,6 +13,7 @@ import { env } from './config/env';
 import { ok, fail } from './utils/response';
 import { rateLimiter } from './middleware/rateLimiter';
 import { errorHandler } from './middleware/errorHandler';
+import authRoutes from './modules/auth/auth.routes';
 
 const app = express();
 const httpServer = createServer(app);
@@ -46,8 +47,8 @@ app.get('/health', (_req, res) => {
   });
 });
 
-// TODO: Import and mount feature route modules
-// app.use('/api/v1/auth', authRoutes);
+// Mount Feature Routes
+app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1/danger', dangerRoutes);
 // app.use('/api/v1/sos', sosRoutes);
 // app.use('/api/v1/geofences', geofenceRoutes);

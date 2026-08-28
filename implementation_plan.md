@@ -329,11 +329,11 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.3b - Auth Controller, Middleware Guards & Routes
 
-- [ ] auth.middleware.ts: Extract Authorization: Bearer token header, verify JWT, attach req.user = { id, role } to the request
-- [ ] roleGuard.ts: Middleware factory requireRole('ADMIN', 'YAATRI_MITRA') -- returns 403 if role does not match
-- [ ] auth.controller.ts: register, login, refresh, getMe controller handlers with standard ok()/fail() response envelopes
-- [ ] auth.routes.ts: POST /register, POST /login, POST /refresh, GET /me mounted under /api/v1/auth
-- [ ] Author comprehensive integration test suite in tests/auth.routes.test.ts
+- [x] auth.middleware.ts: Extract Authorization: Bearer token header, verify JWT, attach req.user = { id, role } to the request
+- [x] roleGuard.ts: Middleware factory requireRole('ADMIN', 'YAATRI_MITRA') -- returns 403 if role does not match
+- [x] auth.controller.ts: register, login, refresh, getMe controller handlers with standard ok()/fail() response envelopes
+- [x] auth.routes.ts: POST /register, POST /login, POST /refresh, GET /me mounted under /api/v1/auth
+- [x] Author comprehensive integration test suite in tests/auth.routes.test.ts (12/12 tests passing)
 
 ### 4.5 - User and Volunteer Module
 
