@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Safe Yatra",
+    "slug": "safe-yatra",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "safeyatra",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a5276"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.safeyatra.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Safe Yatra needs your location to show nearby danger zones and enable SOS.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Safe Yatra needs background location to alert you when approaching danger zones.",
+        "NSMicrophoneUsageDescription": "Safe Yatra needs microphone access to record audio during SOS emergencies."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#1a5276"
+      },
+      "package": "com.safeyatra.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "RECORD_AUDIO",
+        "SEND_SMS",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-location",
+      "expo-notifications",
+      "expo-secure-store"
+    ]
+  }
+}
