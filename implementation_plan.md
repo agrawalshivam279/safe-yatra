@@ -378,10 +378,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.7a - Geofence Spatial Engine & Service
 
-- [ ] geofence.types.ts: GeofenceEntity, CreateGeofenceInput, UpdateGeofenceInput, GeofenceCheckResult
-- [ ] geofence.engine.ts: checkPointInGeofences (ST_Contains query, returns all matching geofences), findGeofencesNearPoint (ST_DWithin with 500m buffer for approaching alerts)
-- [ ] geofence.service.ts: CRUD for geofences + wrap spatial engine functions
-- [ ] Author comprehensive unit test suite in tests/geofence.service.test.ts
+- [x] geofence.types.ts: GeofenceEntity, CreateGeofenceInput, UpdateGeofenceInput, GeofenceCheckResult, ProximityGeofence
+- [x] geofence.engine.ts: checkPointInGeofences (ST_Contains query, returns all matching geofences), findGeofencesNearPoint (ST_DWithin & ST_Distance with 500m buffer on ::geography for approaching alerts), evaluateLocation
+- [x] geofence.service.ts: CRUD for geofences (GeoJSON polygon & circular buffer) + wrap spatial engine functions
+- [x] Author comprehensive unit test suite in tests/geofence.service.test.ts (22/22 tests passing)
 
 ### 4.7b - Geofence Validation, Controller & REST Routes
 
