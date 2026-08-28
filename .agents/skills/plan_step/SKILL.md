@@ -36,6 +36,15 @@ flowchart TD
 
 ---
 
+## 🛑 MANDATORY STOP GATE: Anti-Auto-Advance Rule
+> **CRITICAL RULE**: After `/plan_step` completes branch creation and specification authoring, the agent **MUST IMMEDIATELY STOP** and await explicit user approval.
+> **DO NOT** write application code.
+> **DO NOT** run `/verify_step`.
+> **DO NOT** run `/ship_step`.
+> The only exception is if the user explicitly launched `/auto_cycle`.
+
+---
+
 ## 🔒 Automated Execution Stages
 
 ### Stage 1: Reference Ingestion & Task Sizing (`next_step`)

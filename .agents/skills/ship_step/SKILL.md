@@ -33,6 +33,15 @@ flowchart TD
 
 ---
 
+## 🛑 MANDATORY STOP GATE: Anti-Auto-Advance Rule
+> **CRITICAL RULE**: After `/ship_step` completes squash-merge, local cleanup, and memory sync, the agent **MUST IMMEDIATELY STOP** and preview the next task in queue.
+> **DO NOT** execute `/plan_step` for the next task.
+> **DO NOT** create a new feature branch.
+> **DO NOT** start coding the next task.
+> Wait for the user to explicitly trigger `/plan_step` or instruct the next action. The only exception is `/auto_cycle`.
+
+---
+
 ## 🔒 Automated Execution Stages
 
 ### Stage 1: Living Memory & Plan Synchronization (`flashback`)

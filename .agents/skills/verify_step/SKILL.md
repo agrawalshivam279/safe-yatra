@@ -34,6 +34,16 @@ flowchart TD
 
 ---
 
+## 🛑 MANDATORY STOP GATE: Anti-Auto-Advance Rule
+> **CRITICAL RULE**: After `/verify_step` completes compiler checks, dynamic tests, and static code review, the agent **MUST IMMEDIATELY STOP** and present the Quality Gate Report.
+> **DO NOT** commit changes to git.
+> **DO NOT** push to GitHub.
+> **DO NOT** open a PR or merge into main.
+> **DO NOT** trigger `/ship_step` automatically.
+> Wait for the user to review and explicitly trigger `/ship_step`. The only exception is `/auto_cycle`.
+
+---
+
 ## 🔒 Automated Execution Stages
 
 ### Stage 0: Pre-flight Compiler & Type Gate (Instant Diagnostic)
