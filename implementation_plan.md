@@ -1,4 +1,4 @@
-﻿# SAFE YATRA - Step-by-Step Implementation Guide
+# SAFE YATRA - Step-by-Step Implementation Guide
 
 Purpose: A developer-facing, ordered guide for building Safe Yatra with minimal refactoring.
 Philosophy: Build from the inside out — infrastructure then data then API contracts then backend logic then frontend consumers.
@@ -62,11 +62,11 @@ Getting tooling right before writing a single line of business logic prevents 'w
 
 ### 0.3 - Code Quality Tooling
 
-- [ ] Create a root .editorconfig for consistent indentation across all editors.
-- [ ] Add Prettier config at root (prettier.config.js).
-- [ ] For the backend and dashboard: set up ESLint with @typescript-eslint.
-- [ ] For the ML engine: set up Ruff (fast Python linter): cd ml-risk-engine and pip install ruff
-- [ ] Add a root Makefile with shortcuts for: up, down, logs, db-reset, test-all
+- [x] Create a root .editorconfig for consistent indentation across all editors.
+- [x] Add Prettier config at root (prettier.config.js) and .prettierignore.
+- [x] For the backend and dashboard: set up ESLint with @typescript-eslint.
+- [x] For the ML engine: set up Ruff (fast Python linter): cd ml-risk-engine and pip install ruff
+- [x] Add a root Makefile with shortcuts for: up, down, logs, db-reset, test-all, lint, format-check
 
 ### Phase 0 Exit Criteria
 - docker-compose up -d runs without errors.
