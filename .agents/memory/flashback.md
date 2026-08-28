@@ -92,8 +92,8 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 | **Phase 0** | Developer Tooling & Monorepo Setup | Docker compose, module scaffolding, linting, git hooks | 🟢 Completed |
 | **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | 🟢 Completed |
 | **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | 🟡 In Progress |
-| **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | 🟡 In Progress |
-| **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | ⚪ Pending |
+| **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | 🟢 Completed |
+| **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | 🟡 In Progress |
 | **Phase 5** | Mobile App (Expo) | Dual-mode navigation, danger zone map overlays, one-touch SOS | ⚪ Pending |
 | **Phase 6** | Admin Dashboard (Next.js) | Command center, live SOS dispatch queue, danger heatmaps | ⚪ Pending |
 | **Phase 7** | Polish, End-to-End Simulation & Demo | Full SOS loop test, mock trajectory simulator, final SIH pitch deck | ⚪ Pending |
@@ -101,6 +101,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 ---
 
 ## 4. Chronological Activity & Change Log
+
+### [2026-08-29] — Step 4.1: Backend Spatial Configuration & Client Singletons (Env, Database, Redis)
+- **Module**: `backend-spatial` / `config`
+- **Details**:
+  - Implemented `src/config/env.ts` with strict Zod runtime environment variable validation (`envSchema`), integer coercion for `PORT`, boolean transform for `SIMULATION_MODE`, and minimum 32-character requirement for `JWT_SECRET`.
+  - Implemented `src/config/database.ts` with `globalThis` singleton caching for `PrismaClient` and dynamic logging levels based on `NODE_ENV`.
+  - Implemented `src/config/redis.ts` with `globalThis` singleton caching for `ioredis`, exponential backoff retry strategy, and `lazyConnect` in test environments.
+  - Authored comprehensive test suite in `tests/config.test.ts` (9/9 tests passing), bringing total passing test suite across `backend-spatial` to 25/25 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-1-backend-config-singletons.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/config/env.ts`](file:///d:/SIH%202026/backend-spatial/src/config/env.ts)
+  - [`backend-spatial/src/config/database.ts`](file:///d:/SIH%202026/backend-spatial/src/config/database.ts)
+  - [`backend-spatial/src/config/redis.ts`](file:///d:/SIH%202026/backend-spatial/src/config/redis.ts)
+  - [`backend-spatial/tests/config.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/config.test.ts)
+  - [`backend-spatial/docs/step-4-1-backend-config-singletons.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-1-backend-config-singletons.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
 
 ### [2026-08-29] — Step 3.6b: Simulation & Scenario Execution Routers
 - **Module**: `ml-risk-engine` / `simulation` & `routes`

@@ -293,7 +293,7 @@ Build backend before frontend. Every mobile screen and dashboard component maps 
 
   cd backend-spatial && npm install
 
-- [ ] Create src/config/env.ts -- typed env variable parser using zod:
+- [x] Create src/config/env.ts -- typed env variable parser using zod:
       const envSchema = z.object({
         PORT: z.coerce.number().default(3000),
         DATABASE_URL: z.string(),
@@ -303,8 +303,9 @@ Build backend before frontend. Every mobile screen and dashboard component maps 
       });
       export const env = envSchema.parse(process.env);
 
-- [ ] Create src/config/database.ts -- Prisma client singleton (instantiate once, reuse everywhere).
-- [ ] Create src/config/redis.ts -- ioredis client singleton.
+- [x] Create src/config/database.ts -- Prisma client singleton (instantiate once, reuse everywhere).
+- [x] Create src/config/redis.ts -- ioredis client singleton.
+- [x] Author comprehensive unit test suite in tests/config.test.ts (9/9 tests passing).
 
 ### 4.2 - Global Middleware Stack
 
