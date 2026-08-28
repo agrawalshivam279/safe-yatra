@@ -102,6 +102,22 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-28] — Step 2.3: Database Seed Data Script & PostGIS Spatial Fixtures
+- **Module**: `backend-spatial` / `data`
+- **Details**:
+  - Authored `backend-spatial/prisma/seed.ts` seeding 3 test users (`TOURIST`, `YAATRI_MITRA` on-duty verified, `ADMIN`) with bcrypt password hashes.
+  - Seeded 5 Lonavala pilgrimage & trekking zones (Bhushi Dam, Tiger Point, Karla Caves, Rajmachi Fort, Khandala Ghat) with SRID 4326 PostGIS polygon boundaries, danger scores (18–85), and justifications.
+  - Seeded 3 geofence boundaries (CRITICAL, SEVERE, LOW) and 10 historical incidents (drowning, landslide, fall, flood, stampede) with PostGIS Point coordinates.
+  - Seeded 2 broadcast alerts (active monsoon warning polygon and expired wind advisory).
+  - Authored comprehensive test suite in `tests/seed.test.ts` (11/11 tests passing) verifying WKT polygon closure, coordinate bounding boxes, and bcrypt password hashing.
+  - Authored technical specification in `backend-spatial/docs/step-2-3-database-seed-data.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/prisma/seed.ts`](file:///d:/SIH%202026/backend-spatial/prisma/seed.ts)
+  - [`backend-spatial/tests/seed.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/seed.test.ts)
+  - [`backend-spatial/docs/step-2-3-database-seed-data.md`](file:///d:/SIH%202026/backend-spatial/docs/step-2-3-database-seed-data.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-28] — Step 2.2: Prisma PostGIS Spatial Schema & Models
 - **Module**: `backend-spatial` / `data`
 - **Details**:
