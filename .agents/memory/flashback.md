@@ -90,8 +90,8 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 | Phase | Description | Target / Milestone | Status |
 | :--- | :--- | :--- | :--- |
 | **Phase 0** | Developer Tooling & Monorepo Setup | Docker compose, module scaffolding, linting, git hooks | 🟢 Completed |
-| **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | 🟡 Next Up |
-| **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | ⚪ Pending |
+| **Phase 1** | Infrastructure Layer | PostGIS + Redis containers verified, environment configs | 🟢 Completed |
+| **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | 🟡 In Progress |
 | **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | ⚪ Pending |
 | **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | ⚪ Pending |
 | **Phase 5** | Mobile App (Expo) | Dual-mode navigation, danger zone map overlays, one-touch SOS | ⚪ Pending |
@@ -101,6 +101,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 ---
 
 ## 4. Chronological Activity & Change Log
+
+### [2026-08-28] — Step 2.2: Prisma PostGIS Spatial Schema & Models
+- **Module**: `backend-spatial` / `data`
+- **Details**:
+  - Installed `backend-spatial` dependencies including `@prisma/client`, `prisma`, `ts-jest`, and `@turf/turf`.
+  - Defined all 10 core entity models (`User`, `VolunteerProfile`, `UserLocation`, `Zone`, `Geofence`, `SOSEvent`, `SOSResponse`, `SOSTimeline`, `Incident`, `BroadcastAlert`) with PostGIS geometry fields (`Point` & `Polygon`, SRID 4326).
+  - Defined 4 core state machine enums (`UserRole`, `VerificationStatus`, `DangerTier`, `SOSStatus`).
+  - Configured GiST spatial indexes on all geometry columns (`@@index([...], type: Gist)`).
+  - Configured `jest.config.js` and authored test suite in `tests/schema.test.ts` (5/5 tests passing).
+  - Authored technical specification in `backend-spatial/docs/step-2-2-prisma-postgis-schema.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/prisma/schema.prisma`](file:///d:/SIH%202026/backend-spatial/prisma/schema.prisma)
+  - [`backend-spatial/tests/schema.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/schema.test.ts)
+  - [`backend-spatial/jest.config.js`](file:///d:/SIH%202026/backend-spatial/jest.config.js)
+  - [`backend-spatial/docs/step-2-2-prisma-postgis-schema.md`](file:///d:/SIH%202026/backend-spatial/docs/step-2-2-prisma-postgis-schema.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
 
 ### [2026-08-28] — Step 1.1: Infrastructure Layer & Environment Configuration
 - **Module**: `infra` / `cross-module`
