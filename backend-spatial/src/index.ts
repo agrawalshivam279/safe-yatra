@@ -8,7 +8,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { createServer } from 'http';
-import { Server as SocketIOServer } from 'socket.io';
 import { env } from './config/env';
 import { ok, fail } from './utils/response';
 import { rateLimiter } from './middleware/rateLimiter';
@@ -20,17 +19,13 @@ import zoneRoutes from './modules/zones/zone.routes';
 import dangerRoutes from './modules/danger/danger.routes';
 import geofenceRoutes from './modules/geofence/geofence.routes';
 import sosRoutes from './modules/sos/sos.routes';
+import { initSocketServer } from './websocket/socketServer';
 
 const app = express();
 const httpServer = createServer(app);
 
 // Socket.IO setup
-const io = new SocketIOServer(httpServer, {
-  cors: {
-    origin: '*', // Restrict in production
-    methods: ['GET', 'POST'],
-  },
-});
+const io = initSocketServer(httpServer);
 
 // Global Security & Logging Middleware
 app.use(helmet());
