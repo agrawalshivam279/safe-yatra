@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.6a: Danger Score Proxy & Redis Cache Layer
+- **Module**: `backend-spatial` / `danger` & `cache`
+- **Details**:
+  - Implemented `src/modules/danger/danger.types.ts` with `FactorScore`, `DangerFactors`, `DangerScoreResult` (with source tier tracking: `OVERRIDE`, `CACHE`, `ML_ENGINE`, `FALLBACK`), and `PreTripBriefing`.
+  - Implemented `src/modules/danger/danger.cache.ts` with Redis key serialization (`danger:score:{zoneId}` & `danger:coords:{lat}:{lng}`), 300-second TTL, and fail-open resilience.
+  - Implemented `src/modules/danger/danger.service.ts` with `getScoreForCoordinates` orchestrating PostGIS nearest zone lookup, manual admin override priority, Redis cache checking, Python ML microservice proxy (`POST /api/v1/score` with 3000ms AbortSignal), and graceful fallback heuristics. Also implemented `getAllZoneScores` and `getSafetyBriefing`.
+  - Authored comprehensive test suite in `tests/danger.service.test.ts` (11/11 tests passing), bringing total passing test suite across `backend-spatial` to 117/117 tests.
+  - Authored technical specification in `backend-spatial/docs/step-4-6a-danger-proxy-cache.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/danger/danger.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.types.ts)
+  - [`backend-spatial/src/modules/danger/danger.cache.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.cache.ts)
+  - [`backend-spatial/src/modules/danger/danger.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.service.ts)
+  - [`backend-spatial/tests/danger.service.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/danger.service.test.ts)
+  - [`backend-spatial/docs/step-4-6a-danger-proxy-cache.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-6a-danger-proxy-cache.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.5b: Zones Validation, Controller & REST Routes
 - **Module**: `backend-spatial` / `zones`
 - **Details**:
