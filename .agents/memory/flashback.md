@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.8: Tourist Alerts Screen & Push Notification Service
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `services/notificationService.ts` providing push notification token registration (`registerForPushNotifications`) with `expo-notifications`, Android emergency alert notification channel setup, and persistent local alert history store (`getAlerts`, `addAlert`, `markAsRead`, `markAllAsRead`, `clearAlerts`).
+  - Implemented `components/alerts/AlertHistoryCard.tsx` rendering accessible alert cards with colorblind-safe severity tier badges (`CRITICAL`, `SEVERE`, `MODERATE`, `LOW`, `BROADCAST`, `SOS`), relative time formatting (`formatRelativeTime`), and unread indicator dot.
+  - Implemented `app/(tourist)/alerts.tsx` assembling category filter pills (`ALL`, `CRITICAL`, `SEVERE`, `BROADCAST`), keyword search bar, unread badge counter, "Read All" / "Clear" actions, pull-to-refresh, empty state, and expanded AI risk justification detail modal (`AlertDetailModal`).
+  - Authored comprehensive test suite in `__tests__/alerts-screen.test.tsx` (13/13 tests passing, bringing monorepo total to 418 passing tests across 3 modules).
+  - Authored technical specification in `mobile-app/docs/step-5-8-tourist-alerts-screen.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/services/notificationService.ts`](file:///d:/SIH%202026/mobile-app/services/notificationService.ts)
+  - [`mobile-app/components/alerts/AlertHistoryCard.tsx`](file:///d:/SIH%202026/mobile-app/components/alerts/AlertHistoryCard.tsx)
+  - [`mobile-app/app/(tourist)/alerts.tsx`](file:///d:/SIH%202026/mobile-app/app/%28tourist%29/alerts.tsx)
+  - [`mobile-app/__tests__/alerts-screen.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/alerts-screen.test.tsx)
+  - [`mobile-app/docs/step-5-8-tourist-alerts-screen.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-8-tourist-alerts-screen.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.7: Tourist SOS Screen, Countdown Panic Confirmation Modal, Status Tracker & Offline SMS Fallback
 - **Module**: `mobile-app`
 - **Details**:
