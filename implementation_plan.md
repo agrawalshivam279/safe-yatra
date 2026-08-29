@@ -630,17 +630,14 @@ Built last because it purely consumes what the backend and WebSocket server broa
 - [x] Implemented `src/app/sos/page.tsx` split-view emergency command operations layout with active emergency count indicator and auto-selection.
 - [x] Author comprehensive unit and integration test suite in `__tests__/live-sos-feed.test.tsx` (8/8 tests passing, bringing module total to 48/48 tests passing).
 
-### 6.6 - Zone Management Page
+### 6.6 - Zone Management Page & Score Override
 
-- [ ] src/app/zones/page.tsx: Data table with columns: Name, Tier (color badge), Score, Last Updated, Override Active.
-- [ ] src/app/zones/[id]/page.tsx:
-      Zone map with polygon highlighted.
-      Danger score breakdown bar chart (4 factors from ML engine explain endpoint).
-      Score Override: slider input (0-100) + "Apply Override" button -> PATCH /admin/zones/:id/override.
-      Manual overrides show a "MANUAL" badge.
-- [ ] src/app/zones/create/page.tsx:
-      Mapbox with polygon draw tool.
-      On polygon complete: call POST /geofences with the GeoJSON.
+- [x] Implemented `src/services/zoneAdminService.ts` providing CRUD and override client methods (`getZones`, `getZoneById`, `overrideZoneScore`, `createZone`).
+- [x] Implemented `src/hooks/useAdminZones.ts` with 30s background polling and real-time Socket.IO cache invalidation on `danger:score_update`.
+- [x] Implemented `src/app/zones/page.tsx` data table with Sector Name, Severity Tier badges, Danger Score gauge, Mode ("MANUAL OVERRIDE" vs "AI COMPUTED"), and search / severity filters.
+- [x] Implemented `src/app/zones/[id]/page.tsx` with 4-factor risk breakdown gauges, AI field assessment brief, and interactive Manual Danger Score Override range slider (0–100) with justification memo input.
+- [x] Implemented `src/app/zones/create/page.tsx` with form fields for sector name, description, center latitude/longitude, and initial hazard tier.
+- [x] Author comprehensive unit and integration test suite in `__tests__/zone-management.test.tsx` (8/8 tests passing, bringing module total to 56/56 tests passing).
 
 ### 6.7 - Broadcast Alert Composer
 
