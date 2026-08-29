@@ -102,6 +102,33 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.1 & 5.2: Mobile App Bootstrap, Secure API Client, Auth Context & Network Detection
+- **Module**: `mobile-app`
+- **Details**:
+  - Initialized and verified Expo SDK 51 dependencies in `mobile-app/package.json` (`expo-secure-store`, `expo-network`, `axios`, `react-native-maps`, `zustand`, `@types/jest`).
+  - Configured `tsconfig.json`, `babel.config.js`, and `jest.config.js` for TypeScript and Jest execution.
+  - Implemented `services/storage.ts` with hardware-backed SecureStore operations and typed helpers (`getAccessToken`, `setAccessToken`, `getRefreshToken`, `setRefreshToken`, `getUserRole`, `setUserRole`, `getUserData`, `setUserData`, `clearAuth`).
+  - Implemented `services/api.ts` with automated Bearer token injection and single-flight 401 token refresh mutex queue.
+  - Implemented `services/authService.ts` providing typed REST methods (`login`, `register`, `refreshToken`, `getMe`, `logout`) matching Backend Spatial envelope contracts.
+  - Implemented `context/AuthContext.tsx` and `useAuth()` custom hook providing session auto-restoration and dual-persona switching (`TOURIST` vs `YAATRI_MITRA`).
+  - Implemented `hooks/useNetworkStatus.ts` providing real-time online/offline connection state using `expo-network` for SMS panic fallback.
+  - Authored comprehensive test suite in `__tests__/auth-api-storage.test.ts` (8/8 tests passing, bringing monorepo total to 364 passing tests).
+  - Authored technical specification in `mobile-app/docs/step-5-1-mobile-bootstrap-auth.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/package.json`](file:///d:/SIH%202026/mobile-app/package.json)
+  - [`mobile-app/tsconfig.json`](file:///d:/SIH%202026/mobile-app/tsconfig.json)
+  - [`mobile-app/babel.config.js`](file:///d:/SIH%202026/mobile-app/babel.config.js)
+  - [`mobile-app/jest.config.js`](file:///d:/SIH%202026/mobile-app/jest.config.js)
+  - [`mobile-app/services/storage.ts`](file:///d:/SIH%202026/mobile-app/services/storage.ts)
+  - [`mobile-app/services/api.ts`](file:///d:/SIH%202026/mobile-app/services/api.ts)
+  - [`mobile-app/services/authService.ts`](file:///d:/SIH%202026/mobile-app/services/authService.ts)
+  - [`mobile-app/context/AuthContext.tsx`](file:///d:/SIH%202026/mobile-app/context/AuthContext.tsx)
+  - [`mobile-app/hooks/useNetworkStatus.ts`](file:///d:/SIH%202026/mobile-app/hooks/useNetworkStatus.ts)
+  - [`mobile-app/__tests__/auth-api-storage.test.ts`](file:///d:/SIH%202026/mobile-app/__tests__/auth-api-storage.test.ts)
+  - [`mobile-app/docs/step-5-1-mobile-bootstrap-auth.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-1-mobile-bootstrap-auth.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.13b: Admin Analytics & Privacy-Preserving Heatmap Aggregations
 - **Module**: `backend-spatial` / `admin`
 - **Details**:
