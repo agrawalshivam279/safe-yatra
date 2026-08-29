@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.5: Background Location Streaming & Real-Time Geofence Alerts
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `services/socketService.ts` establishing resilient Socket.IO client connectivity with automatic Bearer JWT header injection, reconnection retry management, and typed emitters (`location:update`) and listeners (`geofence:alert`, `sos:update`).
+  - Implemented `services/locationService.ts` requesting foreground and background permissions, and running periodic GPS telemetry tracking with `expo-location` streaming to WebSocket.
+  - Implemented `hooks/useGeofence.ts` managing active breach queue and triggering `AccessibilityInfo.announceForAccessibility` for screen readers.
+  - Implemented `components/alerts/GeofenceWarning.tsx` providing a full-screen high-priority danger warning modal with emergency siren animation, AI risk justification text, "Turn Back" primary action, and **3-Second Hold Confirmation** for "I Understand the Risk" override to eliminate accidental dismissals in hazardous sectors.
+  - Authored comprehensive test suite in `__tests__/geofence-alerts.test.tsx` (5/5 tests passing, bringing monorepo total to 386 passing tests across 3 modules).
+  - Authored technical specification in `mobile-app/docs/step-5-5-geofence-alerts.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/services/socketService.ts`](file:///d:/SIH%202026/mobile-app/services/socketService.ts)
+  - [`mobile-app/services/locationService.ts`](file:///d:/SIH%202026/mobile-app/services/locationService.ts)
+  - [`mobile-app/hooks/useGeofence.ts`](file:///d:/SIH%202026/mobile-app/hooks/useGeofence.ts)
+  - [`mobile-app/components/alerts/GeofenceWarning.tsx`](file:///d:/SIH%202026/mobile-app/components/alerts/GeofenceWarning.tsx)
+  - [`mobile-app/__tests__/geofence-alerts.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/geofence-alerts.test.tsx)
+  - [`mobile-app/docs/step-5-5-geofence-alerts.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-5-geofence-alerts.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.4: Tourist Home Map Screen, Dynamic Danger Polygons & Floating SOS Panic Button
 - **Module**: `mobile-app`
 - **Details**:

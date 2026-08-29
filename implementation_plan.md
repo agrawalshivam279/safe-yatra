@@ -510,15 +510,11 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.5 - Background Location and Geofence Alerts
 
-- [ ] services/locationService.ts:
-      Request FOREGROUND then BACKGROUND location permission.
-      Use expo-location startLocationUpdatesAsync -- sends location every 30 seconds.
-      Each update -> emit location:update via WebSocket.
-- [ ] hooks/useGeofence.ts: Listen on geofence:alert WebSocket event -> show GeofenceWarning modal.
-- [ ] components/alerts/GeofenceWarning.tsx: Full-screen red warning modal with:
-      Danger tier badge + justification text from backend
-      "Turn Back" button (primary)
-      "I Understand the Risk" (secondary, requires 3-second hold to prevent accidents)
+- [x] services/socketService.ts: Resilient Socket.IO client with Bearer auth token injection and typed event emitters/listeners
+- [x] services/locationService.ts: Foreground/Background location permission requests and periodic GPS updates streaming to WebSocket (location:update)
+- [x] hooks/useGeofence.ts: Real-time hook listening to geofence:alert WebSocket events with screen reader announcements
+- [x] components/alerts/GeofenceWarning.tsx: Full-screen red warning modal with danger tier badge, justification text, "Turn Back" primary action, and 3-second hold confirmation for "I Understand the Risk"
+- [x] Author comprehensive test suite in __tests__/geofence-alerts.test.tsx (5/5 tests passing)
 
 ### 5.6 - Tourist: Pre-Trip Briefing Screen
 
