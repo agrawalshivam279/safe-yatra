@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Admin Broadcast & Command Center Controller.
+ * Admin Broadcast, Analytics & Heatmap Controller.
  */
 
 import { Request, Response } from 'express';
@@ -9,6 +9,7 @@ import { adminService } from './admin.service';
 import {
   broadcastQuerySchema,
   createBroadcastSchema,
+  heatmapQuerySchema,
 } from './admin.validation';
 
 export class AdminController {
@@ -50,6 +51,25 @@ export class AdminController {
   public async deactivateBroadcast(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const result = await adminService.deactivateBroadcast(id);
+    return ok(res, result, undefined, 200);
+  }
+
+  /**
+   * GET /api/v1/admin/analytics
+   * Aggregates real-time command center metrics.
+   */
+  public async getAnalytics(_req: Request, res: Response): Promise<Response> {
+    const result = await adminService.getSystemAnalytics();
+    return ok(res, result, undefined, 200);
+  }
+
+  /**
+   * GET /api/v1/admin/heatmap
+   * Returns privacy-preserving crowd density clusters.
+   */
+  public async getHeatmap(req: Request, res: Response): Promise<Response> {
+    const validated = heatmapQuerySchema.parse(req.query);
+    const result = await adminService.getHeatmapData(validated);
     return ok(res, result, undefined, 200);
   }
 }

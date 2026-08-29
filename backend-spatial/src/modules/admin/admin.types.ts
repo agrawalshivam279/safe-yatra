@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Admin Broadcast & Command Center Type Definitions.
+ * Admin Broadcast, Analytics & Command Center Type Definitions.
  */
 
 import { DangerTier } from '@prisma/client';
@@ -50,4 +50,51 @@ export interface BroadcastFilterQuery {
   severity?: DangerTier;
   limit?: number;
   offset?: number;
+}
+
+export interface AdminAnalyticsResult {
+  sos: {
+    total: number;
+    active: number;
+    resolved: number;
+    cancelled: number;
+    avgResponseTimeSeconds: number;
+  };
+  users: {
+    activeTourists: number;
+    activeVolunteersOnDuty: number;
+    totalVolunteers: number;
+  };
+  zones: {
+    totalZones: number;
+    tierDistribution: {
+      LOW: number;
+      MODERATE: number;
+      SEVERE: number;
+      CRITICAL: number;
+    };
+  };
+  alerts: {
+    activeGeofences: number;
+    activeBroadcasts: number;
+  };
+}
+
+export interface HeatmapCluster {
+  lat: number;
+  lng: number;
+  intensity: number;
+  pointCount: number;
+}
+
+export interface HeatmapResult {
+  totalPoints: number;
+  clusterCount: number;
+  lookbackMinutes: number;
+  clusters: HeatmapCluster[];
+}
+
+export interface HeatmapQueryInput {
+  lookbackMinutes?: number;
+  gridSize?: number;
 }

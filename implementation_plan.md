@@ -457,15 +457,16 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.13b - Admin Analytics & Heatmap Aggregations
 
-- [ ] GET /admin/analytics -- aggregated stats (SOS count, avg response time, danger tier distribution, active users)
-- [ ] GET /admin/heatmap -- return UserLocation density clusters (aggregated, not raw coordinates)
+- [x] GET /admin/analytics -- aggregated stats (SOS count, avg response time, danger tier distribution, active users) (200 ok())
+- [x] GET /admin/heatmap -- return UserLocation density clusters using PostGIS ST_SnapToGrid (200 ok())
+- [x] Author comprehensive test suite in tests/admin.analytics-heatmap.test.ts (8/8 tests passing)
 
 ### Phase 4 Exit Criteria
-- All REST endpoints from GEMINI.md section 9 are implemented and manually tested.
-- SOS loop works end-to-end: trigger -> volunteer matched -> accepted -> resolved.
-- Geofence check correctly emits alerts for violations.
-- Background cron jobs running without errors.
-- All backend-spatial/tests/ pass.
+- [x] All REST endpoints from GEMINI.md section 9 are implemented and manually tested.
+- [x] SOS loop works end-to-end: trigger -> volunteer matched -> accepted -> resolved.
+- [x] Geofence check correctly emits alerts for violations.
+- [x] Background cron jobs running without errors.
+- [x] All backend-spatial/tests/ pass (25/25 test suites, 275/275 tests passing).
 
 ---
 

@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Admin Broadcast Validation Schemas (Zod).
+ * Admin Broadcast, Analytics & Heatmap Validation Schemas (Zod).
  */
 
 import { z } from 'zod';
@@ -68,4 +68,9 @@ export const broadcastQuerySchema = z.object({
   severity: z.nativeEnum(DangerTier).optional(),
   limit: z.coerce.number().int().min(1).max(100).default(20),
   offset: z.coerce.number().int().min(0).default(0),
+});
+
+export const heatmapQuerySchema = z.object({
+  lookbackMinutes: z.coerce.number().int().min(5).max(1440).default(60),
+  gridSize: z.coerce.number().min(0.0001).max(0.1).default(0.005),
 });
