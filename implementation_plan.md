@@ -605,11 +605,13 @@ Built last because it purely consumes what the backend and WebSocket server broa
 - [x] Mounted `AuthGuard` in `src/app/layout.tsx`.
 - [x] Author comprehensive unit and integration test suite in `__tests__/login-auth-guard.test.tsx` (10/10 tests passing, bringing module total to 26/26 tests passing).
 
-### 6.3 - Dashboard Home (KPI Cards)
+### 6.3 - Dashboard Home (KPI Cards & Live Telemetry)
 
-- [ ] Fetch from GET /admin/analytics -> populate four KPI cards:
-      Active SOS Count, Active Tourists, On-Duty Mitras, Critical Zones
-- [ ] Auto-refresh every 30 seconds with TanStack Query refetchInterval.
+- [x] Implemented `src/services/adminService.ts` fetching aggregated metrics from `GET /api/v1/admin/analytics`.
+- [x] Implemented `src/hooks/useAdminAnalytics.ts` with 30s TanStack Query auto-refresh and real-time Socket.IO cache invalidation (`sos:triggered`, `sos:accepted`, `sos:resolved`, `sos:cancelled`, `danger:score_update`).
+- [x] Implemented `src/components/analytics/KPICard.tsx` with danger badges, trends, loading skeletons, and link wrappers.
+- [x] Implemented `src/app/page.tsx` with dynamic Operational Readiness Banner, 4 Primary KPI Cards, Sector Hazard Distribution Bar, and Command Center quick operations grid.
+- [x] Author comprehensive unit and integration test suite in `__tests__/dashboard-kpi.test.tsx` (7/7 tests passing, bringing module total to 33/33 tests passing).
 
 ### 6.4 - Macro Heatmap Page
 
