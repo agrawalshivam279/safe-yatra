@@ -598,10 +598,12 @@ Built last because it purely consumes what the backend and WebSocket server broa
 - [x] Set up command center Sidebar component (`src/components/common/Sidebar.tsx`) with live socket connectivity indicator.
 - [x] Author comprehensive unit test suite in `__tests__/bootstrap-auth-socket.test.tsx` (16/16 tests passing).
 
-### 6.2 - Authentication
+### 6.2 - Authentication & Route Protection Guard
 
-- [ ] src/app/login/page.tsx -- email/password form.
-- [ ] Admin login session guard and route protection redirecting unauthenticated users to /login.
+- [x] Implemented `src/app/login/page.tsx` with email/password validation, show/hide password toggle, error alert banner, loading state, and 1-tap "Quick Fill Admin" button for SIH judges.
+- [x] Implemented `src/components/auth/AuthGuard.tsx` redirecting unauthenticated visitors to `/login`, authenticated admins to `/`, and conditionally rendering the Command Center `Sidebar`.
+- [x] Mounted `AuthGuard` in `src/app/layout.tsx`.
+- [x] Author comprehensive unit and integration test suite in `__tests__/login-auth-guard.test.tsx` (10/10 tests passing, bringing module total to 26/26 tests passing).
 
 ### 6.3 - Dashboard Home (KPI Cards)
 
