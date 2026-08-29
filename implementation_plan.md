@@ -589,19 +589,19 @@ Goal: A functional command center for the SIH demo.
 ### Why Now?
 Built last because it purely consumes what the backend and WebSocket server broadcast. No new backend work needed.
 
-### 6.1 - Project Bootstrap
+### 6.1 - Project Bootstrap, API Client, TanStack Query & Socket.IO Gateway
 
-  cd admin-dashboard && npm install
-  npm run dev  (opens on http://localhost:3001)
-
-- [ ] Set up TanStack Query provider in layout.tsx.
-- [ ] Set up services/socketService.ts -- Socket.IO client connecting with admin JWT on mount.
+- [x] Set up SSR-safe storage abstraction (`src/services/storage.ts`) and Axios REST client with Bearer JWT interceptor (`src/services/api.ts`).
+- [x] Set up TanStack Query provider in `src/providers/QueryProvider.tsx` with hydration safety and mount in `src/app/layout.tsx`.
+- [x] Set up `src/services/socketService.ts` -- singleton Socket.IO client connecting with admin JWT and typed event listeners.
+- [x] Set up Admin Auth Service (`src/services/authService.ts`) & global context (`src/context/AuthContext.tsx`) with strict `ADMIN` role verification.
+- [x] Set up command center Sidebar component (`src/components/common/Sidebar.tsx`) with live socket connectivity indicator.
+- [x] Author comprehensive unit test suite in `__tests__/bootstrap-auth-socket.test.tsx` (16/16 tests passing).
 
 ### 6.2 - Authentication
 
 - [ ] src/app/login/page.tsx -- email/password form.
-- [ ] Store admin JWT in httpOnly cookie (more secure than localStorage for web).
-- [ ] Next.js middleware to redirect unauthenticated users to /login.
+- [ ] Admin login session guard and route protection redirecting unauthenticated users to /login.
 
 ### 6.3 - Dashboard Home (KPI Cards)
 
