@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.3: Dashboard Home & Live KPI Cards
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/services/adminService.ts` providing typed `getAnalytics()` client method fetching aggregated metrics from `GET /api/v1/admin/analytics`.
+  - Implemented `src/hooks/useAdminAnalytics.ts` with 30s TanStack Query auto-polling and real-time Socket.IO cache invalidation on `sos:triggered`, `sos:accepted`, `sos:resolved`, `sos:cancelled`, and `danger:score_update`.
+  - Implemented `src/components/analytics/KPICard.tsx` providing accessible telemetry cards with danger tier badges (`CRITICAL`, `WARNING`, `SUCCESS`, `INFO`), trend indicators, navigation link wrappers, and animated skeleton loaders.
+  - Implemented `src/app/page.tsx` assembling a dynamic Operational Readiness Banner (`CRITICAL` on active distress, `ELEVATED` on hazard sectors, `NORMAL` on all-clear), 4 Primary KPI metric cards, a proportional Sector Hazard Distribution progress bar, and 1-click command center quick operation shortcuts.
+  - Authored comprehensive test suite in `__tests__/dashboard-kpi.test.tsx` (7/7 tests passing, bringing monorepo total to 473 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-3-admin-dashboard-kpi.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/adminService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/adminService.ts)
+  - [`admin-dashboard/src/hooks/useAdminAnalytics.ts`](file:///d:/SIH%202026/admin-dashboard/src/hooks/useAdminAnalytics.ts)
+  - [`admin-dashboard/src/components/analytics/KPICard.tsx`](file:///d:/SIH%202026/admin-dashboard/src/components/analytics/KPICard.tsx)
+  - [`admin-dashboard/src/app/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/page.tsx)
+  - [`admin-dashboard/__tests__/dashboard-kpi.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/dashboard-kpi.test.tsx)
+  - [`admin-dashboard/docs/step-6-3-admin-dashboard-kpi.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-3-admin-dashboard-kpi.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.2: Admin Authentication Screen & Route Protection Guard
 - **Module**: `admin-dashboard`
 - **Details**:
