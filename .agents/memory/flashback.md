@@ -102,6 +102,27 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.7: Tourist SOS Screen, Countdown Panic Confirmation Modal, Status Tracker & Offline SMS Fallback
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `services/sosService.ts` providing typed REST methods (`triggerSOS`, `getSOSById`, `cancelSOS`) matching Backend Spatial contracts.
+  - Implemented `utils/smsPayload.ts` with `encodeSOSPayload` producing $<60$-char telemetry payload (`SOS|LAT:<lat>|LNG:<lng>|BAT:<bat>|UID:<uid>`) and `sendEmergencySMS` using `expo-sms` with automatic fallback to native dialer `tel:112`.
+  - Implemented `components/sos/SOSConfirmModal.tsx` providing a 5-second cancelable countdown overlay with animated progress bar, optional 10-second `expo-av` voice note recording, and automatic resource cleanup.
+  - Implemented `components/sos/SOSStatusTracker.tsx` providing real-time multi-state response tracking (`SEARCHING` $\rightarrow$ `VOLUNTEER_ACCEPTED` $\rightarrow$ `VOLUNTEER_ARRIVED` $\rightarrow$ `RESOLVED`), volunteer details card, distance/ETA metrics, call responder action, and offline SMS backup.
+  - Implemented `app/(tourist)/sos.tsx` mounting 2-second press-and-hold panic trigger (`SOSHoldButton`), live GPS telemetry, connection status pill, and direct emergency speed dialers (112, 108, 1363, 100).
+  - Authored comprehensive test suite in `__tests__/sos-flow.test.tsx` (13/13 tests passing, bringing monorepo total to 405 passing tests across 3 modules).
+  - Authored technical specification in `mobile-app/docs/step-5-7-tourist-sos-screen.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/services/sosService.ts`](file:///d:/SIH%202026/mobile-app/services/sosService.ts)
+  - [`mobile-app/utils/smsPayload.ts`](file:///d:/SIH%202026/mobile-app/utils/smsPayload.ts)
+  - [`mobile-app/components/sos/SOSConfirmModal.tsx`](file:///d:/SIH%202026/mobile-app/components/sos/SOSConfirmModal.tsx)
+  - [`mobile-app/components/sos/SOSStatusTracker.tsx`](file:///d:/SIH%202026/mobile-app/components/sos/SOSStatusTracker.tsx)
+  - [`mobile-app/app/(tourist)/sos.tsx`](file:///d:/SIH%202026/mobile-app/app/%28tourist%29/sos.tsx)
+  - [`mobile-app/__tests__/sos-flow.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/sos-flow.test.tsx)
+  - [`mobile-app/docs/step-5-7-tourist-sos-screen.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-7-tourist-sos-screen.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.6: Tourist Pre-Trip Safety Briefing Screen & Multi-Factor Risk Gauge
 - **Module**: `mobile-app`
 - **Details**:
