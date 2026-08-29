@@ -554,17 +554,18 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.9 - Yaatri Mitra Screens
 
-- [ ] app/(mitra)/index.tsx:
+- [x] app/(mitra)/_layout.tsx -- Yaatri Mitra tab navigator layout.
+- [x] app/(mitra)/index.tsx:
       Duty toggle button (on/off).
       List of nearby active SOS events.
       Listen on sos:triggered WebSocket event -> render SOSAlertCard with tourist info, distance, audio clip.
       "Accept" button -> calls PATCH /sos/:id/accept.
-
-- [ ] app/(mitra)/active-sos.tsx:
+- [x] app/(mitra)/active-sos.tsx:
       After accepting: opens navigation (Google Maps deep link).
       Streams own location via WebSocket every 5 seconds.
       "I've Arrived" button -> PATCH /sos/:id/arrive.
       "Mark Resolved" button -> PATCH /sos/:id/resolve.
+- [x] Author comprehensive test suite in __tests__/mitra-rescue.test.tsx (12/12 tests passing)
 
 ### 5.10 - Push Notifications Setup
 

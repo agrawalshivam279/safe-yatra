@@ -102,6 +102,27 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.9: Yaatri Mitra Volunteer Screens & Real-Time Rescue Flow
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `services/volunteerService.ts` providing typed REST methods (`toggleDutyStatus`, `getActiveSOSList`, `acceptSOS`, `arriveSOS`, `resolveSOS`, `recordLocation`) matching Backend Spatial contracts.
+  - Implemented `components/mitra/SOSAlertCard.tsx` rendering high-visibility emergency dispatch cards with tourist details, proximity distance, approach ETA, battery level, voice memo indicator, and 1-tap "Accept Rescue 🏃" action.
+  - Implemented `app/(mitra)/_layout.tsx` provisioning the 4-tab Yaatri Mitra navigation hierarchy (`index` Dispatch Queue, `active-sos` Live Navigation, `history` Response History, `profile` Volunteer Profile).
+  - Implemented `app/(mitra)/index.tsx` assembling volunteer on-duty toggle switch, live readiness banner, pull-to-refresh, empty state, and real-time Socket.IO `sos:triggered` dispatch listener.
+  - Implemented `app/(mitra)/active-sos.tsx` providing turn-by-turn navigation deep links (`geo:` on Android / Google Maps web fallback), 5-second periodic GPS location streaming, direct phone speed dialer, "I've Arrived at Scene 🤝" arrival confirmation, and "Mark Emergency Resolved ✅" resolution handler.
+  - Authored comprehensive test suite in `__tests__/mitra-rescue.test.tsx` (12/12 tests passing, bringing monorepo total to 430 passing tests across 3 modules).
+  - Authored technical specification in `mobile-app/docs/step-5-9-mitra-volunteer-screens.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/services/volunteerService.ts`](file:///d:/SIH%202026/mobile-app/services/volunteerService.ts)
+  - [`mobile-app/components/mitra/SOSAlertCard.tsx`](file:///d:/SIH%202026/mobile-app/components/mitra/SOSAlertCard.tsx)
+  - [`mobile-app/app/(mitra)/_layout.tsx`](file:///d:/SIH%202026/mobile-app/app/%28mitra%29/_layout.tsx)
+  - [`mobile-app/app/(mitra)/index.tsx`](file:///d:/SIH%202026/mobile-app/app/%28mitra%29/index.tsx)
+  - [`mobile-app/app/(mitra)/active-sos.tsx`](file:///d:/SIH%202026/mobile-app/app/%28mitra%29/active-sos.tsx)
+  - [`mobile-app/__tests__/mitra-rescue.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/mitra-rescue.test.tsx)
+  - [`mobile-app/docs/step-5-9-mitra-volunteer-screens.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-9-mitra-volunteer-screens.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.8: Tourist Alerts Screen & Push Notification Service
 - **Module**: `mobile-app`
 - **Details**:
