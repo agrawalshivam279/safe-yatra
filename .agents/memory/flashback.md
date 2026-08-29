@@ -102,6 +102,30 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.3: Mobile Auth Screens, Persona Selector & Navigation Routing
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `app/_layout.tsx` containing root `SafeAreaProvider`, `AuthProvider`, and `NavigationGuard` providing session redirection between `/(auth)`, `/(tourist)`, and `/(mitra)`.
+  - Implemented `app/(auth)/_layout.tsx` providing a headerless fade-transition navigation stack.
+  - Implemented `app/(auth)/login.tsx` providing email/password authentication, real-time input sanitization, error alert banners, and accessibility labels.
+  - Implemented `app/(auth)/register.tsx` capturing full name, phone number, email, password, role toggle, and emergency contact phone.
+  - Implemented `app/(auth)/role-select.tsx` providing high-contrast persona selection cards for Tourist Mode and Yaatri Mitra Volunteer Mode.
+  - Enforced Mobile Accessibility Invariants (minimum $48\times 48$ dp touch targets, `accessible={true}`, `accessibilityRole="button" | "radio" | "alert"`).
+  - Authored comprehensive test suite in `__tests__/auth-screens.test.tsx` (10/10 tests passing, bringing monorepo total to 374 passing tests).
+  - Authored technical specification in `mobile-app/docs/step-5-3-mobile-auth-screens.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/app/_layout.tsx`](file:///d:/SIH%202026/mobile-app/app/_layout.tsx)
+  - [`mobile-app/app/(auth)/_layout.tsx`](file:///d:/SIH%202026/mobile-app/app/%28auth%29/_layout.tsx)
+  - [`mobile-app/app/(auth)/login.tsx`](file:///d:/SIH%202026/mobile-app/app/%28auth%29/login.tsx)
+  - [`mobile-app/app/(auth)/register.tsx`](file:///d:/SIH%202026/mobile-app/app/%28auth%29/register.tsx)
+  - [`mobile-app/app/(auth)/role-select.tsx`](file:///d:/SIH%202026/mobile-app/app/%28auth%29/role-select.tsx)
+  - [`mobile-app/__tests__/auth-screens.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/auth-screens.test.tsx)
+  - [`mobile-app/jest.setup.js`](file:///d:/SIH%202026/mobile-app/jest.setup.js)
+  - [`mobile-app/jest.config.js`](file:///d:/SIH%202026/mobile-app/jest.config.js)
+  - [`mobile-app/docs/step-5-3-mobile-auth-screens.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-3-mobile-auth-screens.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.1 & 5.2: Mobile App Bootstrap, Secure API Client, Auth Context & Network Detection
 - **Module**: `mobile-app`
 - **Details**:
