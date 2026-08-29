@@ -525,23 +525,24 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.7 - Tourist: SOS Screen (Highest Stakes -- Test Thoroughly)
 
-- [ ] components/sos/SOSButton.tsx:
+- [x] components/sos/SOSButton.tsx:
       Large red button. Requires 2-second press-and-hold to trigger.
       Shows countdown ring during hold (prevents accidental activation).
 
-- [ ] components/sos/SOSConfirmModal.tsx: After hold:
+- [x] components/sos/SOSConfirmModal.tsx: After hold:
       "SOS will be triggered in 5 seconds" countdown with cancel button.
       Option to record a 10-second audio clip (expo-av).
       On confirm: call POST /sos/trigger with GPS + battery + audio URL.
 
-- [ ] components/sos/SOSStatusTracker.tsx: After trigger:
+- [x] components/sos/SOSStatusTracker.tsx: After trigger:
       "Searching for rescuers..." spinner.
       On sos:accepted WebSocket event: shows volunteer name, distance, ETA.
       On sos:mitra_location event: updates mini-map showing Mitra's real-time approach.
 
-- [ ] Offline Fallback (utils/smsPayload.ts):
+- [x] Offline Fallback (utils/smsPayload.ts):
       If offline: construct "SOS|LAT:X|LNG:Y|BAT:Z|UID:abc" and send via expo-sms.
       Show instructions to call 112 as backup.
+- [x] Author comprehensive test suite in __tests__/sos-flow.test.tsx (13/13 tests passing)
 
 ### 5.8 - Tourist: Alerts Screen
 
