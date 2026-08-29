@@ -20,7 +20,7 @@ All 11 skills are maintained in lockstep at **Version 2.0**. Mismatches between 
 | **`next_step`**     |  `2.0`  | Atomic Step Planner         | 5-Gate Goldilocks standard with Frontend JSX calibration ($\le 500$ LOC, $\le 4$ files), dynamic roadmap reading                |
 | **`plan_step`**     |  `2.0`  | Planning Pipeline           | Seamless chaining of `next_step` + `create_specs`, anti-auto-advance hard stop                                                  |
 | **`ship_step`**     |  `2.0`  | Release & Merge Pipeline    | CI status polling (30-60s, 3 retries), PR test metrics embedding, git stash recovery on pull                                    |
-| **`update-github`** |  `2.0`  | Git & GitHub Automation     | PR description with test verification summary, CI polling before squash merge, push recovery                                    |
+| **`update-github`** |  `2.0`  | Git & GitHub Automation     | .gitignore safety scan, CI polling before squash merge, git stash recovery on pull, implementation_plan.md checkbox sync, next_step preview |
 | **`flashback`**     |  `2.0`  | Persistent Memory Ledger    | Self-healing section structure, roadmap sync with root `implementation_plan.md`, `flashback stats` mode                         |
 | **`auto_cycle`**    |  `2.0`  | Autonomous Lifecycle Loop   | Calibrated timeouts (12m verify, 8m ship), multi-module detection (backend, ML, mobile, admin), coverage gates                  |
 

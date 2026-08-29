@@ -102,6 +102,26 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.12b: Full SOS Simulation Loop & Weather Override
+- **Module**: `backend-spatial` / `simulation`
+- **Details**:
+  - Implemented `SimulateSOSInput`, `SimulateSOSResult`, `WeatherOverrideFactors`, `WeatherOverrideInput`, and `WeatherOverrideResult` in `src/modules/simulation/sim.types.ts`.
+  - Implemented `mockTouristSchema`, `mockVolunteerSchema`, `simulateSOSSchema`, and `weatherOverrideSchema` in `src/modules/simulation/sim.validation.ts`.
+  - Implemented `simulateSOS` and `overrideWeather` in `src/modules/simulation/sim.service.ts` managing multi-state emergency transitions (Trigger $\rightarrow$ Volunteer Match $\rightarrow$ Accept $\rightarrow$ Arrive $\rightarrow$ Resolve / Cancel) and Redis environmental override caching with configurable TTL.
+  - Implemented `simulateSOS` (201 `ok()`) and `overrideWeather` (200 `ok()`) in `src/modules/simulation/sim.controller.ts` and mounted routes in `src/modules/simulation/sim.routes.ts`.
+  - Authored comprehensive test suite in `tests/simulation.sos-weather.test.ts` (10/10 tests passing), bringing total passing test suite across `backend-spatial` to 255/255 tests across 23 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-12b-sim-sos-weather.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/simulation/sim.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.types.ts)
+  - [`backend-spatial/src/modules/simulation/sim.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.validation.ts)
+  - [`backend-spatial/src/modules/simulation/sim.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.service.ts)
+  - [`backend-spatial/src/modules/simulation/sim.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.controller.ts)
+  - [`backend-spatial/src/modules/simulation/sim.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.routes.ts)
+  - [`backend-spatial/tests/simulation.sos-weather.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/simulation.sos-weather.test.ts)
+  - [`backend-spatial/docs/step-4-12b-sim-sos-weather.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-12b-sim-sos-weather.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.12a: Simulation Middleware, Location Injection & Trajectory Replay
 - **Module**: `backend-spatial` / `simulation`
 - **Details**:

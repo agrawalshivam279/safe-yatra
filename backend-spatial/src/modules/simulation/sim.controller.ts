@@ -10,6 +10,8 @@ import { simService } from './sim.service';
 import {
   injectLocationSchema,
   replayTrajectorySchema,
+  simulateSOSSchema,
+  weatherOverrideSchema,
 } from './sim.validation';
 
 /**
@@ -46,6 +48,26 @@ export class SimulationController {
   public async replayTrajectory(req: Request, res: Response): Promise<Response> {
     const validated = replayTrajectorySchema.parse(req.body);
     const result = await simService.replayTrajectory(validated);
+    return ok(res, result, undefined, 200);
+  }
+
+  /**
+   * POST /api/v1/sim/sos
+   * Simulates an automated end-to-end SOS emergency response loop.
+   */
+  public async simulateSOS(req: Request, res: Response): Promise<Response> {
+    const validated = simulateSOSSchema.parse(req.body);
+    const result = await simService.simulateSOS(validated);
+    return ok(res, result, undefined, 201);
+  }
+
+  /**
+   * POST /api/v1/sim/weather-override
+   * Sets or clears environmental parameter overrides in Redis cache.
+   */
+  public async overrideWeather(req: Request, res: Response): Promise<Response> {
+    const validated = weatherOverrideSchema.parse(req.body);
+    const result = await simService.overrideWeather(validated);
     return ok(res, result, undefined, 200);
   }
 }

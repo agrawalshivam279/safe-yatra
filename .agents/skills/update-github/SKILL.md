@@ -1,6 +1,6 @@
 ---
 name: update-github
-version: '2.0'
+version: "2.0"
 description: >-
   Commit changes, push to feature branch, create PR via GitHub MCP, verify CI status checks,
   squash merge to main, and clean up the local branch while keeping the remote branch on GitHub.
@@ -9,7 +9,7 @@ description: >-
 
 # 🚀 Update GitHub — Commit, Push, PR & Merge Workflow
 
-This workflow automates the end-to-end Git lifecycle for the Safe Yatra project: creating conventional commits under 100 characters, pushing the branch, creating a Pull Request, polling CI status checks, squash merging into `main`, deleting the local branch, and **preserving the remote branch on GitHub**.
+This workflow automates the end-to-end Git lifecycle for the Safe Yatra project: verifying `.gitignore` cleanliness, creating conventional commits under 100 characters, pushing the branch, creating a Pull Request, polling CI status checks, squash merging into `main`, deleting the local branch, **preserving the remote branch on GitHub**, synchronizing living memory and roadmap checklists, and previewing the next step.
 
 ---
 
@@ -19,6 +19,7 @@ This workflow automates the end-to-end Git lifecycle for the Safe Yatra project:
 
 ```bash
 git branch --show-current
+git status -s
 ```
 
 - Store the output as `CURRENT_BRANCH`.
@@ -26,6 +27,7 @@ git branch --show-current
   - Generate a descriptive branch name based on the changes (e.g. `feat/step-4-11b-geofence-job`).
   - Create and switch to it: `git checkout -b <new-branch-name>`
   - Set `CURRENT_BRANCH = <new-branch-name>`
+- **Safety check**: Scan `git status -s` for accidentally untracked `.env`, `node_modules/`, `*.pyc`, `__pycache__/`, or build artifacts that should not be staged. Cross-check `.gitignore` before proceeding.
 
 ---
 
@@ -71,6 +73,9 @@ Stage all project modifications, module files, and `.agents/` customizations:
 git add .
 git commit -m "<generated-message>"
 ```
+
+> [!CAUTION]
+> `git add .` stages everything tracked and untracked. Confirm `.gitignore` covers `node_modules/`, `.env`, `*.pyc`, `__pycache__/`, and build artifacts (`dist/`, `.turbo/`) **before** staging.
 
 Report:
 
@@ -177,6 +182,10 @@ git checkout main
 git pull origin main
 ```
 
+#### Git Pull Recovery:
+
+- If `git pull` encounters a conflict with uncommitted local work: `git stash` $\rightarrow$ `git pull origin main` $\rightarrow$ `git stash pop` $\rightarrow$ resolve conflicts manually.
+
 Report:
 
 ```text
@@ -201,9 +210,18 @@ Report:
 
 ---
 
-### Step 10 — Flashback Memory Sync
+### Step 10 — Flashback Memory Sync & Roadmap Checkbox
 
-Update [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) under the Chronological Activity Log with a one-line entry noting the merged PR and commit.
+Perform a two-part memory synchronization:
+
+1. **Ledger Update**: Update [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) under the Chronological Activity Log with a one-line entry noting the merged PR, commit message, and PR number.
+2. **Roadmap Checkbox Tick**: Open the root [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) and mark the corresponding step's checkbox from `[ ]` to `[x]`.
+
+---
+
+### Step 11 — Preview Next Step
+
+Invoke [`next_step`](file:///d:/SIH%202026/.agents/skills/next_step/SKILL.md) to read `implementation_plan.md` and surface the next unchecked atomic task so the agent and user have a clear forward path immediately after the PR merges.
 
 ---
 
@@ -220,6 +238,8 @@ Update [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flas
 ✓ Switched to main (up to date)
 ✓ Local branch deleted (<branch>)
 ✓ Flashback ledger synchronized
+✓ implementation_plan.md step marked [x]
+✓ Next step preview: <next-step-summary>
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 ```
 
@@ -232,3 +252,5 @@ Update [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flas
 3. **Never delete remote branches**: Only remove the local branch.
 4. **Push Upstream Handling**: If push fails due to missing upstream, use `git push --set-upstream origin CURRENT_BRANCH`.
 5. **CI & PR Failures**: If PR creation or CI checks fail, stop immediately and report the error without attempting to merge.
+6. **Gitignore Safety**: Always validate `.gitignore` coverage before `git add .` to prevent accidental secrets or binary commits.
+7. **Pull Conflict Recovery**: If `git pull origin main` fails after squash merge, stash $\rightarrow$ pull $\rightarrow$ pop $\rightarrow$ resolve.
