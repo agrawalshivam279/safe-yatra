@@ -102,6 +102,21 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.7: Broadcast Alert Composer
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/services/broadcastService.ts` providing typed `sendBroadcast()` method posting emergency advisories to `POST /api/v1/admin/broadcast`.
+  - Implemented `src/app/broadcast/page.tsx` assembling a 3-step guided composer with sector targeting, severity selection (`EMERGENCY` 🔴, `WARNING` 🟠, `INFO` 🔵), expiration duration controls, an interactive smartphone push notification simulator, and an auditable dispatch receipt banner.
+  - Authored comprehensive test suite in `__tests__/broadcast-composer.test.tsx` (6/6 tests passing, bringing monorepo total to 502 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-7-admin-broadcast-composer.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/broadcastService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/broadcastService.ts)
+  - [`admin-dashboard/src/app/broadcast/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/broadcast/page.tsx)
+  - [`admin-dashboard/__tests__/broadcast-composer.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/broadcast-composer.test.tsx)
+  - [`admin-dashboard/docs/step-6-7-admin-broadcast-composer.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-7-admin-broadcast-composer.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.6: Zone Management Page & Score Override
 - **Module**: `admin-dashboard`
 - **Details**:

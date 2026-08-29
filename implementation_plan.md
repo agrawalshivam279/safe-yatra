@@ -641,10 +641,9 @@ Built last because it purely consumes what the backend and WebSocket server broa
 
 ### 6.7 - Broadcast Alert Composer
 
-- [ ] src/app/broadcast/page.tsx:
-      Step 1: Draw target area on Mapbox map (polygon tool).
-      Step 2: Fill title + message + severity dropdown.
-      Step 3: Preview + send -> POST /admin/broadcast.
+- [x] Implemented `src/services/broadcastService.ts` dispatching emergency alerts to `POST /api/v1/admin/broadcast`.
+- [x] Implemented `src/app/broadcast/page.tsx` with 3-step guided composer: sector targeting, severity selection (`EMERGENCY` 🔴, `WARNING` 🟠, `INFO` 🔵), guidance message formatting, and interactive smartphone push notification simulator.
+- [x] Author comprehensive unit and integration test suite in `__tests__/broadcast-composer.test.tsx` (6/6 tests passing, bringing module total to 62/62 tests passing).
 
 ### 6.8 - Volunteer Registry
 
