@@ -479,20 +479,17 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.1 - Project Bootstrap
 
-  cd mobile-app && npm install
-  npx expo start  (Verify it opens in Expo Go)
+- [x] cd mobile-app && npm install (Verified dependencies: Expo 51, expo-secure-store, expo-network, axios, react-native-maps)
+- [x] Configure tsconfig.json, babel.config.js, jest.config.js for Expo SDK 51
 
-Set EXPO_PUBLIC_API_URL and EXPO_PUBLIC_WS_URL to your local backend.
+### 5.2 - State Management and API Layer
 
-### 5.2 - State Management and API Layer (Do These BEFORE Writing Any Screen)
-
-- [ ] services/api.ts: Axios instance with:
-      baseURL from env
-      Request interceptor: attach Authorization: Bearer token from Secure Store
-      Response interceptor: on 401 -> attempt token refresh -> retry -> else logout
-- [ ] context/AuthContext.tsx: Zustand or React Context for { user, token, login, logout, isLoading }
-- [ ] services/authService.ts: login(), register(), refreshToken(), getMe()
-- [ ] hooks/useNetworkStatus.ts: Detect online/offline status.
+- [x] services/storage.ts: Hardware-backed SecureStore with typed accessors (accessToken, refreshToken, userRole, userData, clearAuth)
+- [x] services/api.ts: Axios instance with Bearer request interceptor and single-flight 401 refresh mutex queue
+- [x] context/AuthContext.tsx: Global React Context & useAuth() for { user, token, role, isLoading, isAuthenticated, isVolunteer, isTourist, login, register, logout, setRole }
+- [x] services/authService.ts: Typed API methods login(), register(), refreshToken(), getMe(), logout()
+- [x] hooks/useNetworkStatus.ts: Real-time network detection hook using expo-network with offline SMS fallback support
+- [x] Author comprehensive test suite in __tests__/auth-api-storage.test.ts (8/8 tests passing)
 
 ### 5.3 - Auth Screens
 
