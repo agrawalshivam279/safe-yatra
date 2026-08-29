@@ -422,11 +422,17 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] handlers/dangerAlerts.ts: Broadcast danger:score_update when zone scores change
 - [x] Author comprehensive test suite in tests/socket.handlers.test.ts (8/8 tests passing)
 
-### 4.11 - Background Jobs
+### 4.11a - Background Jobs Infrastructure, Danger Score Refresh & Expired SOS Cleanup
 
-- [ ] jobs/dangerScoreRefresh.ts: Cron every 5 min -> fetch all zones -> call ML engine -> update DB + Redis -> emit danger:score_update
-- [ ] jobs/geofenceCheck.ts: Every 30 sec -> check all active user locations vs geofences -> emit alerts for violations
-- [ ] jobs/cleanupExpiredSOS.ts: Every hour -> mark unresolved SOS events older than 24h as EXPIRED
+- [x] jobs/dangerScoreRefresh.ts: Cron every 5 min -> fetch all zones -> compute danger scores -> broadcast danger:score_update
+- [x] jobs/cleanupExpiredSOS.ts: Cron every hour -> mark unresolved SOS events older than 24h as EXPIRED with timeline audit
+- [x] jobs/jobScheduler.ts: Job scheduler for timer lifecycle management
+- [x] Author comprehensive unit test suite in tests/jobs.test.ts (6/6 tests passing)
+
+### 4.11b - Periodic Active User Geofence Monitoring Job
+
+- [ ] jobs/geofenceCheck.ts: Recurring job checking recent active user locations vs geofences -> emit alerts for violations
+- [ ] Author comprehensive test suite in tests/jobs.geofence.test.ts
 
 ### 4.12 - Simulation Endpoints (Dev Only)
 
