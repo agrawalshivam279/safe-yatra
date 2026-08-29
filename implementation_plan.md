@@ -493,10 +493,11 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.3 - Auth Screens
 
-- [ ] app/(auth)/login.tsx -- email/password form, calls authService.login(), stores JWT in Expo SecureStore
-- [ ] app/(auth)/register.tsx -- name, phone, email, password
-- [ ] app/(auth)/role-select.tsx -- "I am a Tourist" vs "I am a Yaatri Mitra" with visual cards
-- [ ] Root _layout.tsx: Check token on app start -> redirect to (auth), (tourist), or (mitra)
+- [x] app/(auth)/login.tsx -- email/password form with validation, calls authService.login(), stores JWT in Expo SecureStore
+- [x] app/(auth)/register.tsx -- name, phone, email, password, role, emergency contact
+- [x] app/(auth)/role-select.tsx -- "I am a Tourist" vs "I am a Yaatri Mitra" with visual persona cards
+- [x] Root _layout.tsx: NavigationGuard checking token on start -> redirecting to (auth), (tourist), or (mitra)
+- [x] Author comprehensive test suite in __tests__/auth-screens.test.tsx (10/10 tests passing)
 
 ### 5.4 - Tourist: Home Map Screen (Build in Layers)
 
