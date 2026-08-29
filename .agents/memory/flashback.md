@@ -102,6 +102,27 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.6: Zone Management Page & Score Override
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/services/zoneAdminService.ts` providing typed REST client methods (`getZones`, `getZoneById`, `overrideZoneScore` via `PATCH /api/v1/admin/zones/:id/override`, and `createZone` via `POST /api/v1/geofences`).
+  - Implemented `src/hooks/useAdminZones.ts` with 30s polling and real-time Socket.IO cache invalidation on `danger:score_update`.
+  - Implemented `src/app/zones/page.tsx` offering a searchable & filterable data table with danger score gauges, severity tier badges, and "MANUAL OVERRIDE" vs "AI COMPUTED" status pills.
+  - Implemented `src/app/zones/[id]/page.tsx` displaying 4-factor risk breakdown gauges, AI field justification memo, and an interactive **Emergency Danger Score Override** range slider (0–100) with justification memo submission.
+  - Implemented `src/app/zones/create/page.tsx` offering a form to provision new geofenced hazard sectors with center coordinates and initial severity tiers.
+  - Authored comprehensive test suite in `__tests__/zone-management.test.tsx` (8/8 tests passing, bringing monorepo total to 496 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-6-admin-zone-management.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/zoneAdminService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/zoneAdminService.ts)
+  - [`admin-dashboard/src/hooks/useAdminZones.ts`](file:///d:/SIH%202026/admin-dashboard/src/hooks/useAdminZones.ts)
+  - [`admin-dashboard/src/app/zones/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/zones/page.tsx)
+  - [`admin-dashboard/src/app/zones/[id]/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/zones/[id]/page.tsx)
+  - [`admin-dashboard/src/app/zones/create/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/zones/create/page.tsx)
+  - [`admin-dashboard/__tests__/zone-management.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/zone-management.test.tsx)
+  - [`admin-dashboard/docs/step-6-6-admin-zone-management.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-6-admin-zone-management.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.5: Live SOS Feed Page (Key Demo Screen)
 - **Module**: `admin-dashboard`
 - **Details**:
