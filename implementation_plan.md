@@ -501,14 +501,12 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.4 - Tourist: Home Map Screen (Build in Layers)
 
-- [ ] Layer 1: react-native-maps MapView centered on user's current location.
-- [ ] Layer 2: Fetch all zones from GET /danger/zones. Render each as a Polygon:
-      LOW:      rgba(39, 174, 96, 0.3)  -- green
-      MODERATE: rgba(243, 156, 18, 0.3) -- amber
-      SEVERE:   rgba(230, 126, 34, 0.4) -- orange
-      CRITICAL: rgba(231, 76, 60, 0.5)  -- red
-- [ ] Layer 3: User location marker (pulsing blue dot).
-- [ ] Layer 4: Floating SOSButton component (bottom-right, always visible).
+- [x] Layer 1: react-native-maps MapView centered on user's current location (components/maps/DangerZoneMap.tsx).
+- [x] Layer 2: Fetch all zones from GET /danger/zones and render each as a Polygon with tier colors (LOW green, MODERATE amber, SEVERE orange, CRITICAL red).
+- [x] Layer 3: User location marker with pulsing blue accuracy halo.
+- [x] Layer 4: Floating SOSButton component (bottom-right, always visible, pulsing halo, accessible).
+- [x] Layer 5: Tourist tab navigation in app/(tourist)/_layout.tsx and Home screen in app/(tourist)/index.tsx with status pill and zone detail modal sheet.
+- [x] Author comprehensive test suite in __tests__/tourist-map.test.tsx (6/6 tests passing)
 
 ### 5.5 - Background Location and Geofence Alerts
 
