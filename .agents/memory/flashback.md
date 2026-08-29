@@ -850,20 +850,35 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ---
 
-## 6. Deferred Actions & End-of-Project Checklist
+## 6. Deferred Actions & Phase-by-Phase Skills Activation Matrix
 
+> **Agent Invariant**: The AI Agent assumes full responsibility for proactively inspecting this matrix at the start of each phase, activating the required skill capabilities, and enforcing their acceptance criteria before transitioning.
+
+| Phase / Step | Deferred Skill / Capability | Trigger Condition | Automated Action Required |
+| :--- | :--- | :--- | :--- |
+| **Phase 5 (Mobile App)** | **`accessibility_auditor` / Mobile A11y Standards** | Any mobile UI screen / button | Enforce `accessible={true}`, 48x48dp touch targets, colorblind-safe zone polygons, and `AccessibilityInfo` screen reader announcements in `code_reviewer` and `test_writer`. |
+| **Phase 6 (Admin Dashboard)** | **`web_a11y_auditor` & Mapbox WebGL Mocks** | Next.js App Router / Mapbox | Verify server/client component boundaries, TanStack Query hydration, and Mapbox container mocks. |
+| **Phase 7 (Simulation & Testing)** | **`demo_orchestrator` / `simulation_runner`** | Step 7.1 & 7.4 (Live SIH Demo) | Author and execute automated disaster demonstration scripts driving Mobile and Admin UIs simultaneously. |
+| **Phase 7 (Simulation & Testing)** | **`stress_tester` (Locust / Artillery)** | Step 7.2 (Load Testing) | Execute 10k concurrent GPS stream benchmarks and 500 simultaneous SOS dispatches. |
+| **Phase 7 (Wrap-up)** | **`competitive_landscape_generator`** | Step 7.5 (Pitch Deck & Docs) | Merge benchmark matrix from `docs/deferred-competitive-landscape` into root documentation. |
+| **Phase 7 (Wrap-up)** | **`pre_demo_auditor`** | Step 7.6 (Pre-Flight Audit) | Execute `make audit` and `make check-deploy` container verification. |
+| **Phase 8 (Deployment)** | **`cloud_deployer` / `infra_provisioner`** | Phase 8 (Railway / Render / AWS) | Automate production container deployment and live environment health probing. |
+
+---
+
+### Granular Deferred Action Checklist:
 - [ ] **Mobile Accessibility Audit (Phase 5 — Mobile App)**:
   - Verify `accessible={true}`, accessibility labels on the big red panic button (`SOSButton.tsx`), high-contrast danger zone colors (accessible to colorblind users), and screen reader announcements for emergency geofence breach modals during Phase 5 implementation.
-
-- [ ] **Pre-Demo Dependency & Deployment Audit (Phase 7 — Step 7.6)**:
-  - Run `make audit` (`npm audit --audit-level=high` & `pip check`) across all 4 module packages.
-  - Run `make check-deploy` to confirm fresh-machine Docker Compose bootstrap (`pg_isready`, Redis `ping`, and database migrations).
-
 - [ ] **Competitive Landscape & Competitor Benchmark Docs (Phase 7 / Final Wrap-up)**:
-  - Add explicit competitive analysis matrix to `GEMINI.md` and `implementation_plan.md` comparing Safe Yatra against:
-    1. **Commercial Group Safety Apps** (*Life360, Alerto*) — contrast basic circle/geofencing with dynamic ML risk scoring, terrain slope awareness, and volunteer dispatch.
-    2. **CCTV & Computer Vision Crowd Analytics** (*CrowdShield*) — contrast central infrastructure vs. tourist-facing mobile app.
-    3. **Standard Hackathon Prototypes** — contrast static boundaries with multi-variable hazard fusion (slope + rain + river proximity + crowd).
-    4. **Government Helplines** (*112 / 1363*) — contrast reactive voice calls with predictive maps, proactive geofence alerts, and instant GPS locking.
-  - Formally document the **Ministry of Tourism 1363 Helpline** alongside 112 in emergency directory references.
+  - Merge and publish competitive analysis matrix comparing Safe Yatra against Life360/Alerto, CrowdShield CCTV, standard hackathon prototypes, and Government 112/1363 helplines.
+- [ ] **Pre-Demo Dependency & Deployment Audit (Phase 7 — Step 7.6)**:
+  - Run `make audit` across all 4 module packages.
+  - Run `make check-deploy` to confirm fresh-machine Docker Compose bootstrap.
+- [ ] **Stress & Load Testing (Phase 7 — Step 7.2)**:
+  - Execute Artillery / Locust load suites against spatial queries and WebSocket hub.
+- [ ] **Live SIH Demo Scenario Orchestrator (Phase 7 — Step 7.4)**:
+  - Verify multi-role end-to-end simulation driving Tourist, Mitra, and Admin views in sync.
+- [ ] **Cloud Deployment Pipeline (Phase 8)**:
+  - Containerize and deploy services to Railway / Render with live PostGIS / Redis links.
+
 
