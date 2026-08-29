@@ -102,6 +102,34 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.13a: Admin Broadcast Alerts & Sector Messaging
+- **Module**: `backend-spatial` / `admin`
+- **Details**:
+  - Implemented `GeoJSONPolygon`, `CreateBroadcastInput`, `BroadcastAlertEntity`, `BroadcastRecipient`, and `BroadcastFilterQuery` in `src/modules/admin/admin.types.ts`.
+  - Implemented `createBroadcastSchema` and `broadcastQuerySchema` in `src/modules/admin/admin.validation.ts` with strict coordinate bounds, positive radius, and polygon ring closure rules.
+  - Implemented `adminService` in `src/modules/admin/admin.service.ts` supporting PostGIS polygon and circular buffer persistence (`ST_GeomFromGeoJSON`, `ST_Buffer`), dynamic tourist containment lookup (`ST_Contains`), and real-time WebSocket alert dispatching (`admin:broadcast`).
+  - Implemented `getAllBroadcasts`, `getBroadcastById`, and `deactivateBroadcast` with `ST_AsGeoJSON` and centroid calculation.
+  - Implemented `adminController` and mounted routes in `src/modules/admin/admin.routes.ts` protected by JWT auth and `requireRole(UserRole.ADMIN)`.
+  - Mounted `/api/v1/admin` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/admin.broadcast.test.ts` (12/12 tests passing), bringing total passing test suite across `backend-spatial` to 267/267 tests across 24 test suites.
+  - Upgraded verification skills (`test_writer`, `test_runner`, `code_reviewer`, `verify_step`) with future-proof frontend and distributed cloud testing capabilities.
+  - Authored technical specification in `backend-spatial/docs/step-4-13a-admin-broadcast.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/admin/admin.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.types.ts)
+  - [`backend-spatial/src/modules/admin/admin.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.validation.ts)
+  - [`backend-spatial/src/modules/admin/admin.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.service.ts)
+  - [`backend-spatial/src/modules/admin/admin.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.controller.ts)
+  - [`backend-spatial/src/modules/admin/admin.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/admin.broadcast.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/admin.broadcast.test.ts)
+  - [`backend-spatial/docs/step-4-13a-admin-broadcast.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-13a-admin-broadcast.md)
+  - [`.agents/skills/test_writer/SKILL.md`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md)
+  - [`.agents/skills/test_runner/SKILL.md`](file:///d:/SIH%202026/.agents/skills/test_runner/SKILL.md)
+  - [`.agents/skills/code_reviewer/SKILL.md`](file:///d:/SIH%202026/.agents/skills/code_reviewer/SKILL.md)
+  - [`.agents/skills/verify_step/SKILL.md`](file:///d:/SIH%202026/.agents/skills/verify_step/SKILL.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.12b: Full SOS Simulation Loop & Weather Override
 - **Module**: `backend-spatial` / `simulation`
 - **Details**:

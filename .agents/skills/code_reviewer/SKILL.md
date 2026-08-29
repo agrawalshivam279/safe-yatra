@@ -70,6 +70,7 @@ Keep these architectural contracts in mind when reviewing:
 #### 🛡️ Distributed Safety & Concurrency (`backend-spatial`)
 
 - [ ] **Atomic SOS Status Transitions**: SOS acceptance (volunteer assignment) MUST execute atomically (e.g. `UPDATE "SOSEvent" SET status = 'ACCEPTED', "responderId" = $1 WHERE id = $2 AND status = 'TRIGGERED'`) or utilize a Redis distributed lock to prevent duplicate volunteer dispatch / race conditions.
+- [ ] **Distributed Cron Job Locks**: Periodic background cron jobs (e.g. `dangerScoreRefresh`, `geofenceCheck`, `cleanupExpiredSOS`) in multi-node cloud deployments must acquire a Redis distributed lock (`SET lock:job:<name> <workerId> NX EX <ttl>`) to prevent duplicate execution across horizontal replicas.
 - [ ] **Idempotency**: Webhook triggers, SMS dispatches, and emergency broadcasts must guard against duplicate submissions.
 
 #### ⚡ Python Async Performance & Offloading (`ml-risk-engine`)
@@ -78,13 +79,14 @@ Keep these architectural contracts in mind when reviewing:
 
 #### 📱 React Native Safety & Resource Lifecycle (`mobile-app`)
 
-- [ ] **Resource Cleanup**: `Location.watchPositionAsync` subscriptions and `Audio.Recording` instances MUST be actively stopped/unsubscribed in the `useEffect` cleanup/return function to prevent memory leaks and background drain.
+- [ ] **Resource Cleanup**: `Location.watchPositionAsync` subscriptions, `Audio.Recording` instances, `AppState` listeners, and `NetInfo` / Socket.IO event listeners MUST be actively stopped/unsubscribed in the `useEffect` cleanup/return function (`subscription.remove()`, `socket.off(...)`) to prevent memory leaks and background battery drain.
 - [ ] **Permission Guards**: Both Foreground (`Location.requestForegroundPermissionsAsync`) and Background (`Location.requestBackgroundPermissionsAsync`) permissions are validated before invoking geolocation methods.
 - [ ] **Offline Resilience**: SOS flow handles network dropouts gracefully by triggering SMS fallback dispatch.
 
 #### 🖥️ Next.js 14 App Router & SSR Hygiene (`admin-dashboard`)
 
 - [ ] **Client Boundaries**: Any component using React hooks (`useState`, `useEffect`), TanStack Query hooks, or browser events contains the `"use client"` directive.
+- [ ] **Server Action Session Authorization**: Every Next.js Server Action (`'use server'`) mutating state or invoking admin commands must explicitly verify the caller's JWT/session authorization before executing queries.
 - [ ] **SSR Protection for Maps**: Mapbox GL JS / Leaflet canvas initialization and DOM access MUST be protected with `typeof window !== 'undefined'` or loaded via `next/dynamic` with `{ ssr: false }`.
 
 ---

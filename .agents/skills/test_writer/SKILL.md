@@ -338,8 +338,11 @@ async def test_score_endpoint_success():
 - **Target Dir**: `mobile-app/__tests__/`
 - **Native Mocks Required**:
   - `expo-location`: Mock `requestForegroundPermissionsAsync`, `getCurrentPositionAsync`, `watchPositionAsync`.
+  - `expo-task-manager`: Mock `defineTask` and background location triggers.
   - `expo-av`: Mock `Audio.Recording` lifecycle (`prepareToRecordAsync`, `startAsync`, `stopAndUnloadAsync`, `getURI`).
   - `expo-sms`: Mock `SMS.isAvailableAsync` and `SMS.sendSMSAsync` for offline SOS fallback.
+  - `expo-network` / `netinfo`: Mock network connectivity states (`isConnected: false` to test offline SOS SMS fallback).
+  - `react-native-mmkv` / `AsyncStorage`: Mock local key-value store for cached danger zones and offline queues.
   - `expo-notifications`: Mock `scheduleNotificationAsync` and token retrieval.
   - `react-native-maps`: Mock `MapView`, `Polygon`, `Marker`, `Circle`.
 
@@ -356,6 +359,22 @@ jest.mock('expo-sms', () => ({
   isAvailableAsync: jest.fn().mockResolvedValue(true),
   sendSMSAsync: jest.fn().mockResolvedValue({ result: 'sent' }),
 }));
+
+jest.mock('expo-network', () => ({
+  getNetworkStateAsync: jest.fn().mockResolvedValue({ isConnected: true, isInternetReachable: true }),
+}));
+
+jest.mock('react-native-mmkv', () => {
+  const store = new Map<string, string>();
+  return {
+    MMKV: jest.fn().mockImplementation(() => ({
+      set: (key: string, value: string) => store.set(key, value),
+      getString: (key: string) => store.get(key),
+      delete: (key: string) => store.delete(key),
+      clearAll: () => store.clear(),
+    })),
+  };
+});
 ```
 
 ---
@@ -367,13 +386,43 @@ jest.mock('expo-sms', () => ({
 
 - **Framework**: `vitest` / `jest`, `@testing-library/react`
 - **Target Dir**: `admin-dashboard/__tests__/`
+- **Server vs Client Component Testing Pattern**:
+  - **Server Components (RSC)**: Test async data fetching functions and Server Actions directly as async units.
+  - **Client Components ('use client')**: Render using `@testing-library/react` wrapped in providers with mocked Server Actions.
 - **Mocks Required**:
   - Mapbox GL JS / Leaflet: Mock canvas contexts and WebGL to prevent JSDOM errors.
   - TanStack Query: Wrap components in `QueryClientProvider` with `{ defaultOptions: { queries: { retry: false, gcTime: 0 } } }`.
 
 ```typescript
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render } from '@testing-library/react';
 import React from 'react';
+
+// WebGL Canvas Context Mock for Mapbox / Leaflet in JSDOM
+if (typeof HTMLCanvasElement !== 'undefined') {
+  HTMLCanvasElement.prototype.getContext = jest.fn(() => ({
+    fillRect: jest.fn(),
+    clearRect: jest.fn(),
+    getImageData: jest.fn(() => ({ data: [] })),
+    putImageData: jest.fn(),
+    createImageData: jest.fn(() => []),
+    setTransform: jest.fn(),
+    drawImage: jest.fn(),
+    save: jest.fn(),
+    fillText: jest.fn(),
+    restore: jest.fn(),
+    beginPath: jest.fn(),
+    moveTo: jest.fn(),
+    lineTo: jest.fn(),
+    closePath: jest.fn(),
+    stroke: jest.fn(),
+    translate: jest.fn(),
+    scale: jest.fn(),
+    rotate: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+  })) as any;
+}
 
 export function createTestQueryClient() {
   return new QueryClient({

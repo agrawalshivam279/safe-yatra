@@ -448,11 +448,17 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] POST /sim/weather-override -- set and clear Redis environmental override keys (200 ok())
 - [x] Author comprehensive unit & integration test suite in tests/simulation.sos-weather.test.ts (10/10 tests passing)
 
-### 4.13 - Admin Endpoints
+### 4.13a - Admin Broadcast Alerts & Sector Messaging
 
-- [ ] POST /admin/broadcast -- create BroadcastAlert, emit admin:broadcast to all tourists in target area
-- [ ] GET /admin/analytics -- aggregated stats (SOS count, avg response time, danger tier distribution)
-- [ ] GET /admin/heatmap -- return UserLocation density data (aggregated, not raw coordinates)
+- [x] POST /admin/broadcast -- create BroadcastAlert with PostGIS geometry, emit admin:broadcast to tourists in target area
+- [x] GET /admin/broadcasts & GET /admin/broadcasts/:id -- list and detail retrieval with GeoJSON geometries
+- [x] PATCH /admin/broadcasts/:id/deactivate -- deactivate active broadcast alert
+- [x] Author comprehensive test suite in tests/admin.broadcast.test.ts (12/12 tests passing)
+
+### 4.13b - Admin Analytics & Heatmap Aggregations
+
+- [ ] GET /admin/analytics -- aggregated stats (SOS count, avg response time, danger tier distribution, active users)
+- [ ] GET /admin/heatmap -- return UserLocation density clusters (aggregated, not raw coordinates)
 
 ### Phase 4 Exit Criteria
 - All REST endpoints from GEMINI.md section 9 are implemented and manually tested.
