@@ -20,4 +20,12 @@ router.post('/trajectory', (req, res, next) => {
   simController.replayTrajectory(req, res).catch(next);
 });
 
+router.post('/sos', (req, res, next) => {
+  simController.simulateSOS(req, res).catch(next);
+});
+
+router.post('/weather-override', (req, res, next) => {
+  simController.overrideWeather(req, res).catch(next);
+});
+
 export default router;

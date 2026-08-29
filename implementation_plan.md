@@ -444,8 +444,9 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.12b - Full SOS Simulation Loop & Weather Override
 
-- [ ] POST /sim/sos -- trigger full SOS loop with mock tourist and volunteer
-- [ ] POST /sim/weather-override -- set Redis key read by ML engine
+- [x] POST /sim/sos -- trigger full SOS loop with mock tourist and volunteer (201 ok())
+- [x] POST /sim/weather-override -- set and clear Redis environmental override keys (200 ok())
+- [x] Author comprehensive unit & integration test suite in tests/simulation.sos-weather.test.ts (10/10 tests passing)
 
 ### 4.13 - Admin Endpoints
 
