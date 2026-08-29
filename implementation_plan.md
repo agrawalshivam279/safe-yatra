@@ -518,10 +518,10 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.6 - Tourist: Pre-Trip Briefing Screen
 
-- [ ] app/(tourist)/briefing.tsx:
-      Search input for destination name.
-      On search: call GET /danger/briefing/{destination}.
-      Render SafetyBriefing card with weather forecast, terrain risk, crowd estimate, danger score gauge.
+- [x] app/(tourist)/briefing.tsx: Search input for destination name with 1-tap popular pilgrimage hotspot pills (Kedarnath, Badrinath, Lonavala, Haridwar, Vaishno Devi)
+- [x] On search: call GET /api/v1/danger/briefing/{destination}
+- [x] components/briefing/SafetyBriefingCard.tsx: Render SafetyBriefing card with overall danger index gauge, 4-factor risk breakdown (Weather, Terrain, Crowd, History), and actionable travel advisory
+- [x] Author comprehensive test suite in __tests__/briefing-screen.test.tsx (6/6 tests passing)
 
 ### 5.7 - Tourist: SOS Screen (Highest Stakes -- Test Thoroughly)
 
