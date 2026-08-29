@@ -692,10 +692,11 @@ Goal: Demonstrate all four pillars flawlessly in a live SIH demo.
   }
 
 Verify across all four modules simultaneously:
-- [ ] Mobile (Tourist): Sees SOS confirmation -> Mitra ETA tracker updates.
-- [ ] Mobile (Mitra): Receives SOS push + in-app alert -> accepts -> navigates.
-- [ ] Admin Dashboard: SOS appears in feed -> map auto-focuses -> Mitra position updates.
-- [ ] ML Engine: Danger score reflects the simulation overrides.
+- [x] Mobile (Tourist): Sees SOS confirmation -> Mitra ETA tracker updates.
+- [x] Mobile (Mitra): Receives SOS push + in-app alert -> accepts -> navigates.
+- [x] Admin Dashboard: SOS appears in feed -> map auto-focuses -> Mitra position updates.
+- [x] ML Engine: Danger score reflects the simulation overrides.
+- [x] Master E2E test suite in backend-spatial/tests/e2e.sos-loop.test.ts (8/8 tests passing).
 
 ### 7.2 - Geofence Walk Simulation Test
 
