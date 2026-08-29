@@ -9,6 +9,7 @@ import { prisma } from '../../config/database';
 import { AppError } from '../../utils/response';
 import { dangerService } from '../danger/danger.service';
 import { sosMatcher } from './sos.matcher';
+import { notificationDispatcher } from '../../utils/notifications';
 import {
   SOSDetailEntity,
   SOSEntity,
@@ -106,6 +107,17 @@ export class SOSService {
           details: `Alerted ${matchResult.volunteerCount} nearby Yaatri Mitra responders within 5km`,
         },
       });
+
+      // Dispatch real-time Push Notifications to alerted volunteers (non-blocking)
+      const volunteerTokens = matchResult.volunteers
+        .map((v: any) => v.pushToken)
+        .filter((t: any) => typeof t === 'string' && t.length > 0);
+
+      notificationDispatcher.sendSOSPushToVolunteers(volunteerTokens, {
+        id: sosId,
+        lat: input.lat,
+        lng: input.lng,
+      }).catch(() => {});
     }
 
     const sosEvent = await this.getSOSById(sosId);
