@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Admin Broadcast & Command Center Service.
+ * Admin Broadcast, Analytics & Command Center Service.
  */
 
 import { v4 as uuidv4 } from 'uuid';
@@ -10,11 +10,15 @@ import { AppError } from '../../utils/response';
 import { getIO } from '../../websocket/socketServer';
 import { emitToRole } from '../../websocket/rooms';
 import {
+  AdminAnalyticsResult,
   BroadcastAlertEntity,
   BroadcastFilterQuery,
   BroadcastRecipient,
   CreateBroadcastInput,
   GeoJSONPolygon,
+  HeatmapCluster,
+  HeatmapQueryInput,
+  HeatmapResult,
 } from './admin.types';
 
 export class AdminService {
@@ -265,6 +269,132 @@ export class AdminService {
     `;
 
     return this.getBroadcastById(id);
+  }
+
+  /**
+   * Aggregates real-time command center analytics across SOS events, user telemetry,
+   * zone danger distributions, and active system alerts.
+   */
+  public async getSystemAnalytics(): Promise<AdminAnalyticsResult> {
+    // 1. SOS event metrics
+    const totalSOS = await prisma.sOSEvent.count();
+    const activeSOS = await prisma.sOSEvent.count({
+      where: {
+        status: {
+          in: [
+            'TRIGGERED',
+            'MATCHING',
+            'VOLUNTEER_ALERTED',
+            'VOLUNTEER_ACCEPTED',
+            'VOLUNTEER_EN_ROUTE',
+            'VOLUNTEER_ARRIVED',
+          ],
+        },
+      },
+    });
+    const resolvedSOS = await prisma.sOSEvent.count({ where: { status: 'RESOLVED' } });
+    const cancelledSOS = await prisma.sOSEvent.count({ where: { status: 'CANCELLED' } });
+
+    // Average response time in seconds
+    const avgResponseTimeRaw: any[] = await prisma.$queryRaw`
+      SELECT COALESCE(AVG(EXTRACT(EPOCH FROM (r."acceptedAt" - e."createdAt"))), 0)::float as "avgSec"
+      FROM "SOSResponse" r
+      JOIN "SOSEvent" e ON e."id" = r."sosEventId"
+      WHERE r."acceptedAt" IS NOT NULL;
+    `;
+    const avgResponseTimeSeconds = Math.round(avgResponseTimeRaw[0]?.avgSec || 0);
+
+    // 2. User metrics
+    const activeTouristsRaw: any[] = await prisma.$queryRaw`
+      SELECT COUNT(DISTINCT ul."userId")::int as "count"
+      FROM "UserLocation" ul
+      JOIN "User" u ON u."id" = ul."userId"
+      WHERE u."role" = 'TOURIST'
+        AND u."isActive" = true
+        AND ul."timestamp" >= NOW() - INTERVAL '30 minutes';
+    `;
+    const activeTourists = Number(activeTouristsRaw[0]?.count || 0);
+
+    const activeVolunteersOnDuty = await prisma.volunteerProfile.count({
+      where: { isOnDuty: true, verificationStatus: 'VERIFIED' },
+    });
+    const totalVolunteers = await prisma.volunteerProfile.count();
+
+    // 3. Zone & Danger Tier distribution
+    const totalZones = await prisma.zone.count();
+    const lowTier = await prisma.zone.count({ where: { dangerTier: 'LOW' } });
+    const moderateTier = await prisma.zone.count({ where: { dangerTier: 'MODERATE' } });
+    const severeTier = await prisma.zone.count({ where: { dangerTier: 'SEVERE' } });
+    const criticalTier = await prisma.zone.count({ where: { dangerTier: 'CRITICAL' } });
+
+    // 4. Active alerts & geofences
+    const activeGeofences = await prisma.geofence.count({ where: { isActive: true } });
+    const activeBroadcasts = await prisma.broadcastAlert.count({ where: { isActive: true } });
+
+    return {
+      sos: {
+        total: totalSOS,
+        active: activeSOS,
+        resolved: resolvedSOS,
+        cancelled: cancelledSOS,
+        avgResponseTimeSeconds,
+      },
+      users: {
+        activeTourists,
+        activeVolunteersOnDuty,
+        totalVolunteers,
+      },
+      zones: {
+        totalZones,
+        tierDistribution: {
+          LOW: lowTier,
+          MODERATE: moderateTier,
+          SEVERE: severeTier,
+          CRITICAL: criticalTier,
+        },
+      },
+      alerts: {
+        activeGeofences,
+        activeBroadcasts,
+      },
+    };
+  }
+
+  /**
+   * Generates privacy-preserving crowd density clusters using PostGIS ST_SnapToGrid
+   * without exposing individual user GPS trajectories.
+   */
+  public async getHeatmapData(query: HeatmapQueryInput = {}): Promise<HeatmapResult> {
+    const lookbackMinutes = query.lookbackMinutes ?? 60;
+    const gridSize = query.gridSize ?? 0.005;
+
+    const rawClusters: any[] = await prisma.$queryRaw`
+      SELECT
+        ROUND(ST_Y(ST_Centroid(ST_Collect(coordinates::geometry)))::numeric, 6)::float as "lat",
+        ROUND(ST_X(ST_Centroid(ST_Collect(coordinates::geometry)))::numeric, 6)::float as "lng",
+        COUNT(DISTINCT "userId")::int as "intensity",
+        COUNT(*)::int as "pointCount"
+      FROM "UserLocation"
+      WHERE "timestamp" >= NOW() - (${lookbackMinutes} * INTERVAL '1 minute')
+      GROUP BY ST_SnapToGrid(coordinates::geometry, ${gridSize})
+      ORDER BY "intensity" DESC;
+    `;
+
+    const clusters: HeatmapCluster[] = (rawClusters || []).map((c) => ({
+      lat: Number(c.lat),
+      lng: Number(c.lng),
+      intensity: Number(c.intensity),
+      pointCount: Number(c.pointCount),
+    }));
+
+    const totalPoints = clusters.reduce((acc, curr) => acc + curr.pointCount, 0);
+
+    return {
+      totalPoints,
+      clusterCount: clusters.length,
+      lookbackMinutes,
+      clusters,
+    };
   }
 
   /**

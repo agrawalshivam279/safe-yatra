@@ -1,6 +1,6 @@
 /**
  * Safe Yatra — Backend Spatial Server
- * Admin Broadcast REST Routes (/api/v1/admin).
+ * Admin Broadcast, Analytics & Heatmap REST Routes (/api/v1/admin).
  */
 
 import { Router } from 'express';
@@ -48,6 +48,28 @@ router.patch(
   requireRole(UserRole.ADMIN),
   (req, res, next) => {
     adminController.deactivateBroadcast(req, res).catch(next);
+  }
+);
+
+// ─── ANALYTICS & HEATMAP ENDPOINTS ──────────────
+
+// GET /api/v1/admin/analytics (Admin only)
+router.get(
+  '/analytics',
+  authenticate,
+  requireRole(UserRole.ADMIN),
+  (req, res, next) => {
+    adminController.getAnalytics(req, res).catch(next);
+  }
+);
+
+// GET /api/v1/admin/heatmap (Admin only)
+router.get(
+  '/heatmap',
+  authenticate,
+  requireRole(UserRole.ADMIN),
+  (req, res, next) => {
+    adminController.getHeatmap(req, res).catch(next);
   }
 );
 

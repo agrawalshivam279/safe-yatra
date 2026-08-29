@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.13b: Admin Analytics & Privacy-Preserving Heatmap Aggregations
+- **Module**: `backend-spatial` / `admin`
+- **Details**:
+  - Implemented `AdminAnalyticsResult`, `HeatmapCluster`, `HeatmapResult`, and `HeatmapQueryInput` in `src/modules/admin/admin.types.ts`.
+  - Implemented `heatmapQuerySchema` in `src/modules/admin/admin.validation.ts` with lookback duration and grid degree precision validation.
+  - Implemented `getSystemAnalytics` in `src/modules/admin/admin.service.ts` aggregating multi-table metrics across SOS events, volunteer response times, active tourist footfall, on-duty volunteer readiness, and zone tier distributions.
+  - Implemented `getHeatmapData` in `src/modules/admin/admin.service.ts` running privacy-preserving PostGIS spatial grid clustering via `ST_SnapToGrid`, `ST_Centroid`, and `ST_Collect` without exposing individual user GPS tracks.
+  - Added `getAnalytics` and `getHeatmap` controller handlers in `src/modules/admin/admin.controller.ts` and mounted routes in `src/modules/admin/admin.routes.ts` protected by JWT auth and `requireRole(UserRole.ADMIN)`.
+  - Authored comprehensive test suite in `tests/admin.analytics-heatmap.test.ts` (8/8 tests passing), bringing total passing test suite across `backend-spatial` to 275/275 tests across 25 test suites.
+  - Marked **Phase 4: Backend Spatial Core** 100% complete and validated against GEMINI.md Section 9 & 10.
+  - Authored technical specification in `backend-spatial/docs/step-4-13b-admin-analytics-heatmap.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/admin/admin.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.types.ts)
+  - [`backend-spatial/src/modules/admin/admin.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.validation.ts)
+  - [`backend-spatial/src/modules/admin/admin.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.service.ts)
+  - [`backend-spatial/src/modules/admin/admin.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.controller.ts)
+  - [`backend-spatial/src/modules/admin/admin.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/admin/admin.routes.ts)
+  - [`backend-spatial/tests/admin.analytics-heatmap.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/admin.analytics-heatmap.test.ts)
+  - [`backend-spatial/docs/step-4-13b-admin-analytics-heatmap.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-13b-admin-analytics-heatmap.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.13a: Admin Broadcast Alerts & Sector Messaging
 - **Module**: `backend-spatial` / `admin`
 - **Details**:
