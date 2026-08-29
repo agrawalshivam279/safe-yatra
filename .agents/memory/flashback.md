@@ -102,6 +102,24 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.2: Admin Authentication Screen & Route Protection Guard
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/app/login/page.tsx` offering a high-contrast command center authentication screen with real-time email formatting regex validation, password length checks, password visibility toggle (`Eye` / `EyeOff`), high-visibility error alert banner, loading button state, and a 1-tap **⚡ Quick Fill Admin** button (`admin@safeyatra.in` / `Admin@123456`) designed for SIH judges.
+  - Implemented `src/components/auth/AuthGuard.tsx` intercepting Next.js 14 App Router navigation to redirect unauthenticated visitors to `/login`, redirect authenticated admins to `/`, and conditionally mount the Command Center `Sidebar`.
+  - Modernized `src/app/layout.tsx` wrapping all route children in `AuthGuard`.
+  - Authored comprehensive test suite in `__tests__/login-auth-guard.test.tsx` (10/10 tests passing, bringing monorepo total to 466 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-2-admin-login-auth-guard.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/app/login/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/login/page.tsx)
+  - [`admin-dashboard/src/components/auth/AuthGuard.tsx`](file:///d:/SIH%202026/admin-dashboard/src/components/auth/AuthGuard.tsx)
+  - [`admin-dashboard/src/app/layout.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/layout.tsx)
+  - [`admin-dashboard/__tests__/login-auth-guard.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/login-auth-guard.test.tsx)
+  - [`admin-dashboard/tsconfig.json`](file:///d:/SIH%202026/admin-dashboard/tsconfig.json)
+  - [`admin-dashboard/docs/step-6-2-admin-login-auth-guard.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-2-admin-login-auth-guard.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.1: Admin Dashboard Bootstrap, API Client, TanStack Query & Socket.IO Gateway
 - **Module**: `admin-dashboard`
 - **Details**:
