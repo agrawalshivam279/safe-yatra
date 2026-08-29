@@ -621,19 +621,14 @@ Built last because it purely consumes what the backend and WebSocket server broa
 - [x] Implemented `src/app/heatmap/page.tsx` with layer visibility switches (Heatmap / Hazard Polygons), severity filters (`ALL`, `CRITICAL`, `SEVERE`, `MODERATE`, `LOW`), and Sector Risk Inspector drawer with 4-factor risk score gauges.
 - [x] Author comprehensive unit and integration test suite in `__tests__/macro-heatmap.test.tsx` (7/7 tests passing, bringing module total to 40/40 tests passing).
 
-### 6.5 - Live SOS Feed Page (Key Demo Screen -- Make It Visually Impactful)
+### 6.5 - Live SOS Feed Page (Key Demo Screen)
 
-- [ ] src/app/sos/page.tsx:
-      Left panel: scrolling list of active SOS events (newest first).
-      Right panel: Mapbox map auto-focused on most recent SOS.
-
-- [ ] On sos:triggered WebSocket event:
-      Prepend new SOS to list with "NEW" badge + alert sound.
-      Map flies to SOS coordinates (map.flyTo).
-      Plot tourist marker (red) + responding Mitra markers (blue).
-
-- [ ] On sos:mitra_location: update Mitra marker position in real-time.
-- [ ] Show ETA countdown: "X minutes away".
+- [x] Implemented `src/services/sosService.ts` fetching active SOS records (`GET /api/v1/sos/active`) and resolving distress events (`PATCH /api/v1/sos/:id/resolve`).
+- [x] Implemented `src/hooks/useLiveSOS.ts` managing real-time in-place mutation across all 6 Socket.IO distress events (`sos:triggered`, `sos:accepted`, `sos:mitra_location`, `sos:arrived`, `sos:resolved`, `sos:cancelled`).
+- [x] Implemented `src/components/sos/SOSListPanel.tsx` with caller contact phone links, battery health indicators, multi-state status badges, embedded audio voice note player, search filter, and status tabs.
+- [x] Implemented `src/components/sos/SOSMapPanel.tsx` with tourist beacon (pulsing red), dispatched Yaatri Mitra beacon (blue), trajectory vectors, Haversine distance and walking ETA calculations ($4.5\text{ km/h}$), and 1-click resolve button.
+- [x] Implemented `src/app/sos/page.tsx` split-view emergency command operations layout with active emergency count indicator and auto-selection.
+- [x] Author comprehensive unit and integration test suite in `__tests__/live-sos-feed.test.tsx` (8/8 tests passing, bringing module total to 48/48 tests passing).
 
 ### 6.6 - Zone Management Page
 

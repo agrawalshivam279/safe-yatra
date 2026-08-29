@@ -195,6 +195,10 @@ class AdminSocketService {
     };
   }
 
+  public onSOSMitraLocation(callback: (data: MitraLocationEvent) => void): () => void {
+    return this.onMitraLocation(callback);
+  }
+
   public onSOSArrived(callback: (data: SOSArrivedEvent) => void): () => void {
     if (!this.socket) this.connect();
     this.socket?.on('sos:arrived', callback);

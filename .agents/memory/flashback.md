@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.5: Live SOS Feed Page (Key Demo Screen)
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/services/sosService.ts` providing typed `getActiveSOS()` (querying `/api/v1/sos/active`) and `resolveSOS()` (patching `/api/v1/sos/:id/resolve`).
+  - Implemented `src/hooks/useLiveSOS.ts` connecting to Socket.IO and executing in-place mutations across all 6 distress lifecycle events (`sos:triggered`, `sos:accepted`, `sos:mitra_location`, `sos:arrived`, `sos:resolved`, `sos:cancelled`).
+  - Implemented `src/components/sos/SOSListPanel.tsx` offering emergency caller details, battery health status, multi-tier badges, embedded audio clip player, and search/filter tabs (`ACTIVE`, `ALL`, `RESOLVED`).
+  - Implemented `src/components/sos/SOSMapPanel.tsx` providing a high-contrast tactical dispatch canvas with distress beacon (red), responder beacon (blue), trajectory vectors, Haversine geodesic distance in meters, walking ETA countdown ($4.5\text{ km/h}$), and 1-click resolve controls.
+  - Implemented `src/app/sos/page.tsx` assembling a synchronized split-view emergency command center with active distress counter and automatic selection.
+  - Authored comprehensive test suite in `__tests__/live-sos-feed.test.tsx` (8/8 tests passing, bringing monorepo total to 488 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-5-admin-live-sos-feed.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/sosService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/sosService.ts)
+  - [`admin-dashboard/src/hooks/useLiveSOS.ts`](file:///d:/SIH%202026/admin-dashboard/src/hooks/useLiveSOS.ts)
+  - [`admin-dashboard/src/components/sos/SOSListPanel.tsx`](file:///d:/SIH%202026/admin-dashboard/src/components/sos/SOSListPanel.tsx)
+  - [`admin-dashboard/src/components/sos/SOSMapPanel.tsx`](file:///d:/SIH%202026/admin-dashboard/src/components/sos/SOSMapPanel.tsx)
+  - [`admin-dashboard/src/app/sos/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/sos/page.tsx)
+  - [`admin-dashboard/src/services/socketService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/socketService.ts)
+  - [`admin-dashboard/__tests__/live-sos-feed.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/live-sos-feed.test.tsx)
+  - [`admin-dashboard/docs/step-6-5-admin-live-sos-feed.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-5-admin-live-sos-feed.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.4: Macro Heatmap & Hazard Zone Layers
 - **Module**: `admin-dashboard`
 - **Details**:
