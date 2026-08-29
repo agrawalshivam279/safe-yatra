@@ -417,10 +417,10 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.10b - WebSocket Event Handlers (Location, SOS & Danger Score Broadcasting)
 
-- [ ] handlers/locationUpdate.ts: Handle location:update -> update UserLocation -> run geofence check -> emit geofence:alert if inside geofence
-- [ ] handlers/sosEvents.ts: Handle SOS lifecycle events (broadcast to volunteers & command center)
-- [ ] handlers/dangerAlerts.ts: Broadcast danger:score_update when zone scores change
-- [ ] Author comprehensive test suite in tests/socket.handlers.test.ts
+- [x] handlers/locationUpdate.ts: Handle location:update -> update UserLocation -> run geofence check -> emit geofence:alert if inside geofence
+- [x] handlers/sosEvents.ts: Handle SOS lifecycle events (broadcast to volunteers & command center)
+- [x] handlers/dangerAlerts.ts: Broadcast danger:score_update when zone scores change
+- [x] Author comprehensive test suite in tests/socket.handlers.test.ts (8/8 tests passing)
 
 ### 4.11 - Background Jobs
 

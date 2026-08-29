@@ -102,6 +102,25 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.10b: WebSocket Event Handlers (Location, SOS & Danger Score Broadcasting)
+- **Module**: `backend-spatial` / `websocket`
+- **Details**:
+  - Implemented `src/websocket/handlers/locationUpdate.ts` with `registerLocationHandler(io, socket)` streaming GPS pings, persisting to `UserLocation` via `volunteerService.recordLocation`, running real-time perimeter checks via `geofenceService.checkPoint(lat, lng, 500)`, and emitting immediate `geofence:alert` events on breach.
+  - Implemented `src/websocket/handlers/sosEvents.ts` with `broadcastSOSTriggered` (notifying on-duty Yaatri Mitras and command center admins, plus targeted `sos:assigned` alerts to matched responders), `broadcastSOSAccepted`, `broadcastSOSArrived`, `broadcastSOSResolved`, and `broadcastSOSCancelled`.
+  - Implemented `src/websocket/handlers/dangerAlerts.ts` with `broadcastDangerScoreUpdate(io, zoneId, payload)` pushing real-time hazard level updates to `zone:{zoneId}` and command center admins (`role:ADMIN`).
+  - Registered `registerLocationHandler` in `src/websocket/socketServer.ts`.
+  - Authored comprehensive integration test suite in `tests/socket.handlers.test.ts` (8/8 tests passing), bringing total passing test suite across `backend-spatial` to 224/224 tests across 19 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-10b-ws-handlers.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/websocket/handlers/locationUpdate.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/handlers/locationUpdate.ts)
+  - [`backend-spatial/src/websocket/handlers/sosEvents.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/handlers/sosEvents.ts)
+  - [`backend-spatial/src/websocket/handlers/dangerAlerts.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/handlers/dangerAlerts.ts)
+  - [`backend-spatial/src/websocket/socketServer.ts`](file:///d:/SIH%202026/backend-spatial/src/websocket/socketServer.ts)
+  - [`backend-spatial/tests/socket.handlers.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/socket.handlers.test.ts)
+  - [`backend-spatial/docs/step-4-10b-ws-handlers.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-10b-ws-handlers.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.10a: WebSocket Server Bootstrap, JWT Auth & Room Management
 - **Module**: `backend-spatial` / `websocket`
 - **Details**:
