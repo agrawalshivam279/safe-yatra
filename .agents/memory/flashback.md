@@ -16,7 +16,7 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 | **`ml-risk-engine`** | Python 3.11 / FastAPI / Scikit-learn | Dynamic danger score engine (0–100) based on weather, terrain, crowd, history | 🟢 Complete (Phase 3 Complete) |
 | **`backend-spatial`** | Node.js 20 / Express / Prisma / Socket.IO | Central API gateway, PostGIS spatial queries, SOS dispatch & geofence engine | 🟢 Complete (Phase 4 Complete) |
 | **`mobile-app`** | React Native / Expo (TypeScript) | Dual-interface for Tourists and Yaatri Mitra volunteers with offline SOS | 🟢 Complete (Phase 5 Complete) |
-| **`admin-dashboard`** | Next.js 14 (App Router) / Mapbox / Recharts | Command center portal for real-time monitoring, heatmaps, and zone overrides | 🏗️ Ready for Phase 6 |
+| **`admin-dashboard`** | Next.js 14 (App Router) / Mapbox / Recharts | Command center portal for real-time monitoring, heatmaps, and zone overrides | 🟡 In Progress (Phase 6 In Progress) |
 
 ---
 
@@ -94,13 +94,42 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 | **Phase 2** | Database & Data Models | Prisma schema, PostGIS migrations, seed zones & mock data | 🟡 In Progress |
 | **Phase 3** | ML Risk Engine | FastAPI scoring service, weather/terrain/crowd models, simulation mode | 🟢 Completed |
 | **Phase 4** | Backend Spatial Core | Auth (JWT), PostGIS geofencing engine, SOS matcher, WebSocket hub | 🟡 In Progress |
-| **Phase 5** | Mobile App (Expo) | Dual-mode navigation, danger zone map overlays, one-touch SOS | ⚪ Pending |
-| **Phase 6** | Admin Dashboard (Next.js) | Command center, live SOS dispatch queue, danger heatmaps | ⚪ Pending |
+| **Phase 5** | Mobile App (Expo) | Dual-mode navigation, danger zone map overlays, one-touch SOS | 🟢 Completed |
+| **Phase 6** | Admin Dashboard (Next.js) | Command center, live SOS dispatch queue, danger heatmaps | 🟡 In Progress |
 | **Phase 7** | Polish, End-to-End Simulation & Demo | Full SOS loop test, mock trajectory simulator, final SIH pitch deck | ⚪ Pending |
 
 ---
 
 ## 4. Chronological Activity & Change Log
+
+### [2026-08-29] — Step 6.1: Admin Dashboard Bootstrap, API Client, TanStack Query & Socket.IO Gateway
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `services/storage.ts` providing SSR-safe browser storage abstraction with memory fallback for JWT tokens and `AdminUser` profiles (`getAuthToken`, `setAuthToken`, `removeAuthToken`, `getStoredUser`, `setStoredUser`, `clearStorage`).
+  - Implemented `services/api.ts` configuring Axios instance with automatic Bearer token injection and standard `{ success, data, error }` response unwrapping into typed `ApiError` instances.
+  - Implemented `services/authService.ts` providing typed REST auth methods (`login`, `getMe`, `logout`) with strict role guard rejecting non-`ADMIN` users with 403 `FORBIDDEN`.
+  - Implemented `context/AuthContext.tsx` providing global authentication state, auto-hydration on mount, and `useAuth()` custom hook.
+  - Implemented `providers/QueryProvider.tsx` wrapping Next.js 14 App Router with hydration-safe `@tanstack/react-query` `QueryClientProvider` (30s staleTime).
+  - Implemented `services/socketService.ts` providing a singleton Socket.IO gateway connecting with admin JWT and typed event subscription methods for `sos:triggered`, `sos:accepted`, `sos:mitra_location`, `sos:arrived`, `sos:resolved`, `sos:cancelled`, `danger:score_update`, and `admin:broadcast`.
+  - Implemented `components/common/Sidebar.tsx` with live socket connectivity indicator pill (`SYNC` vs `OFFLINE`), active route highlights, and safety officer session footer.
+  - Modernized root `src/app/layout.tsx` mounting `QueryProvider`, `AuthProvider`, and `Sidebar`.
+  - Authored comprehensive test suite in `__tests__/bootstrap-auth-socket.test.tsx` (16/16 tests passing, bringing monorepo total to 456 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-1-admin-bootstrap-api-socket.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/storage.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/storage.ts)
+  - [`admin-dashboard/src/services/api.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/api.ts)
+  - [`admin-dashboard/src/services/authService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/authService.ts)
+  - [`admin-dashboard/src/context/AuthContext.tsx`](file:///d:/SIH%202026/admin-dashboard/src/context/AuthContext.tsx)
+  - [`admin-dashboard/src/providers/QueryProvider.tsx`](file:///d:/SIH%202026/admin-dashboard/src/providers/QueryProvider.tsx)
+  - [`admin-dashboard/src/services/socketService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/socketService.ts)
+  - [`admin-dashboard/src/components/common/Sidebar.tsx`](file:///d:/SIH%202026/admin-dashboard/src/components/common/Sidebar.tsx)
+  - [`admin-dashboard/src/app/layout.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/layout.tsx)
+  - [`admin-dashboard/__tests__/bootstrap-auth-socket.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/bootstrap-auth-socket.test.tsx)
+  - [`admin-dashboard/jest.config.js`](file:///d:/SIH%202026/admin-dashboard/jest.config.js)
+  - [`admin-dashboard/jest.setup.js`](file:///d:/SIH%202026/admin-dashboard/jest.setup.js)
+  - [`admin-dashboard/docs/step-6-1-admin-bootstrap-api-socket.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-1-admin-bootstrap-api-socket.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
 
 ### [2026-08-29] — Step 5.10: Push Notifications Setup & Phase 5 Exit Criteria Verification (Phase 5 Complete 🚀)
 - **Module**: `mobile-app` & `backend-spatial`
