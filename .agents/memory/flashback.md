@@ -102,6 +102,21 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.11b: Periodic Active User Geofence Monitoring Job
+- **Module**: `backend-spatial` / `jobs`
+- **Details**:
+  - Implemented `src/jobs/geofenceCheck.ts` with `runGeofenceCheckJob(lookbackMinutes = 5)` querying recent distinct GPS locations from active users via PostGIS `DISTINCT ON ("userId")`, evaluating `geofenceService.checkPoint(lat, lng, 500)`, and emitting targeted `geofence:alert` warnings directly to `user:{userId}`.
+  - Integrated `geofenceCheckTimer` running on a 30-second cadence into `src/jobs/jobScheduler.ts`.
+  - Authored comprehensive unit test suite in `tests/jobs.geofence.test.ts` (4/4 tests passing), bringing total passing test suite across `backend-spatial` to 234/234 tests across 21 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-11b-geofence-job.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/jobs/geofenceCheck.ts`](file:///d:/SIH%202026/backend-spatial/src/jobs/geofenceCheck.ts)
+  - [`backend-spatial/src/jobs/jobScheduler.ts`](file:///d:/SIH%202026/backend-spatial/src/jobs/jobScheduler.ts)
+  - [`backend-spatial/tests/jobs.geofence.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/jobs.geofence.test.ts)
+  - [`backend-spatial/docs/step-4-11b-geofence-job.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-11b-geofence-job.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.11a: Background Jobs Infrastructure, Danger Score Refresh & Expired SOS Cleanup
 - **Module**: `backend-spatial` / `jobs`
 - **Details**:

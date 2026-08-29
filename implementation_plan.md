@@ -431,8 +431,8 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 
 ### 4.11b - Periodic Active User Geofence Monitoring Job
 
-- [ ] jobs/geofenceCheck.ts: Recurring job checking recent active user locations vs geofences -> emit alerts for violations
-- [ ] Author comprehensive test suite in tests/jobs.geofence.test.ts
+- [x] jobs/geofenceCheck.ts: Recurring job checking recent active user locations vs geofences -> emit alerts for violations
+- [x] Author comprehensive test suite in tests/jobs.geofence.test.ts (4/4 tests passing)
 
 ### 4.12 - Simulation Endpoints (Dev Only)
 
