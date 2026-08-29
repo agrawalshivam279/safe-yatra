@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 6.8: Volunteer Registry & Yaatri Mitra Verification Workflow
+- **Module**: `admin-dashboard`
+- **Details**:
+  - Implemented `src/services/volunteerAdminService.ts` providing typed REST methods (`getVolunteers`, `verifyVolunteer` via `PATCH /api/v1/volunteers/:id/verify`, and `toggleDutyStatus` via `PATCH /api/v1/volunteers/:id/status`).
+  - Implemented `src/hooks/useAdminVolunteers.ts` with 30s auto-polling and reactive SOS event invalidation.
+  - Implemented `src/app/volunteers/page.tsx` assembling 4 live summary metric cards (Total Registered, Active On-Duty, Verified Badges, Avg Rating), contact telephone quick links (`tel:`), status badges, interactive duty toggles, and 1-click **"Verify Responder"** admin approval workflow.
+  - Authored comprehensive test suite in `__tests__/volunteer-registry.test.tsx` (7/7 tests passing, bringing monorepo total to 509 passing tests across 4 modules).
+  - Authored technical specification in `admin-dashboard/docs/step-6-8-admin-volunteer-registry.md`.
+- **Key Files Created / Updated**:
+  - [`admin-dashboard/src/services/volunteerAdminService.ts`](file:///d:/SIH%202026/admin-dashboard/src/services/volunteerAdminService.ts)
+  - [`admin-dashboard/src/hooks/useAdminVolunteers.ts`](file:///d:/SIH%202026/admin-dashboard/src/hooks/useAdminVolunteers.ts)
+  - [`admin-dashboard/src/app/volunteers/page.tsx`](file:///d:/SIH%202026/admin-dashboard/src/app/volunteers/page.tsx)
+  - [`admin-dashboard/__tests__/volunteer-registry.test.tsx`](file:///d:/SIH%202026/admin-dashboard/__tests__/volunteer-registry.test.tsx)
+  - [`admin-dashboard/docs/step-6-8-admin-volunteer-registry.md`](file:///d:/SIH%202026/admin-dashboard/docs/step-6-8-admin-volunteer-registry.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 6.7: Broadcast Alert Composer
 - **Module**: `admin-dashboard`
 - **Details**:

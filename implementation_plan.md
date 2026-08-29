@@ -645,10 +645,12 @@ Built last because it purely consumes what the backend and WebSocket server broa
 - [x] Implemented `src/app/broadcast/page.tsx` with 3-step guided composer: sector targeting, severity selection (`EMERGENCY` 🔴, `WARNING` 🟠, `INFO` 🔵), guidance message formatting, and interactive smartphone push notification simulator.
 - [x] Author comprehensive unit and integration test suite in `__tests__/broadcast-composer.test.tsx` (6/6 tests passing, bringing module total to 62/62 tests passing).
 
-### 6.8 - Volunteer Registry
+### 6.8 - Volunteer Registry & Verification Workflow
 
-- [ ] src/app/volunteers/page.tsx: Table with Name, Phone, Verification Status, On Duty toggle, Total Responses, Rating.
-- [ ] Verification workflow: Admin clicks "Verify" -> backend sets verificationStatus = VERIFIED.
+- [x] Implemented `src/services/volunteerAdminService.ts` providing typed client methods for volunteer directory (`GET /api/v1/volunteers`), 1-click verification (`PATCH /api/v1/volunteers/:id/verify`), and duty readiness toggling (`PATCH /api/v1/volunteers/:id/status`).
+- [x] Implemented `src/hooks/useAdminVolunteers.ts` managing reactive volunteer caching with 30s auto-polling.
+- [x] Implemented `src/app/volunteers/page.tsx` with 4 summary KPI telemetry cards, search/filter toolbar (`ALL`, `ON_DUTY`, `VERIFIED`, `PENDING_VERIFICATION`), on-duty status toggles, star rating gauges, and 1-click "Verify Responder" admin approval button.
+- [x] Author comprehensive unit and integration test suite in `__tests__/volunteer-registry.test.tsx` (7/7 tests passing, bringing module total to 69/69 tests passing).
 
 ### 6.9 - Analytics Page
 
