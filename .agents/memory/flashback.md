@@ -102,6 +102,29 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 5.4: Tourist Home Map Screen, Dynamic Danger Polygons & Floating SOS Panic Button
+- **Module**: `mobile-app`
+- **Details**:
+  - Implemented `components/maps/DangerZoneMap.tsx` wrapping `react-native-maps` `MapView` with PostGIS GeoJSON coordinate transformation (`parseGeoJsonCoordinates`), user position marker, and dynamic `Polygon` layers with GEMINI.md calibrated color fills:
+    - `LOW`: `rgba(39, 174, 96, 0.30)` (stroke: `#27AE60`)
+    - `MODERATE`: `rgba(243, 156, 18, 0.35)` (stroke: `#F39C12`)
+    - `SEVERE`: `rgba(230, 126, 34, 0.45)` (stroke: `#E67E22`)
+    - `CRITICAL`: `rgba(231, 76, 60, 0.55)` (stroke: `#E74C3C`)
+  - Implemented `components/sos/SOSButton.tsx` providing a high-visibility floating circular panic button with continuous pulsing emergency halo and accessible touch target ($68\text{dp}$).
+  - Implemented `app/(tourist)/_layout.tsx` providing Expo Router `Tabs` layout for Tourist Mode (Map, Alerts, Briefing, SOS, Profile).
+  - Implemented `app/(tourist)/index.tsx` assembling map layers, status pill with real-time zone tier counts, refresh handler, and selected zone bottom sheet modal.
+  - Authored comprehensive test suite in `__tests__/tourist-map.test.tsx` (6/6 tests passing, bringing monorepo total to 380 passing tests across 3 modules).
+  - Authored technical specification in `mobile-app/docs/step-5-4-tourist-home-map.md`.
+- **Key Files Created / Updated**:
+  - [`mobile-app/components/maps/DangerZoneMap.tsx`](file:///d:/SIH%202026/mobile-app/components/maps/DangerZoneMap.tsx)
+  - [`mobile-app/components/sos/SOSButton.tsx`](file:///d:/SIH%202026/mobile-app/components/sos/SOSButton.tsx)
+  - [`mobile-app/app/(tourist)/_layout.tsx`](file:///d:/SIH%202026/mobile-app/app/%28tourist%29/_layout.tsx)
+  - [`mobile-app/app/(tourist)/index.tsx`](file:///d:/SIH%202026/mobile-app/app/%28tourist%29/index.tsx)
+  - [`mobile-app/__tests__/tourist-map.test.tsx`](file:///d:/SIH%202026/mobile-app/__tests__/tourist-map.test.tsx)
+  - [`mobile-app/docs/step-5-4-tourist-home-map.md`](file:///d:/SIH%202026/mobile-app/docs/step-5-4-tourist-home-map.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 5.3: Mobile Auth Screens, Persona Selector & Navigation Routing
 - **Module**: `mobile-app`
 - **Details**:
