@@ -8,6 +8,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import { UserRole } from '@prisma/client';
 import { authService } from '../modules/auth/auth.service';
 import { roleRoom, userRoom, zoneRoom } from './rooms';
+import { registerLocationHandler } from './handlers/locationUpdate';
 
 export interface AuthenticatedSocketUser {
   id: string;
@@ -71,6 +72,9 @@ export const initSocketServer = (httpServer: HTTPServer): SocketIOServer => {
       socket.join(userRoom(user.id));
       socket.join(roleRoom(user.role));
     }
+
+    // Register domain event handlers
+    registerLocationHandler(io, socket);
 
     // Dynamic Zone Room Subscriptions
     socket.on('zone:join', (data: { zoneId: string }) => {
