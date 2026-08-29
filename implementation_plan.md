@@ -615,11 +615,11 @@ Built last because it purely consumes what the backend and WebSocket server broa
 
 ### 6.4 - Macro Heatmap Page
 
-- [ ] src/app/heatmap/page.tsx:
-      Initialize Mapbox GL JS map centered on India (zoom level 5).
-      Fetch GET /admin/heatmap -> render density data as HeatmapLayer.
-      Fetch all zones -> render as colored FillLayer polygons (same colors as mobile).
-      Auto-update on danger:score_update WebSocket events.
+- [x] Implemented `src/services/mapService.ts` fetching density clusters from `GET /api/v1/admin/heatmap` and danger zones from `GET /api/v1/zones`.
+- [x] Implemented `src/hooks/useHeatmapData.ts` with 30s polling and real-time Socket.IO cache invalidation on `danger:score_update`.
+- [x] Implemented `src/components/maps/HeatmapMap.tsx` rendering tourist density cluster circles and color-coded PostGIS danger hazard polygons (`CRITICAL` 🔴, `SEVERE` 🟠, `MODERATE` 🟡, `LOW` 🟢).
+- [x] Implemented `src/app/heatmap/page.tsx` with layer visibility switches (Heatmap / Hazard Polygons), severity filters (`ALL`, `CRITICAL`, `SEVERE`, `MODERATE`, `LOW`), and Sector Risk Inspector drawer with 4-factor risk score gauges.
+- [x] Author comprehensive unit and integration test suite in `__tests__/macro-heatmap.test.tsx` (7/7 tests passing, bringing module total to 40/40 tests passing).
 
 ### 6.5 - Live SOS Feed Page (Key Demo Screen -- Make It Visually Impactful)
 
