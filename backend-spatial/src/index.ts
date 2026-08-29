@@ -19,6 +19,7 @@ import zoneRoutes from './modules/zones/zone.routes';
 import dangerRoutes from './modules/danger/danger.routes';
 import geofenceRoutes from './modules/geofence/geofence.routes';
 import sosRoutes from './modules/sos/sos.routes';
+import simRoutes from './modules/simulation/sim.routes';
 import { initSocketServer } from './websocket/socketServer';
 
 const app = express();
@@ -56,8 +57,8 @@ app.use('/api/v1/zones', zoneRoutes);
 app.use('/api/v1/danger', dangerRoutes);
 app.use('/api/v1/geofences', geofenceRoutes);
 app.use('/api/v1/sos', sosRoutes);
+app.use('/api/v1/sim', simRoutes);
 // app.use('/api/v1/admin', adminRoutes);
-// app.use('/api/v1/sim', simulationRoutes);
 
 // Catch-all 404 handler for undefined routes
 app.use((_req, res) => {

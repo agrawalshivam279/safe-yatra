@@ -434,12 +434,16 @@ Set these up BEFORE mounting any routes in src/index.ts (order matters):
 - [x] jobs/geofenceCheck.ts: Recurring job checking recent active user locations vs geofences -> emit alerts for violations
 - [x] Author comprehensive test suite in tests/jobs.geofence.test.ts (4/4 tests passing)
 
-### 4.12 - Simulation Endpoints (Dev Only)
+### 4.12a - Simulation Location Injection & Trajectory Replay
 
-All routes behind guard: if (env.SIMULATION_MODE !== 'true') return 404
+- [x] sim.types.ts: CoordinatePoint, InjectLocationInput, InjectedLocationRecord, ReplayTrajectoryInput, TrajectoryWaypoint, TrajectoryReplayResult
+- [x] sim.validation.ts: Coordinate bounds and array validation schemas
+- [x] sim.service.ts: injectLocations (PostGIS ST_SetSRID Point insertion), replayTrajectory (progressive waypoints + geofence evaluation)
+- [x] sim.controller.ts & sim.routes.ts: POST /sim/location (201 ok()), POST /sim/trajectory (200 ok()), strictly guarded behind SIMULATION_MODE
+- [x] Author comprehensive unit & integration test suite in tests/simulation.location.test.ts (11/11 tests passing)
 
-- [ ] POST /sim/location -- inject UserLocation records for userId + coordinates array
-- [ ] POST /sim/trajectory -- replay coordinates with time delays
+### 4.12b - Full SOS Simulation Loop & Weather Override
+
 - [ ] POST /sim/sos -- trigger full SOS loop with mock tourist and volunteer
 - [ ] POST /sim/weather-override -- set Redis key read by ML engine
 

@@ -1,10 +1,11 @@
 ---
 name: plan_step
+version: '2.0'
 description: >-
   Automated Planning & Branch Provisioning Pipeline. Seamlessly chains next_step and create_specs
   to inspect core references (GEMINI.md, implementation_plan.md, flashback.md), enforce the 5-Gate
-  Goldilocks task sizing standard, check working tree cleanliness, pull latest main, create a feature
-  branch, evaluate Sequential Thinking MCP necessity, and author a production-grade specification.
+  Goldilocks task sizing standard with frontend calibration, check working tree cleanliness, pull latest main,
+  create a feature branch, evaluate Sequential Thinking MCP necessity, and author a production-grade specification.
   Use whenever starting a new task, preparing a feature, or calling /plan_step.
 ---
 
@@ -19,7 +20,7 @@ description: >-
 ```mermaid
 flowchart TD
     A["Trigger /plan_step (Auto-detect or Feature Prompt)"] --> B["📖 Consult GEMINI.md, implementation_plan.md & flashback.md"]
-    B --> C["⚖️ Evaluate 5-Gate Goldilocks Granularity (<= 320 LOC, <= 3 files)"]
+    B --> C["⚖️ Evaluate 5-Gate Goldilocks Granularity (<= 320 LOC Backend / <= 500 LOC UI)"]
     C --> D{"Task Oversized?"}
     D -- "Yes" --> E["✂️ Auto-subslice into Step X.Ya, X.Yb..."]
     D -- "No" --> F["Extract Step ID, Title, Slug & Module"]
@@ -30,13 +31,14 @@ flowchart TD
     H -- "No" --> J["🌿 git checkout main && git pull origin main"]
     J --> K["🌿 git checkout -b feat/<slug>"]
     K --> L["🧠 Evaluate Sequential Thinking MCP Heuristics"]
-    L --> M["📄 Author Technical Specification in docs/"]
+    L --> M["📄 Author Technical Specification in module docs/"]
     M --> N["⚡ Output Executive Summary + Spec Link + Execution Prompt"]
 ```
 
 ---
 
 ## 🛑 MANDATORY STOP GATE: Anti-Auto-Advance Rule
+
 > **CRITICAL RULE**: After `/plan_step` completes branch creation and specification authoring, the agent **MUST IMMEDIATELY STOP** and await explicit user approval.
 > **DO NOT** write application code.
 > **DO NOT** run `/verify_step`.
@@ -48,14 +50,15 @@ flowchart TD
 ## 🔒 Automated Execution Stages
 
 ### Stage 1: Reference Ingestion & Task Sizing (`next_step`)
+
 1. Mandatorily reads all three core project references:
    - 📖 [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) — Master schemas, API contracts, PostGIS functions, risk formulas.
    - 🗺️ [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) — Phased task checklists and milestones.
-   - 🕰️ [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) — Active phase, ADRs, and recent changelog.
+   - 🕰️ [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md) — Canonical active phase, ADRs, and recent changelog.
 2. Identifies the first incomplete task `[ ]` or processes the user's manual feature argument.
 3. Evaluates the task against the **5-Gate Goldilocks Standard**:
-   - $\le 3$ target files ($\le 2$ new, $\le 1$ modified).
-   - $\le 320$ LOC of implementation/test logic.
+   - Backend/ML: $\le 3$ target files ($\le 2$ new, $\le 1$ modified), $\le 320$ LOC.
+   - Mobile/Admin UI: $\le 4$ target files, $\le 500$ LOC (calibrated for JSX markup and Tailwind styling).
    - Single architectural concern.
    - 1 targeted verification command.
    - $\ge 40\%$ context window headroom.
@@ -64,6 +67,7 @@ flowchart TD
 ---
 
 ### Stage 2: Git Cleanliness & Branch Creation (`create_specs`)
+
 1. Runs `git status -s`. If any uncommitted changes exist:
    - **HARD STOP**: Alerts developer to stash or commit changes. Halts execution.
 2. Checks out latest `main` and pulls upstream:
@@ -79,8 +83,9 @@ flowchart TD
 ---
 
 ### Stage 3: Sequential Thinking MCP Evaluation & Spec Generation
+
 1. Evaluates algorithmic, spatial, or state machine complexity:
-   - ML Risk Scoring Formulas ($0.35 \times \text{weather} + 0.25 \times \text{crowd} + 0.20 \times \text{terrain} + 0.20 \times \text{history}$).
+   - Dynamic Risk Scoring Formulas ($0.35 \times \text{weather} + 0.25 \times \text{crowd} + 0.20 \times \text{terrain} + 0.20 \times \text{history}$).
    - PostGIS Spatial Queries (`ST_DWithin`, `ST_Contains`, polygon geofencing).
    - SOS Emergency Transaction Chains & State Machines.
    - Offline SMS Bitmask Telemetry Encoding.
@@ -90,7 +95,8 @@ flowchart TD
    - ML Risk Engine: `ml-risk-engine/docs/<feature-slug>.md`
    - Mobile App: `mobile-app/docs/<feature-slug>.md`
    - Admin Dashboard: `admin-dashboard/docs/<feature-slug>.md`
-3. Writes production-grade technical specification markdown file with data contracts, endpoints, implementation sequence, edge cases, and test criteria.
+3. Evaluates Infrastructure Impact (new env vars, Docker services, new packages).
+4. Writes production-grade technical specification markdown file with data contracts, endpoints, implementation sequence, edge cases, and test criteria.
 
 ---
 
@@ -100,6 +106,7 @@ flowchart TD
 # 📋 /plan_step Complete — [Step ID: Feature Title]
 
 ### 🧭 Project Context
+
 - **Active Phase**: Phase X — [Phase Name]
 - **Target Module**: `[backend-spatial | ml-risk-engine | mobile-app | admin-dashboard | infra]`
 - **Granularity Sizing**: Goldilocks Verified (~[X] LOC, [N] files, ~45% context headroom reserved)
@@ -107,22 +114,27 @@ flowchart TD
 ---
 
 ### 🌿 Git Feature Branch
-`feat/[feature-slug]` *(Checked out and synchronized from origin/main)*
+
+`feat/[feature-slug]` _(Checked out and synchronized from origin/main)_
 
 ---
 
 ### 📁 Technical Specification Created
-- [path/to/spec.md](file:///d:/SIH%202026/path/to/spec.md)
+
+- [path/to/spec.md](file:///d:/SIH%202026/backend-spatial/docs/spec.md)
 
 ---
 
 ### 🧠 Sequential Thinking MCP Recommendation
-*(Appears only if task meets high complexity heuristics)*
+
+_(Appears only if task meets high complexity heuristics)_
+
 > 🧠 **Recommendation**: Use Sequential Thinking MCP for multi-stage reasoning on **[Complex Area]** (`Approved` / `Skipped`).
 
 ---
 
 ### ⚡ Ready to Implement?
+
 The specification is locked and the branch is clean. Would you like me to begin implementing this feature now?
 ```
 

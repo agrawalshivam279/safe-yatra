@@ -102,6 +102,28 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.12a: Simulation Middleware, Location Injection & Trajectory Replay
+- **Module**: `backend-spatial` / `simulation`
+- **Details**:
+  - Implemented `src/modules/simulation/sim.types.ts` defining `CoordinatePoint`, `InjectLocationInput`, `InjectedLocationRecord`, `InjectLocationResult`, `ReplayTrajectoryInput`, `TrajectoryWaypoint`, and `TrajectoryReplayResult`.
+  - Implemented `src/modules/simulation/sim.validation.ts` with strict Zod validation schemas enforcing coordinate boundary limits ($\text{lat} \in [-90, 90]$, $\text{lng} \in [-180, 180]$) and array sizes.
+  - Implemented `src/modules/simulation/sim.service.ts` with `injectLocations` (inserting PostGIS Point geometries `ST_SetSRID(ST_MakePoint(lng, lat), 4326)` into `UserLocation`) and `replayTrajectory` (progressive waypoint insertion and geofence evaluation via `geofenceService.checkPoint`).
+  - Implemented `src/modules/simulation/sim.controller.ts` and `sim.routes.ts` with `simulationGuard` middleware returning 404 `NOT_FOUND` if `SIMULATION_MODE !== 'true'`.
+  - Mounted `/api/v1/sim` in `src/index.ts`.
+  - Authored comprehensive test suite in `tests/simulation.location.test.ts` (11/11 tests passing), bringing total passing test suite across `backend-spatial` to 245/245 tests across 22 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-12a-sim-location.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/modules/simulation/sim.types.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.types.ts)
+  - [`backend-spatial/src/modules/simulation/sim.validation.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.validation.ts)
+  - [`backend-spatial/src/modules/simulation/sim.service.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.service.ts)
+  - [`backend-spatial/src/modules/simulation/sim.controller.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.controller.ts)
+  - [`backend-spatial/src/modules/simulation/sim.routes.ts`](file:///d:/SIH%202026/backend-spatial/src/modules/simulation/sim.routes.ts)
+  - [`backend-spatial/src/index.ts`](file:///d:/SIH%202026/backend-spatial/src/index.ts)
+  - [`backend-spatial/tests/simulation.location.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/simulation.location.test.ts)
+  - [`backend-spatial/docs/step-4-12a-sim-location.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-12a-sim-location.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.11b: Periodic Active User Geofence Monitoring Job
 - **Module**: `backend-spatial` / `jobs`
 - **Details**:

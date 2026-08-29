@@ -1,15 +1,17 @@
 ---
 name: test_runner
+version: '2.0'
 description: >-
   Orchestrates automated test writing and execution for new or modified features across Safe Yatra modules.
   Sequentially activates the test_writer subagent to author spec-driven tests, followed by the test_runner
-  subagent to execute them, analyze failures, and generate a precision fix prompt if issues arise.
+  subagent to execute them, analyze failures against real failure taxonomy (Prisma, Redis, Socket, Spatial),
+  and generate a precision fix prompt. Aligned with CI pipeline, coverage scripts, and flaky test diagnostics.
   Use whenever testing a feature, validating changes, or when triggered via /test_runner or /test-feature.
 ---
 
 # 🧪 Test Runner — Two-Stage Test Authoring & Execution Pipeline
 
-`test_runner` is an automated testing workflow designed to guarantee behavioral correctness and prevent regressions across the Safe Yatra ecosystem. It enforces a strict **two-stage sequential pipeline** where test authoring ([`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md)) is decoupled from test execution and diagnosis (`test_runner`).
+`test_runner` is an automated testing workflow designed to guarantee behavioral correctness and prevent regressions across the Safe Yatra ecosystem. It enforces a strict **two-stage sequential pipeline** where test authoring ([`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md)) is decoupled from test execution, diagnosis, and root-cause analysis (`test_runner`).
 
 ---
 
@@ -21,15 +23,15 @@ sequenceDiagram
     actor User/Agent as User / Master Agent
     participant TW as ✍️ test_writer (Stage 1A)
     participant TR as 🏃 test_runner (Stage 1B)
-    
+
     User/Agent->>TW: 1. Launch with feature name, spec & source files
-    Note over TW: Writes spec-driven tests<br/>(Happy paths, edge cases, spatial invariants)
+    Note over TW: Writes spec-driven tests<br/>(Happy paths, edge cases, spatial invariants, mock patterns)
     TW-->>User/Agent: 2. Confirms test file created & provides run command
-    
+
     User/Agent->>TR: 3. Launch with created test file & target command
     Note over TR: Executes targeted tests<br/>(pytest / npm test) & diagnoses failures
     TR-->>User/Agent: 4. Returns test report + Root cause analysis
-    
+
     alt All Tests Pass
         User/Agent->>User/Agent: ✅ Green Light -> Ready for /code_reviewer or /update-github
     else Tests Fail
@@ -42,13 +44,13 @@ sequenceDiagram
 ## 🔒 Strict Handoff & Safety Rules
 
 1. **Strict Sequential Execution**: `test_runner` must NEVER start until `test_writer` has fully completed writing the test file and verified its syntax and imports.
-2. **Targeted Execution**: Run ONLY the test file authored for the target feature. Do not run unrelated full test suites to conserve time and isolate failures.
+2. **Targeted Execution**: Run ONLY the test file authored for the target feature. Do not run unrelated full test suites unless running monorepo smoke checks (`make test-all`) or full coverage verification.
 3. **Zero In-Flight Code Mutation**: Neither subagent is permitted to alter application source code during the testing pipeline. They report findings and provide an actionable fix prompt.
-4. **Spec-Driven Over Implementation-Driven**: `test_writer` writes tests based on what the specifications in [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) and [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) require, not merely copying existing implementation quirks.
+4. **Spec-Driven Over Implementation-Driven**: `test_writer` writes tests based on what the specifications in [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md), [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md), and module `docs/` require, not merely copying existing implementation quirks.
 5. **Spatial Coordinate Invariant Testing Rule**: Always assert coordinate ordering explicitly:
    - **Mobile / REST / GPS UI**: `[latitude, longitude]` or `{ lat, lng }`
    - **GeoJSON / PostGIS / Turf.js / WKT**: `[longitude, latitude]` (e.g., `ST_MakePoint(lng, lat)` / `ST_SetSRID(ST_Point(lng, lat), 4326)`)
-   - Tests MUST assert that spatial converters and adapters correctly transform between client `(lat, lng)` and GIS `(lng, lat)` without inverted-axis regressions.
+   - Tests MUST assert that spatial converters correctly transform between client `(lat, lng)` and GIS `(lng, lat)` without inverted-axis regressions.
 6. **Coverage Threshold Invariant**:
    - Line coverage: $\ge 80\%$
    - Branch coverage: $\ge 70\%$
@@ -59,102 +61,135 @@ sequenceDiagram
 
 ---
 
-## 🛠️ Module Test Commands & Conventions
+## 🛠️ Module Test Commands & CI Alignment
 
-| Module | Framework | Test Directory | Run Command Example |
-| :--- | :--- | :--- | :--- |
-| **`ml-risk-engine`** | `pytest` + `pytest-asyncio` | `ml-risk-engine/tests/` | `pytest tests/test_danger_score.py -v` |
-| **`backend-spatial`** | `jest` / `vitest` + `supertest` | `backend-spatial/tests/` | `npm test -- tests/auth.test.ts` |
-| **`mobile-app`** | `jest` + React Native Testing Library | `mobile-app/__tests__/` | `npm test -- __tests__/SOSButton.test.tsx` |
-| **`admin-dashboard`** | `vitest` / `jest` | `admin-dashboard/__tests__/` | `npm test -- __tests__/Heatmap.test.tsx` |
+All test execution commands are aligned with the monorepo CI workflow ([`.github/workflows/ci.yml`](file:///d:/SIH%202026/.github/workflows/ci.yml)) and module `package.json` scripts:
 
----
+| Module                | Framework                                    | Test Directory               | Targeted Execution Command              | Full Suite & Coverage Command                        |
+| :-------------------- | :------------------------------------------- | :--------------------------- | :-------------------------------------- | :--------------------------------------------------- |
+| **`backend-spatial`** | `jest` / `ts-jest` + `supertest`             | `backend-spatial/tests/`     | `npm test -- tests/<file>.test.ts`      | `npm run test:coverage` _(or `npx jest --coverage`)_ |
+| **`ml-risk-engine`**  | `pytest`                                     | `ml-risk-engine/tests/`      | `pytest tests/test_<file>.py -v`        | `pytest --cov=app --cov-report=term-missing tests/`  |
+| **`mobile-app`**      | `jest` + `@testing-library/react-native`     | `mobile-app/__tests__/`      | `npm test -- __tests__/<file>.test.tsx` | `npm test -- --coverage`                             |
+| **`admin-dashboard`** | `vitest` / `jest` + `@testing-library/react` | `admin-dashboard/__tests__/` | `npm test -- __tests__/<file>.test.tsx` | `npm run test:coverage --if-present`                 |
 
-## 🧰 Multi-Framework Testing & Mocking Catalog
-
-To guarantee reliable, hermetic test execution across all four decoupled modules, `test_writer` and `test_runner` must adopt the standardized testing and mocking fixtures:
-
-### 1. Python / FastAPI (`ml-risk-engine`)
-- **Async Test Harness**: Use `pytest-asyncio` with `@pytest.mark.asyncio`.
-- **In-Memory ASGI Client**: Use `httpx.AsyncClient(transport=ASGITransport(app=app), base_url="http://test")` for zero-port HTTP integration tests.
-- **External API Mocking**: Use `respx` to intercept and mock third-party meteorological and topographical calls:
-  - Mock OpenWeatherMap (`https://api.openweathermap.org/data/2.5/weather`) for rainfall, wind, and forecast conditions.
-  - Mock OpenTopoData / SRTM endpoints for elevation and slope queries.
-  - Assert graceful fallback behavior when `respx` simulates HTTP 500 or timeout exceptions (`httpx.TimeoutException`).
-
-### 2. Node.js / Express / PostGIS (`backend-spatial`)
-- **HTTP Endpoint Assertions**: Use `supertest` for REST API route and middleware validation (JWT auth, role guards, Zod error envelopes).
-- **Redis Mocking**: Use `ioredis-mock` to mock Redis caching, token blacklists, and Pub/Sub channels without requiring a running Redis daemon.
-- **WebSocket Event Testing**: Use `socket.io-client` test client connected to the HTTP server instance to test real-time room joining and broadcast events (`zone:{id}`, `sos:{id}`, `admin`).
-- **PostGIS Spatial Mock Fixtures**: Provide deterministic geo-fixtures for spatial queries (`ST_DWithin`, `ST_Contains`, `ST_Centroid`) and verify distance calculations with spherical meters.
-
-### 3. React Native / Expo (`mobile-app`)
-- **Native Module Mocking**: Configure Jest with comprehensive mocks to prevent native TurboModule crashes in headless Node environments:
-  - `expo-location`: Mock `requestForegroundPermissionsAsync`, `requestBackgroundPermissionsAsync`, `getCurrentPositionAsync`, and `watchPositionAsync` with mock GPS coordinate streams.
-  - `expo-av`: Mock `Audio.Recording` lifecycle (`prepareToRecordAsync`, `startAsync`, `stopAndUnloadAsync`, `getURI`).
-  - `expo-sms`: Mock `SMS.isAvailableAsync` and `SMS.sendSMSAsync` for offline SOS fallback verification.
-  - `expo-notifications`: Mock `scheduleNotificationAsync` and push token retrieval.
-  - `react-native-maps`: Mock `MapView`, `Polygon`, `Marker`, and `Circle` components to render testable tree representations without native map tiles.
-
-### 4. Next.js 14 / App Router (`admin-dashboard`)
-- **Map & Canvas Mocks**: Mock Mapbox GL JS (`mapboxgl.Map`) and Leaflet (`L.map`) canvas/WebGL contexts to prevent headless JSDOM rendering errors.
-- **TanStack Query Wrapper**: Wrap test components in a test `QueryClientProvider` instantiated with `{ defaultOptions: { queries: { retry: false, gcTime: 0 } } }` to eliminate unhandled asynchronous state polling.
+> [!NOTE]
+> **Command Clarification**:
+>
+> - `npm test` in `backend-spatial` resolves to `jest --passWithNoTests`. Passing `-- tests/<file>.test.ts` executes only the targeted test file without overhead.
+> - `npm run test:coverage` executes the full suite with Istanbul coverage reporting to verify the $\ge 80\%$ line and $\ge 70\%$ branch thresholds.
 
 ---
 
-## 🌐 Cross-Module Integration Test Guidance
+## 🔍 CI Pipeline Integration Awareness
 
-For features crossing module boundaries:
-1. **Backend ↔ ML Risk Engine**: Verify Express HTTP calls to FastAPI `/api/v1/score` using `nock` or mock HTTP responses, validating error degradation when ML Engine is unreachable.
-2. **Real-time SOS Lifecycle Chains**: Test complete state progression:
-   - `SOS_TRIGGERED` ➔ Volunter Proximity Match (`ST_DWithin`) ➔ Socket.IO Room Broadcast ➔ `SOS_ACCEPTED` ➔ Status Lock.
-3. **Spatial Geofence Checks**: Test point-in-polygon evaluations using both internal and external points against PostGIS SRID 4326 boundaries.
+Safe Yatra runs automated CI on every push to `main` and `feat/**` branches. To prevent local vs CI drift:
+
+1. Ensure test commands run in the proper working directory (`backend-spatial/`, `ml-risk-engine/`, etc.).
+2. Test commands must not assume pre-existing database connections or live external API keys (tests must be 100% hermetic with mocked Prisma/Redis/APIs).
+3. Verify test commands match the CI workflow configuration:
+   ```bash
+   # Verify CI test step definitions
+   grep -A5 "Run Tests" .github/workflows/ci.yml
+   ```
+
+---
+
+## 🏷️ Expanded Failure Classification Taxonomy
+
+When test assertions fail, classify the failure using this real-world taxonomy:
+
+| Failure Type         | Root Cause Indicator                                                             | Typical Solution                                                                                                                                                |
+| :------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PRISMA_MOCK_SHAPE`  | `TypeError: prisma.model.method is not a function` or mock return value mismatch | Match Prisma model accessor casing (`prisma.sOSEvent`, `prisma.volunteerProfile`) and mock method (`findUnique`, `findFirst`, `create`, `update`, `$queryRaw`). |
+| `ENUM_MISMATCH`      | `Expected 'CRITICAL', Received 'HIGH'` or Prisma enum string mismatch            | Cross-reference enum definitions in `schema.prisma` (`SOSTier`, `UserRole`, `SOSStatus`) or `response.py` (`DangerTier`).                                       |
+| `ASYNC_UNHANDLED`    | `UnhandledPromiseRejection` or test timeout                                      | Ensure `await` is present on all async service/database calls and express request promises.                                                                     |
+| `REDIS_MOCK_MISSING` | `redis.get` / `redis.set` returning undefined during cache branches              | Configure `(redis.get as jest.Mock).mockResolvedValue(null)` or cached JSON string for hit/miss branches.                                                       |
+| `SOCKET_ROOM_ERROR`  | Socket event listener not firing or room message not received                    | Verify Socket.IO server setup, client `auth.token`, room prefix (`zone:{id}`, `user:{id}`, `role:{role}`), and `done()` callback in test.                       |
+| `SPATIAL_ERROR`      | Coordinate axis inversion or `ST_DWithin` units in degrees instead of meters     | Ensure PostGIS queries cast to `::geography` and client `[lat, lng]` maps to PostGIS `[lng, lat]`.                                                              |
+| `TYPE_ERROR`         | TypeScript compilation or Python type annotation mismatch                        | Run `npx tsc --noEmit` or `ruff check .` and fix missing type exports.                                                                                          |
+| `ASSERTION_FAIL`     | Expected value does not equal actual returned value                              | Business logic bug in service layer or incorrect test expectation.                                                                                              |
+| `IMPORT_ERROR`       | Module not found or export syntax mismatch                                       | Correct import path (e.g. `import { app } from '../src/index'`).                                                                                                |
+| `TIMEOUT`            | Async operation exceeded Jest/pytest timeout limit                               | Check for unresolved promises, missing timer advances, or infinite loops.                                                                                       |
+
+---
+
+## 🔄 Flaky Test Handling & Diagnostics
+
+For asynchronous tests (WebSockets, background jobs, timer intervals):
+
+1. **Detection**: If a test fails once but passes on an immediate second run without code changes, flag it as **FLAKY**.
+2. **Diagnosis**: Run with `--forceExit --detectOpenHandles` to check for unclosed server connections, database handles, or active intervals:
+   ```bash
+   npx jest tests/<file>.test.ts --verbose --forceExit --detectOpenHandles
+   ```
+3. **Remediation**:
+   - For Jest async tests: add `jest.retryTimes(2, { logErrorsBeforeRetry: true })`.
+   - For fake timers: ensure `jest.useFakeTimers()` is paired with `jest.useRealTimers()` in `afterEach()`.
+   - For WebSockets: ensure `clientSocket.disconnect()` and `closeSocketServer()` are called in `afterAll()`.
+
+---
+
+## ⚡ Performance & Execution Tuning
+
+For fast local developer feedback vs thorough CI verification:
+
+```bash
+# Fast parallel targeted execution (default)
+npm test -- tests/<target>.test.ts
+
+# Full test suite with coverage report
+npm run test:coverage
+
+# Sequential debug execution (isolates concurrency/port conflicts)
+npx jest --runInBand --verbose
+
+# Memory-constrained execution (matches CI runner)
+npx jest --maxWorkers=2
+
+# Full monorepo smoke test (all modules)
+make test-all
+```
 
 ---
 
 ## 📋 Execution Procedure
 
 ### Step 1 — Authoring Tests ([`test_writer`](file:///d:/SIH%202026/.agents/skills/test_writer/SKILL.md))
-Invoke `test_writer` with:
-- **Feature / Target**: e.g., `ml-risk-engine/danger_score` or `backend-spatial/auth`
-- **Spec References**: [`GEMINI.md`](file:///d:/SIH%202026/GEMINI.md) section and [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md) task ID.
-- **Output Target**: e.g. `ml-risk-engine/tests/test_danger_score.py`
-- **Requirements to Cover**:
-  - Valid standard inputs (Happy paths)
-  - Edge cases (Extreme coordinates, zero values, boundary limits)
-  - Validation failures (Missing fields, invalid data types)
-  - Spatial coordinate format invariants (`[lat, lng]` client vs `[lng, lat]` GIS)
-  - External API error handling (Weather API timeout fallback)
-  - Authentication/Authorization guards (401/403 responses)
 
-*Wait for `test_writer` to finish before proceeding.*
+Invoke `test_writer` with:
+
+- **Feature / Target**: e.g., `backend-spatial/step-4-11b-geofence-job`
+- **Spec References**: Module spec path (e.g. `backend-spatial/docs/step-4-11b-geofence-job.md`)
+- **Output Target**: e.g. `backend-spatial/tests/jobs.geofence.test.ts`
+- **Requirements to Cover**:
+  - Happy paths & standard operations
+  - Boundary limits & extreme values
+  - PostGIS coordinate ordering invariants (`(lat, lng)` vs `(lng, lat)`)
+  - API response envelopes (`ok()` / `fail()`)
+  - Error recovery & timeout fallbacks
+
+_Wait for `test_writer` to finish before proceeding._
 
 ---
 
 ### Step 2 — Running & Diagnosing Tests (`test_runner`)
+
 Invoke `test_runner` with:
+
 - **Test File Path**: Path generated by `test_writer`.
-- **Execution Command**: `pytest ...` or `npm test -- ...`
-- **Context Source Files**: The underlying implementation files to cross-examine if an assertion fails.
-
----
-
-## 🚨 Error Recovery Protocol
-
-If `test_writer` produces tests with import errors or invalid mock configurations:
-1. Diagnose the import/fixture error from compiler output.
-2. Re-author the targeted test harness before handing off to `test_runner`.
-3. Never attempt to run non-compiling test files.
+- **Execution Command**: `npm test -- tests/<file>.test.ts` or `pytest tests/test_<file>.py -v`
+- **Context Source Files**: Implementation files to inspect if failures occur.
 
 ---
 
 ## 📤 Standard Report Output Format
 
-```markdown
+````markdown
 # 🧪 Testing Pipeline Report — [Feature Name]
 
 ### ✍️ Step 1 — Tests Authored (test_writer)
-- **Target File**: `[tests/test_feature.py](file:///d:/SIH%202026/tests/test_feature.py)`
+
+- **Target File**: `[tests/test_feature.ts](file:///d:/SIH%202026/backend-spatial/tests/test_feature.ts)`
 - **Key Test Cases Covered**:
   - `test_standard_flow`: Validates successful calculation under normal conditions.
   - `test_boundary_conditions`: Asserts behavior when inputs hit upper/lower bounds.
@@ -164,34 +199,40 @@ If `test_writer` produces tests with import errors or invalid mock configuration
 ---
 
 ### 🏃 Step 2 — Execution Results (test_runner)
-- **Command Executed**: `pytest tests/test_feature.py -v`
-- **Results**: `5 passed, 1 failed` (or `6 passed, 0 failed`)
-- **Coverage**: `Line: 86%, Branch: 78%, Routes: 100%`
+
+- **Command Executed**: `npm test -- tests/test_feature.test.ts`
+- **Results**: `6 passed, 0 failed` (or `5 passed, 1 failed`)
+- **Coverage**: `Line: 88%, Branch: 76%, Routes: 100%`
 
 ---
 
 ### 🚨 Failure Analysis & Root Cause (Only if tests fail)
+
 #### Failure: `test_service_fallback`
-- **Location in Code**: `[services/weather_service.py:48](file:///d:/SIH%202026/ml-risk-engine/app/services/weather_service.py#L48)`
-- **Expected**: Return cached score object when API times out.
-- **Actual**: Threw unhandled `httpx.ConnectTimeout` error.
-- **Root Cause**: Missing `try...except httpx.TimeoutException` block wrapping the HTTP client call.
+
+- **Classification**: `REDIS_MOCK_MISSING` / `ASSERTION_FAIL`
+- **Location in Code**: `[src/modules/danger/danger.service.ts:48](file:///d:/SIH%202026/backend-spatial/src/modules/danger/danger.service.ts#L48)`
+- **Expected**: Return cached score object when ML microservice times out.
+- **Actual**: Threw unhandled `AbortError`.
+- **Root Cause**: Missing fallback catch handler wrapping the external `fetch()` call.
 
 ---
 
 ### 🚦 Verdict
+
 - [ ] ✅ **Ready for Code Review**: All tests passed without issues.
 - [ ] ❌ **Needs Fixes**: See the curated fix prompt below.
 
 ---
 
 ### ⚡ Curated Auto-Fix Prompt (If tests failed)
+
 > ```text
 > Fix the failing tests in [Feature Name]:
-> 1. In [weather_service.py:L48], wrap the httpx GET call in a try/except block for httpx.TimeoutException and return cached_weather_score.
-> 2. Re-run `pytest tests/test_weather_service.py` to confirm all assertions pass.
+> 1. In [src/modules/danger/danger.service.ts:L48], wrap the fetch call in a try/catch block for AbortError and return cached danger score.
+> 2. Re-run `npm test -- tests/danger.service.test.ts` to confirm all assertions pass.
 > ```
-```
+````
 
 ---
 
