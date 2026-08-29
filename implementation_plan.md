@@ -546,10 +546,11 @@ The backend API and WebSocket events are locked. You can now build screens as pu
 
 ### 5.8 - Tourist: Alerts Screen
 
-- [ ] app/(tourist)/alerts.tsx -- list of past geofence alerts + push notifications.
-- [ ] services/notificationService.ts:
+- [x] app/(tourist)/alerts.tsx -- list of past geofence alerts + push notifications.
+- [x] services/notificationService.ts:
       Register FCM token with backend on login.
       Handle incoming push notifications (foreground + background).
+- [x] Author comprehensive test suite in __tests__/alerts-screen.test.tsx (13/13 tests passing)
 
 ### 5.9 - Yaatri Mitra Screens
 
