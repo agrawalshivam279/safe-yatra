@@ -24,6 +24,7 @@ dist/
 build/
 .next/
 .expo/
+*.tsbuildinfo
 
 # IDE
 .vscode/
