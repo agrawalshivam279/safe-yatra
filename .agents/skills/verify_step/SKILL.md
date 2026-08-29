@@ -87,6 +87,7 @@ Before invoking testing subagents, execute a fast static compilation sweep match
 
 1. **TypeScript Modules (`backend-spatial`, `mobile-app`, `admin-dashboard`)**:
    - Run `npx tsc --noEmit` within the target module directory.
+   - For `admin-dashboard`, run `npm run lint` if UI/pages are modified.
 2. **Prisma Schema Validation (`backend-spatial`)**:
    - If `backend-spatial` files or Prisma schema are touched, run:
      ```bash
@@ -104,11 +105,13 @@ Before invoking testing subagents, execute a fast static compilation sweep match
 
 _(Triggered conditionally when the feature touches REST routes, controllers, or schemas)_
 
-1. **Target Files**: `*.routes.ts`, `*.controller.ts`, `app/main.py`, `app/schemas/*.py`.
+1. **Target Files**: `*.routes.ts`, `*.controller.ts`, `app/main.py`, `app/schemas/*.py`, `mobile-app/services/*.ts`, `admin-dashboard/src/services/*.ts`.
 2. **Contract Invariants Verified**:
    - **Response Envelope Compliance**:
      - Success returns `ok(res, data)` $\rightarrow$ `{ success: true, data: {...}, error: null }`.
      - Error returns `fail(res, code, message)` $\rightarrow$ `{ success: false, data: null, error: { code: '...', message: '...' } }`.
+   - **Cross-Module Type & Schema Synchronization**:
+     - When frontend services or components are touched, verify that mobile/admin TypeScript interfaces mirror backend Zod response schemas and payloads without property name mismatch.
    - **Schema Validation**:
      - All incoming request bodies and query parameters are parsed with Zod schemas (`backend-spatial`) or Pydantic models (`ml-risk-engine`).
    - **HTTP Status Code Conformity**:
