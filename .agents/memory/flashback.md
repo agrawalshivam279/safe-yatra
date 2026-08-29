@@ -102,6 +102,23 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-29] — Step 4.11a: Background Jobs Infrastructure, Danger Score Refresh & Expired SOS Cleanup
+- **Module**: `backend-spatial` / `jobs`
+- **Details**:
+  - Implemented `src/jobs/dangerScoreRefresh.ts` with `runDangerScoreRefreshJob()` fetching all registered zones, recalculating danger scores via `dangerService.getAllZoneScores()`, isolating errors per-zone, and broadcasting real-time updates via `broadcastDangerScoreUpdate`.
+  - Implemented `src/jobs/cleanupExpiredSOS.ts` with `runCleanupExpiredSOSJob(maxAgeHours = 24)` querying active, unaddressed SOS emergencies older than 24 hours, transitioning status to `EXPIRED`, and appending audit records in `SOSTimeline`.
+  - Implemented `src/jobs/jobScheduler.ts` with `startBackgroundJobs(options?)` and `stopBackgroundJobs()` for clean interval management and graceful shutdown.
+  - Authored comprehensive unit test suite in `tests/jobs.test.ts` (6/6 tests passing), bringing total passing test suite across `backend-spatial` to 230/230 tests across 20 test suites.
+  - Authored technical specification in `backend-spatial/docs/step-4-11a-background-jobs.md`.
+- **Key Files Created / Updated**:
+  - [`backend-spatial/src/jobs/dangerScoreRefresh.ts`](file:///d:/SIH%202026/backend-spatial/src/jobs/dangerScoreRefresh.ts)
+  - [`backend-spatial/src/jobs/cleanupExpiredSOS.ts`](file:///d:/SIH%202026/backend-spatial/src/jobs/cleanupExpiredSOS.ts)
+  - [`backend-spatial/src/jobs/jobScheduler.ts`](file:///d:/SIH%202026/backend-spatial/src/jobs/jobScheduler.ts)
+  - [`backend-spatial/tests/jobs.test.ts`](file:///d:/SIH%202026/backend-spatial/tests/jobs.test.ts)
+  - [`backend-spatial/docs/step-4-11a-background-jobs.md`](file:///d:/SIH%202026/backend-spatial/docs/step-4-11a-background-jobs.md)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-29] — Step 4.10b: WebSocket Event Handlers (Location, SOS & Danger Score Broadcasting)
 - **Module**: `backend-spatial` / `websocket`
 - **Details**:
