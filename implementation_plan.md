@@ -711,9 +711,10 @@ Verify across all four modules simultaneously:
     "intervalSeconds": 10
   }
 
-- [ ] Verify mobile receives "approaching" alert at coordinate 2.
-- [ ] Verify mobile receives "inside danger zone" alert at coordinate 3 with full CRITICAL modal.
-- [ ] Verify admin heatmap updates to show user position moving.
+- [x] Verify mobile receives "approaching" alert at coordinate 2.
+- [x] Verify mobile receives "inside danger zone" alert at coordinate 3 with full CRITICAL modal.
+- [x] Verify admin heatmap updates to show user position moving.
+- [x] Master E2E geofence walk suite in backend-spatial/tests/e2e.geofence-walk.test.ts (6/6 tests passing).
 
 ### 7.3 - Offline SMS Fallback Test
 
