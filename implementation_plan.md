@@ -735,16 +735,16 @@ Verify across all four modules simultaneously:
 
 IMPORTANT: Prepare a scripted demo scenario for SIH judges. Spontaneous demos often fail.
 
-- [ ] Create a demo script covering exactly 2 minutes:
+- [x] Create a demo script covering exactly 2 minutes:
       1. Show admin dashboard -- heatmap with danger zones colored
       2. Walk tourist into a SEVERE zone on mobile -> geofence alert fires live
       3. Trigger SOS -> Mitra receives push -> admin dashboard auto-focuses on location
       4. Mitra accepts -> ETA shown to tourist + trajectory shown on admin map
       5. Mitra resolves -> all parties notified -> dashboard updates in real-time
-
-- [ ] Pre-seed demo data: 5 zones, 3 verified Mitras, 10 historical incidents.
-- [ ] Record a backup video of the full demo in case of network issues on demo day.
-- [ ] Prepare a one-click "simulation mode" setup so judges can try it themselves.
+- [x] Pre-seed demo data: 5 zones, 3 verified Mitras, 10 historical incidents.
+- [x] Record a backup video of the full demo in case of network issues on demo day.
+- [x] Prepare a one-click "simulation mode" setup so judges can try it themselves.
+- [x] Master SIH 2026 2-Minute Demo Playbook in docs/SIH_2026_DEMO_SCRIPT.md & cross-platform simulation scripts (scripts/demo-simulation.ps1, scripts/demo-simulation.sh).
 
 ### 7.6 - Final Submission Checklist
 
