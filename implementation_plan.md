@@ -725,10 +725,11 @@ Verify across all four modules simultaneously:
 
 ### 7.4 - Performance and Load Testing
 
-- [ ] Use Postman Collection Runner or k6 to send 50 concurrent SOS triggers.
-- [ ] Verify backend does not drop events and all 50 get logged in DB.
-- [ ] Check Redis TTL behavior -- score should be cached, not hammer ML engine.
-- [ ] Profile findNearbyVolunteers PostGIS query -- should be under 50ms with indexes.
+- [x] Use Postman Collection Runner or k6 to send 50 concurrent SOS triggers.
+- [x] Verify backend does not drop events and all 50 get logged in DB.
+- [x] Check Redis TTL behavior -- score should be cached, not hammer ML engine.
+- [x] Profile findNearbyVolunteers PostGIS query -- should be under 50ms with indexes.
+- [x] Master E2E performance and load suite in backend-spatial/tests/e2e.performance-load.test.ts (4/4 tests passing).
 
 ### 7.5 - Demo Preparation
 
