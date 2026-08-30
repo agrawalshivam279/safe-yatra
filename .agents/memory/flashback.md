@@ -102,6 +102,29 @@ Safe Yatra is a proactive safety ecosystem for India's tourist and pilgrimage si
 
 ## 4. Chronological Activity & Change Log
 
+### [2026-08-30] — Step 7.5: SIH 2026 Demo Playbook, Pre-Seed Data & Simulation Scripts
+- **Module**: Monorepo-wide
+- **Details**:
+  - Authored official 2-minute Smart India Hackathon (SIH 2026) presentation playbook in `docs/SIH_2026_DEMO_SCRIPT.md`:
+    - **0:00 – 0:25 (Predict & Command)**: Admin Dashboard macro overview, dynamic danger scoring ($85$ `CRITICAL`), real-time weather & crowd telemetry.
+    - **0:25 – 0:50 (Prevent)**: Tourist trajectory walk, $500\text{m}$ proximity advisory, and full-screen Critical Evacuation Modal.
+    - **0:50 – 1:20 (Respond)**: 3-second SOS panic trigger, PostGIS 5km Yaatri Mitra proximity dispatch, push alerts, and offline SMS fallback guarantee.
+    - **1:20 – 1:45 (Rescue & Coordination)**: Mitra accepts, live walking ETA on tourist app, real-time rescue tracker on Admin Map.
+    - **1:45 – 2:00 (Resolve & Audit)**: Mitra resolves incident with field notes, instant multi-device sync, and immutable PostGIS timeline ledger archiving.
+    - Included comprehensive Jury Defense FAQs for offline reliability, spam prevention, and spatial query sub-2ms performance.
+  - Authored automated 1-click cross-platform simulation orchestrators:
+    - [`scripts/demo-simulation.ps1`](file:///d:/SIH%202026/scripts/demo-simulation.ps1) (Windows PowerShell).
+    - [`scripts/demo-simulation.sh`](file:///d:/SIH%202026/scripts/demo-simulation.sh) (Linux/macOS Bash).
+  - Verified Golden Demo Pre-Seed data in `backend-spatial/prisma/seed.ts` (5 golden zones, 3 verified on-duty Yaatri Mitras, 10 historical incidents).
+  - Authored technical specification in `docs/step-7-5-demo-preparation.md`.
+- **Key Files Created / Updated**:
+  - [`docs/SIH_2026_DEMO_SCRIPT.md`](file:///d:/SIH%202026/docs/SIH_2026_DEMO_SCRIPT.md)
+  - [`docs/step-7-5-demo-preparation.md`](file:///d:/SIH%202026/docs/step-7-5-demo-preparation.md)
+  - [`scripts/demo-simulation.ps1`](file:///d:/SIH%202026/scripts/demo-simulation.ps1)
+  - [`scripts/demo-simulation.sh`](file:///d:/SIH%202026/scripts/demo-simulation.sh)
+  - [`implementation_plan.md`](file:///d:/SIH%202026/implementation_plan.md)
+  - [`.agents/memory/flashback.md`](file:///d:/SIH%202026/.agents/memory/flashback.md)
+
 ### [2026-08-30] — Step 7.4: Performance, High-Concurrency Load & Spatial Index Benchmarking Suite
 - **Module**: `backend-spatial`
 - **Details**:
