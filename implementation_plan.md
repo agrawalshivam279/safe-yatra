@@ -718,9 +718,10 @@ Verify across all four modules simultaneously:
 
 ### 7.3 - Offline SMS Fallback Test
 
-- [ ] Disable network on test device (airplane mode).
-- [ ] Trigger SOS -> verify app automatically switches to SMS fallback path.
-- [ ] Verify SMS payload format: "SOS|LAT:X|LNG:Y|BAT:Z|UID:abc"
+- [x] Disable network on test device (airplane mode).
+- [x] Trigger SOS -> verify app automatically switches to SMS fallback path.
+- [x] Verify SMS payload format: "SOS|LAT:X|LNG:Y|BAT:Z|UID:abc"
+- [x] Master E2E SMS fallback suite in backend-spatial/tests/e2e.sms-fallback.test.ts (6/6 tests passing).
 
 ### 7.4 - Performance and Load Testing
 
