@@ -22,11 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: 'backend-spatial/package.json'
       - name: Install dependencies
         working-directory: backend-spatial
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Generate Prisma Client
         working-directory: backend-spatial
         run: npx prisma generate
@@ -45,8 +43,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
-          cache-dependency-path: 'ml-risk-engine/requirements.txt'
       - name: Install dependencies
         working-directory: ml-risk-engine
         run: |
@@ -59,6 +55,8 @@ jobs:
           ruff check .
       - name: Run Tests
         working-directory: ml-risk-engine
+        env:
+          PYTHONPATH: .
         run: |
           pytest tests/ -v
 
@@ -70,11 +68,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: 'mobile-app/package.json'
       - name: Install dependencies
         working-directory: mobile-app
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Run Tests
         working-directory: mobile-app
         run: npm test
@@ -87,15 +83,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: 'admin-dashboard/package.json'
       - name: Install dependencies
         working-directory: admin-dashboard
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Type check
         working-directory: admin-dashboard
         run: npx tsc --noEmit
       - name: Run Tests
         working-directory: admin-dashboard
         run: npm test
+
 
