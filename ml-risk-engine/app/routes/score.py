@@ -215,15 +215,26 @@ async def compute_score(request: ScoreRequest) -> ScoreResponse:
 )
 async def compute_score_batch(request: BatchScoreRequest) -> BatchScoreResponse:
     """
-    Concurrently compute danger scores for 1 to 100 coordinates.
+    Concurrently compute danger scores for 1 to 100 coordinates with bounded concurrency.
     Applies global simulation overrides unless overridden per point.
     """
+    sem = asyncio.Semaphore(10)
+
+    async def _evaluate_bounded(lat: float, lng: float, zone_id: Optional[str], overrides: Optional[SimulationOverrides]) -> ScoreResponse:
+        async with sem:
+            return await _evaluate_point_danger(
+                lat=lat,
+                lng=lng,
+                zone_id=zone_id,
+                overrides=overrides,
+            )
+
     tasks = []
     for point in request.points:
         # Merge overrides: local point override takes precedence over global batch override
         effective_overrides = point.simulation_overrides or request.simulation_overrides
         tasks.append(
-            _evaluate_point_danger(
+            _evaluate_bounded(
                 lat=point.lat,
                 lng=point.lng,
                 zone_id=point.zone_id,

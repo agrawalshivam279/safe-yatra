@@ -23,10 +23,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: 'backend-spatial/package-lock.json'
+          cache-dependency-path: 'backend-spatial/package.json'
       - name: Install dependencies
         working-directory: backend-spatial
-        run: npm ci || npm install
+        run: npm install
       - name: Generate Prisma Client
         working-directory: backend-spatial
         run: npx prisma generate
@@ -62,6 +62,23 @@ jobs:
         run: |
           pytest tests/ -v
 
+  mobile-app:
+    name: Mobile App (React Native/Jest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'mobile-app/package.json'
+      - name: Install dependencies
+        working-directory: mobile-app
+        run: npm install
+      - name: Run Tests
+        working-directory: mobile-app
+        run: npm test
+
   admin-dashboard:
     name: Admin Dashboard (Next.js/TypeScript)
     runs-on: ubuntu-latest
@@ -70,9 +87,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'admin-dashboard/package.json'
       - name: Install dependencies
         working-directory: admin-dashboard
         run: npm install
       - name: Type check
         working-directory: admin-dashboard
         run: npx tsc --noEmit
+      - name: Run Tests
+        working-directory: admin-dashboard
+        run: npm test
+

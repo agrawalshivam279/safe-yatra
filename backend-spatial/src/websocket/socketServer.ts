@@ -7,6 +7,7 @@ import { Server as HTTPServer } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { UserRole } from '@prisma/client';
 import { authService } from '../modules/auth/auth.service';
+import { env } from '../config/env';
 import { roleRoom, userRoom, zoneRoom } from './rooms';
 import { registerLocationHandler } from './handlers/locationUpdate';
 
@@ -30,7 +31,10 @@ let ioInstance: SocketIOServer | null = null;
 export const initSocketServer = (httpServer: HTTPServer): SocketIOServer => {
   const io = new SocketIOServer(httpServer, {
     cors: {
-      origin: '*', // Restrict in production
+      origin:
+        env.NODE_ENV === 'production'
+          ? (process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : ['https://admin.safeyatra.app', 'https://safeyatra.app'])
+          : '*',
       methods: ['GET', 'POST'],
     },
   });

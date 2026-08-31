@@ -4,7 +4,35 @@
  */
 
 import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
 import socketService, { LocationPayload } from './socketService';
+
+export const BACKGROUND_LOCATION_TASK = 'SAFE_YATRA_BACKGROUND_LOCATION_TASK';
+
+// Define the background location task if TaskManager is available in the runtime
+try {
+  if (TaskManager && typeof TaskManager.defineTask === 'function') {
+    TaskManager.defineTask(BACKGROUND_LOCATION_TASK, async ({ data, error }: any) => {
+      if (error || !data) {
+        return;
+      }
+      const { locations } = data as { locations: Location.LocationObject[] };
+      if (locations && locations.length > 0) {
+        const latest = locations[locations.length - 1];
+        const payload: LocationPayload = {
+          lat: latest.coords.latitude,
+          lng: latest.coords.longitude,
+          accuracy: latest.coords.accuracy || undefined,
+          speed: latest.coords.speed || undefined,
+          heading: latest.coords.heading || undefined,
+        };
+        socketService.emitLocationUpdate(payload);
+      }
+    });
+  }
+} catch {
+  // Non-native / test environment fallback
+}
 
 export interface LocationPermissionStatus {
   foregroundGranted: boolean;
@@ -68,6 +96,7 @@ class LocationService {
 
   /**
    * Start continuous location watching and stream updates to Socket.IO.
+   * Enables foreground streaming and registers background location task if permitted.
    */
   public async startStreaming(
     onLocationUpdate?: (location: LocationPayload) => void
@@ -76,7 +105,7 @@ class LocationService {
       return true;
     }
 
-    const { foregroundGranted } = await this.requestPermissions();
+    const { foregroundGranted, backgroundGranted } = await this.requestPermissions();
     if (!foregroundGranted) {
       return false;
     }
@@ -107,6 +136,27 @@ class LocationService {
         }
       );
 
+      // Register background location tracking if permitted
+      if (backgroundGranted && TaskManager && typeof TaskManager.isTaskDefined === 'function') {
+        try {
+          const isDefined = await TaskManager.isTaskDefined(BACKGROUND_LOCATION_TASK);
+          if (isDefined && typeof Location.startLocationUpdatesAsync === 'function') {
+            await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
+              accuracy: Location.Accuracy.Balanced,
+              timeInterval: 15000,
+              distanceInterval: 10,
+              foregroundService: {
+                notificationTitle: 'Safe Yatra Safety Shield',
+                notificationBody: 'Active monitoring of geofence safety and danger zones.',
+                notificationColor: '#1a5276',
+              },
+            });
+          }
+        } catch {
+          // Graceful fallback to foreground-only streaming
+        }
+      }
+
       this.isTracking = true;
       return true;
     } catch {
@@ -116,13 +166,26 @@ class LocationService {
   }
 
   /**
-   * Stop location tracking subscription.
+   * Stop location tracking subscription and unregister background tasks.
    */
   public stopStreaming(): void {
     if (this.subscription) {
       this.subscription.remove();
       this.subscription = null;
     }
+
+    try {
+      if (Location && typeof Location.hasStartedLocationUpdatesAsync === 'function') {
+        Location.hasStartedLocationUpdatesAsync(BACKGROUND_LOCATION_TASK).then((started) => {
+          if (started && typeof Location.stopLocationUpdatesAsync === 'function') {
+            Location.stopLocationUpdatesAsync(BACKGROUND_LOCATION_TASK);
+          }
+        }).catch(() => {});
+      }
+    } catch {
+      // Ignored
+    }
+
     this.isTracking = false;
   }
 
@@ -133,3 +196,4 @@ class LocationService {
 
 export const locationService = new LocationService();
 export default locationService;
+

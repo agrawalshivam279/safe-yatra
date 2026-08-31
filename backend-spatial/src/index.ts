@@ -31,7 +31,15 @@ const io = initSocketServer(httpServer);
 
 // Global Security & Logging Middleware
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      env.NODE_ENV === 'production'
+        ? (process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : ['https://admin.safeyatra.app', 'https://safeyatra.app'])
+        : true,
+    credentials: true,
+  })
+);
 if (env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
@@ -68,24 +76,6 @@ app.use((_req, res) => {
 
 // Global Error Handling Middleware
 app.use(errorHandler);
-
-// WebSocket connection handler
-io.on('connection', (socket) => {
-  if (env.NODE_ENV !== 'test') {
-    console.log(`[WS] Client connected: ${socket.id}`);
-  }
-
-  socket.on('disconnect', () => {
-    if (env.NODE_ENV !== 'test') {
-      console.log(`[WS] Client disconnected: ${socket.id}`);
-    }
-  });
-
-  // TODO: Register event handlers
-  // registerLocationHandlers(io, socket);
-  // registerSOSHandlers(io, socket);
-  // registerDangerHandlers(io, socket);
-});
 
 // Start HTTP server only if not running under automated tests
 if (env.NODE_ENV !== 'test') {

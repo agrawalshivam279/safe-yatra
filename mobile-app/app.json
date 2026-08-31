@@ -34,14 +34,18 @@
         "RECORD_AUDIO",
         "SEND_SMS",
         "VIBRATE",
-        "RECEIVE_BOOT_COMPLETED"
+        "RECEIVE_BOOT_COMPLETED",
+        "POST_NOTIFICATIONS",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
       ]
     },
     "plugins": [
       "expo-router",
       "expo-location",
       "expo-notifications",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-task-manager"
     ]
   }
 }
